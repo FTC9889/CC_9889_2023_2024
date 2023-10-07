@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class WeedWacker2TheWackining extends LinearOpMode {
 
-    DcMotor left, right, intake;
+    DcMotor left, right, intake, lift;
     Servo hopper;
 
     @Override
@@ -18,6 +18,7 @@ public class WeedWacker2TheWackining extends LinearOpMode {
       right=hardwareMap.dcMotor.get("right");
       intake=hardwareMap.dcMotor.get("intake");
        hopper=hardwareMap.servo.get("hopper");
+       lift=hardwareMap.dcMotor.get("lift");
 
 
         waitForStart();
