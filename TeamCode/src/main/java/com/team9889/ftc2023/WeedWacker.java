@@ -1,18 +1,14 @@
 package com.team9889.ftc2023;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class WeedWacker extends LinearOpMode {
     Intake mIntake = new Intake();
     Drive mDrive = new Drive();
 
-    lift mlift = new lift();
+    Lift mlift = new Lift();
     Hopper mhopper = new Hopper();
 
     public void runOpMode() throws InterruptedException {
@@ -49,11 +45,11 @@ public class WeedWacker extends LinearOpMode {
 
 
             if (gamepad1.right_bumper){
-                    mlift.on(1);}
+                    mlift.up();}
             else if(gamepad1.left_bumper){
-                    mlift.out(-1);}
+                    mlift.out();}
             else{
-                mlift.off(0);}
+                mlift.down();}
 
 
 
