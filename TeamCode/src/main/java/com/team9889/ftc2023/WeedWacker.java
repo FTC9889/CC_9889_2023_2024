@@ -1,23 +1,26 @@
 package com.team9889.ftc2023;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
 
 @TeleOp
 public class WeedWacker extends LinearOpMode {
-
-    DcMotor left, right, intake, lift;
+    Intake mIntake = new Intake();
+    DcMotor left, right, lift;
     Servo hopper;
     @Override
     public void runOpMode() throws InterruptedException {
         left = hardwareMap.dcMotor.get("left");
         right = hardwareMap.dcMotor.get("right");
-        intake = hardwareMap.dcMotor.get("intake");
+        mIntake.init(hardwareMap);
         lift = hardwareMap.dcMotor.get("lift");
         hopper = hardwareMap.servo.get("hopper");
+
+        right.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
 
         while (opModeIsActive()){
@@ -27,11 +30,11 @@ public class WeedWacker extends LinearOpMode {
 
 
             if (gamepad1.a){
-                intake.setPower(1);}
+                mIntake.on();}
             else if(gamepad1.b){
-                intake.setPower(-1);}
+                mIntake.out();}
             else{
-                intake.setPower(0);}
+                mIntake.off();}
 
 
             if(gamepad1.right_trigger > 0.1){
@@ -47,8 +50,8 @@ public class WeedWacker extends LinearOpMode {
                     lift.setPower(1);}
             else if(gamepad1.left_bumper){
                     lift.setPower(-1);}
-                else{
-                    lift.setPower(0);}
+            else{
+                lift.setPower(0);}
 
 
 
