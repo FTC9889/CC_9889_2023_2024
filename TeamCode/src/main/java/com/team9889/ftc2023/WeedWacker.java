@@ -10,23 +10,25 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class WeedWacker extends LinearOpMode {
     Intake mIntake = new Intake();
-    DcMotor left, right, lift;
-    Servo hopper;
-    @Override
-    public void runOpMode() throws InterruptedException {
-        left = hardwareMap.dcMotor.get("left");
-        right = hardwareMap.dcMotor.get("right");
-        mIntake.init(hardwareMap);
-        lift = hardwareMap.dcMotor.get("lift");
-        hopper = hardwareMap.servo.get("hopper");
+    Drive mDrive = new Drive();
 
-        right.setDirection(DcMotorSimple.Direction.REVERSE);
+    DcMotor lift;
+    Hopper mhopper = new Hopper();
+
+    public void runOpMode() throws InterruptedException {
+
+        mIntake.init(hardwareMap);
+        mDrive.init(hardwareMap);
+        lift = hardwareMap.dcMotor.get("lift");
+        mhopper.init(hardwareMap);
+
+
         waitForStart();
 
         while (opModeIsActive()){
 
-            left.setPower(gamepad1.left_stick_y);
-            right.setPower(gamepad1.right_stick_y);
+            mDrive.setPower(gamepad1.right_stick_y, gamepad1.left_stick_y);
+
 
 
             if (gamepad1.a){
@@ -38,11 +40,11 @@ public class WeedWacker extends LinearOpMode {
 
 
             if(gamepad1.right_trigger > 0.1){
-                hopper.setPosition(1);}
+                mhopper.on();}
             else if(gamepad1.left_trigger > 0.1){
-                hopper.setPosition(0);}
+                mhopper.out();}
             else{
-                hopper.setPosition(0.5);}
+                mhopper.off();}
 
 
 
