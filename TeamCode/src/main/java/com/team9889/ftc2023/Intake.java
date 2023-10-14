@@ -9,6 +9,9 @@ public class Intake {
 
 
     }
+    //turn on intake
+    //turn off intake
+    //turn out intake
     public void on(){
         intake.setPower(1);
     }

@@ -8,6 +8,9 @@ public class Hopper {
     public void init(HardwareMap hardwareMap){
         hopper = hardwareMap.servo.get("hopper");
     }
+    //turn on hopper
+    //turn off hopper
+    //go back hopper
     public void on(){
         hopper.setPosition(1);
     }
