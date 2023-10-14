@@ -11,11 +11,12 @@ public class Intake {
     }
     public void on(){
         intake.setPower(1);
-     }
-     public void off(){
+    }
+    public void off(){
         intake.setPower(0);
-     }
-     public void out(){
+    }
+    public void out(){
         intake.setPower(-1);
-     }
+    }
 }
+
