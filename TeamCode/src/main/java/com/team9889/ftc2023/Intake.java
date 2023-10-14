@@ -9,7 +9,7 @@ public class Intake {
 
 
     }
-     @Override public void on(){
+    public void on(){
         intake.setPower(1);
      }
      public void off(){
