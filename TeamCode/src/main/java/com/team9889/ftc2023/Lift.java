@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Lift {
     DcMotor lift;
     public void init(HardwareMap hardwaremap){
-        lift = hardwaremap.dcMotor.get("lift")
+        lift = hardwaremap.dcMotor.get("lift");
     }
     public void up(){
         lift.setPower(1);

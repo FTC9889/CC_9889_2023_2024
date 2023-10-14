@@ -15,7 +15,7 @@ public class WeedWacker extends LinearOpMode {
 
         mIntake.init(hardwareMap);
         mDrive.init(hardwareMap);
-        mlift = init(hardwareMap);
+        mlift.init(hardwareMap);
         mhopper.init(hardwareMap);
 
 
@@ -47,9 +47,9 @@ public class WeedWacker extends LinearOpMode {
             if (gamepad1.right_bumper){
                     mlift.up();}
             else if(gamepad1.left_bumper){
-                    mlift.out();}
+                    mlift.down();}
             else{
-                mlift.down();}
+                mlift.off();}
 
 
 
