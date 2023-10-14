@@ -12,14 +12,14 @@ public class WeedWacker extends LinearOpMode {
     Intake mIntake = new Intake();
     Drive mDrive = new Drive();
 
-    DcMotor lift;
+    lift mlift = new lift();
     Hopper mhopper = new Hopper();
 
     public void runOpMode() throws InterruptedException {
 
         mIntake.init(hardwareMap);
         mDrive.init(hardwareMap);
-        lift = hardwareMap.dcMotor.get("lift");
+        mlift = init(hardwareMap);
         mhopper.init(hardwareMap);
 
 
@@ -49,11 +49,11 @@ public class WeedWacker extends LinearOpMode {
 
 
             if (gamepad1.right_bumper){
-                    lift.setPower(1);}
+                    mlift.on(1);}
             else if(gamepad1.left_bumper){
-                    lift.setPower(-1);}
+                    mlift.out(-1);}
             else{
-                lift.setPower(0);}
+                mlift.off(0);}
 
 
 
