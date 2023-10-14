@@ -10,8 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class WeedWacker2TheWackining extends LinearOpMode {
 
-    Drive mDrive=new Drive();
-    Intake mIntake=new Intake();
+  Robit mRobot=new Robit();
 
     DcMotor lift;
 
@@ -22,22 +21,166 @@ public class WeedWacker2TheWackining extends LinearOpMode {
        hopper=hardwareMap.servo.get("hopper");
        lift=hardwareMap.dcMotor.get("lift");
 
-      mDrive.init(hardwareMap);
-mIntake.init(hardwareMap);
+        mRobot.init(hardwareMap);
         waitForStart();
 
         while(opModeIsActive()){
-mDrive.setPower(gamepad1.left_stick_y,gamepad1.right_stick_y );
-            if (gamepad1.a){mIntake.on();}
+            mRobot.mDrive.setPower(gamepad1.left_stick_y,gamepad1.right_stick_y );
+            if (gamepad1.a){mRobot.mIntake.on();}
 
             else if (gamepad1.b)
-            {mIntake.out();}
-            else {mIntake.off();}
+            {mRobot.mIntake.out();}
+            else {mRobot.mIntake.off();}
 //            if(gamepad1.right_trigger > 0.1){
 //                else if
 //            }
-
         }
-
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Hello. It seems you have found me.

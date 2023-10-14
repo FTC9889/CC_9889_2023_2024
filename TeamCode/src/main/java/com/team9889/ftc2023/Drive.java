@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Drive { DcMotor left, right;
-
+//init hardware
     public void init(HardwareMap hardwareMap){
         left=hardwareMap.dcMotor.get("left");
          right=hardwareMap.dcMotor.get("right");
@@ -18,3 +18,38 @@ public class Drive { DcMotor left, right;
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHH MY BRAIN!!!!!!!!!
