@@ -8,6 +8,10 @@ public class Lift {
     public void init(HardwareMap hardwaremap){
         lift = hardwaremap.dcMotor.get("lift");
     }
+
+    // lift up
+    // go down
+    // turn off
     public void up(){
         lift.setPower(1);
     }
