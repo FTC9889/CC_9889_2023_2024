@@ -20,12 +20,11 @@ public class WeedWacker extends LinearOpMode {
 
 
 
-            if (gamepad1.a){
-                mRobot.mIntake.on();}
-            else if(gamepad1.b){
-                mRobot.mIntake.out();}
-            else{
-                mRobot.mIntake.off();}
+            if (gamepad1.a == true){
+
+
+            }
+
 
 
             if(gamepad1.right_trigger > 0.1){
