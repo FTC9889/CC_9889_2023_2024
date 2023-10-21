@@ -1,9 +1,6 @@
 package com.team9889.ftc2023.opmode;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.subsystems.Robot;
-import com.team9889.ftc2023.test.Robit;
-
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
 public class TeleOp extends LinearOpMode {
   Robot mRobot=new Robot();
