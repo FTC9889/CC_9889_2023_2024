@@ -6,15 +6,15 @@ public class Robot {
 
     public Drive mDrive=new Drive();
 
-    public Intake mIntake = new Intake();
+   // public Intake mIntake = new Intake();
     public Hopper mHopper = new Hopper();
-    public Hanger mHanger = new Hanger();
+//    public Hanger mHanger = new Hanger();
 
     public void init (HardwareMap hardwareMap){
         mDrive.init(hardwareMap);
-        mIntake.init(hardwareMap);
+        //mIntake.init(hardwareMap);
         mHopper.init(hardwareMap);
-        mHanger.init(hardwareMap);
+        //mHanger.init(hardwareMap);
     }
 
 }
