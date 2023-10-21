@@ -2,18 +2,18 @@ package com.team9889.ftc2023;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Robot {
-    Intake mIntake = new Intake();
-    Drive mDrive = new Drive();
+public class Robot {    Drive mDrive=new Drive();
+    Intake mIntake=new Intake();
+    Hopper mHopper=new Hopper();
+    Lift mLift=new Lift();
 
-    Lift mlift = new Lift();
-    Hopper mhopper = new Hopper();
-    public void init(HardwareMap hardwaremap){
-        mIntake.init(hardwaremap);
-        mDrive.init(hardwaremap);
-        mhopper.init(hardwaremap);
-        mlift.init(hardwaremap);
-
+    public void init (HardwareMap hardwareMap){
+        mDrive.init(hardwareMap);
+        mIntake.init(hardwareMap);
+        mHopper.init(hardwareMap);
+        mLift.init(hardwareMap);
     }
+
 }
+
 
