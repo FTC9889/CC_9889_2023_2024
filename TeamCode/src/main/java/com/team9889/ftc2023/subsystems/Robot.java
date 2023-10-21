@@ -9,12 +9,14 @@ public class Robot {
     public Intake mIntake = new Intake();
     public Hopper mHopper = new Hopper();
     public Hanger mHanger = new Hanger();
+    public Drone mdrone = new Drone();
 
     public void init (HardwareMap hardwareMap){
         mDrive.init(hardwareMap);
         mIntake.init(hardwareMap);
         mHopper.init(hardwareMap);
         mHanger.init(hardwareMap);
+        mdrone.init(hardwareMap);
     }
 
 }

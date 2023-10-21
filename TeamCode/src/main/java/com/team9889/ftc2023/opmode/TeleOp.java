@@ -44,10 +44,16 @@ public class TeleOp extends LinearOpMode {
             // Hanger Code
             if (gamepad2.a){
                 mRobot.mHanger.down();
-            } else if (gamepad2.b){
+            }
+            else if (gamepad2.b){
                 mRobot.mHanger.up();
-            } else{
+            }
+            else{
                 mRobot.mHanger.off();
+            }
+            if (gamepad2.left_stick_button && gamepad2.right_stick_button  && gamepad1.left_stick_button && gamepad1.right_stick_button){
+                mRobot.mdrone.shoot();
+
             }
         }
     }
