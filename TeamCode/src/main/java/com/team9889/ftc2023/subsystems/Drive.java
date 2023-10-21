@@ -4,16 +4,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Drive { DcMotor left, right;
+public class Drive { DcMotor leftFront, rightFront, leftBack, rightBack;
 //init hardware
     public void init(HardwareMap hardwareMap){
-        left=hardwareMap.dcMotor.get("left");
-         right=hardwareMap.dcMotor.get("right");
-        right.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront=hardwareMap.dcMotor.get("LF");
+         rightFront=hardwareMap.dcMotor.get("RF");
+         leftBack=hardwareMap.dcMotor.get("LB");
+         rightBack=hardwareMap.dcMotor.get("RB");
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-    public void setPower(double leftPower,double rightPower){
-     right.setPower(rightPower);
-        left.setPower(leftPower);
+    public void setPower(double LFPower,double RFPower,double LBPower, double RBPower){
+     rightFront.setPower(RFPower);
+        leftFront.setPower(LFPower);
+        leftBack.setPower(LBPower);
+        rightBack.setPower(RBPower);
     }
 
 
