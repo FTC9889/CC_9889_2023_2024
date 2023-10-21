@@ -1,4 +1,4 @@
-package com.team9889.ftc2023;
+package com.team9889.ftc2023.test;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 public class BigL { DcMotor lift;

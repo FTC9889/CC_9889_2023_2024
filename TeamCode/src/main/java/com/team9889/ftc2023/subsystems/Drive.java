@@ -1,4 +1,4 @@
-package com.team9889.ftc2023;
+package com.team9889.ftc2023.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
