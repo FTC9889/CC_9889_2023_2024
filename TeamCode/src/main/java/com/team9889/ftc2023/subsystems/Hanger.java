@@ -7,6 +7,7 @@ public class Hanger {
     DcMotor Hang;
     public void init(HardwareMap hardwaremap){
         Hang = hardwaremap.dcMotor.get("lift");
+        Hang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     // lift up

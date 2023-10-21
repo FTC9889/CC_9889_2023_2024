@@ -13,29 +13,30 @@ public class TeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         mRobot.init(hardwareMap);
         waitForStart();
-        while(opModeIsActive()){
-            mRobot.mDrive.setPower(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
-           // if (gamepad1.a && intakeToggle){
-//                mRobot.mIntake.on();
-//                intakeOn=! intakeOn;
-//                intakeToggle=false;}
-//            else if (! gamepad1.a){
-//                intakeToggle=true;}
-//            if (intakeOn) mRobot.mIntake.on();
-//            else mRobot.mIntake.off();
-            //if (gamepad1.b)
-           // {mRobot.mIntake.out();}
+        while(opModeIsActive())
+            mRobot.mDrive.setPower(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x * 0.85);
+            if (gamepad1.a && intakeToggle){
+                mRobot.mIntake.on();
+                intakeOn=! intakeOn;
+                intakeToggle=false;}
+            else if (! gamepad1.a){
+                intakeToggle=true;}
+            if (intakeOn) mRobot.mIntake.on();
+            else mRobot.mIntake.off();
+            if (gamepad1.b)
+            {mRobot.mIntake.out();}
             if(gamepad1.right_trigger > 0.1){
                 mRobot.mHopper.intake_position();}
             else if(gamepad1.left_trigger > 0.1){
                 mRobot.mHopper.score_position();}
-//           // if (gamepad1.right_bumper){
-//              //  mRobot.mHanger.up();}
-//            else if(gamepad1.left_bumper){
-//                mRobot.mHanger.down();}
-//            else{
-//                mRobot.mHanger.off();}
-//            if(gamepad1.right_trigger > 0.1){
-//                else if
- }}}
+
+            if (gamepad2.a){
+                mRobot.mHanger.down();
+            } else if (gamepad2.b){
+                mRobot.mHanger.up();
+                }
+            else{
+                mRobot.mHanger.off();
+            }
+        }}}
 

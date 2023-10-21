@@ -29,7 +29,7 @@ mIntake.init(hardwareMap);
         waitForStart();
 
         while(opModeIsActive()){
-mDrive.setPower(gamepad1.left_stick_y,gamepad1.right_stick_y );
+//mDrive.setPower(gamepad1.left_stick_y,gamepad1.right_stick_y );
             if (gamepad1.a){mIntake.on();}
             else if (gamepad1.b)
             {mIntake.out();}

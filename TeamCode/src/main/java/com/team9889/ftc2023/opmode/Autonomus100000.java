@@ -19,5 +19,6 @@ public class Autonomus100000 extends LinearOpMode {
         mRobot.mDrive.setPower(0.1, 0.1, 0.1, 0.1);
         sleep(100);
         mRobot.mDrive.setPower(0, 0, 0, 0);
+
     }
 }

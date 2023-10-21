@@ -17,7 +17,7 @@ public class WeedWacker extends LinearOpMode {
 
         while (opModeIsActive()){
 
-            mRobot.mDrive.setPower(gamepad1.right_stick_y, gamepad1.left_stick_y);
+//            mRobot.mDrive.setPower(gamepad1.right_stick_y, gamepad1.left_stick_y);
 
 
 
@@ -27,22 +27,22 @@ public class WeedWacker extends LinearOpMode {
             }
 
 
-
-            if(gamepad1.right_trigger > 0.1){
-                mRobot.mHopper.on();}
-            else if(gamepad1.left_trigger > 0.1){
-                mRobot.mHopper.out();}
-            else{
-                mRobot.mHopper.off();}
-
-
-
-            if (gamepad1.right_bumper){
-                mRobot.mHanger.up();}
-            else if(gamepad1.left_bumper){
-                mRobot.mHanger.down();}
-            else{
-                mRobot.mHanger.off();}
+//
+//            if(gamepad1.right_trigger > 0.1){
+//                mRobot.mHopper.on();}
+//            else if(gamepad1.left_trigger > 0.1){
+//                mRobot.mHopper.out();}
+//            else{
+//                mRobot.mHopper.off();}
+//
+//
+//
+//            if (gamepad1.right_bumper){
+//                mRobot.mHanger.up();}
+//            else if(gamepad1.left_bumper){
+//                mRobot.mHanger.down();}
+//            else{
+//                mRobot.mHanger.off();}
 
 
 
