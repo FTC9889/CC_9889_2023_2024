@@ -3,7 +3,7 @@ package com.team9889.ftc2023.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Hang {
+public class Hanger {
     DcMotor Hang;
     public void init(HardwareMap hardwaremap){
         Hang = hardwaremap.dcMotor.get("lift");

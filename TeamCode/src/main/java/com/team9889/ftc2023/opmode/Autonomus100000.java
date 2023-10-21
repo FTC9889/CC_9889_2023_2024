@@ -29,11 +29,11 @@ public class Autonomus100000 extends LinearOpMode {
 
 
             if(gamepad1.right_trigger > 0.1){
-                mRobot.mhopper.on();}
+                mRobot.mHopper.on();}
             else if(gamepad1.left_trigger > 0.1){
-                mRobot.mhopper.out();}
+                mRobot.mHopper.out();}
             else{
-                mRobot.mhopper.off();}
+                mRobot.mHopper.off();}
 
 
 
