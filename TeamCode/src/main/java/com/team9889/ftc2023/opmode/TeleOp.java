@@ -14,7 +14,7 @@ public class TeleOp extends LinearOpMode {
         mRobot.init(hardwareMap);
         waitForStart();
         while(opModeIsActive()){
-            mRobot.mDrive.setPower(gamepad1.left_stick_y,gamepad1.right_stick_y );
+            mRobot.mDrive.setPower(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
             if (gamepad1.a && intakeToggle){
                 mRobot.mIntake.on();
                 intakeOn=! intakeOn;

@@ -1,5 +1,7 @@
 package com.team9889.ftc2023.subsystems;
 
+import static java.lang.Math.PI;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -21,7 +23,17 @@ public class Drive { DcMotor leftFront, rightFront, leftBack, rightBack;
         rightBack.setPower(RBPower);
     }
 
+    public void setPower(double leftStickX, double leftStickY, double rightStickX){
+        double r = Math.hypot(leftStickX, leftStickY);
+        double robotAngle = Math.atan2(leftStickY, leftStickX) - PI / 4;
+        double rightX = rightStickX;
+        final double v1 = r * Math.cos(robotAngle) + rightX;
+        final double v2 = r * Math.sin(robotAngle) - rightX;
+        final double v3 = r * Math.sin(robotAngle) + rightX;
+        final double v4 = r * Math.cos(robotAngle) - rightX;
+setPower(v1,v2,v3,v4);
 
+    }
 }
 
 
