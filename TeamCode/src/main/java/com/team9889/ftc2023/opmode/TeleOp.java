@@ -26,11 +26,10 @@ public class TeleOp extends LinearOpMode {
             if (gamepad1.b)
             {mRobot.mIntake.out();}
             if(gamepad1.right_trigger > 0.1){
-                mRobot.mHopper.on();}
+                mRobot.mHopper.intake_position();}
             else if(gamepad1.left_trigger > 0.1){
-                mRobot.mHopper.out();}
-            else{
-                mRobot.mHopper.off();}
+                mRobot.mHopper.score_position();}
+
             if (gamepad1.right_bumper){
                 mRobot.mHanger.up();}
             else if(gamepad1.left_bumper){

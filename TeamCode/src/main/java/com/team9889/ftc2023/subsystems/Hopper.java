@@ -4,20 +4,28 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Hopper {
-    Servo hopper;
+    Servo hopperl, hopperr;
     public void init(HardwareMap hardwareMap){
-        hopper = hardwareMap.servo.get("hopper");
+        hopperr = hardwareMap.servo.get("hopper");
+        hopperl = hardwareMap.servo.get("hopperl");
+        hopperl.setDirection(Servo.Direction.REVERSE);
     }
     //turn on hopper
     //turn off hopper
     //go back hopper
-    public void on(){
-        hopper.setPosition(1);
+    public void intake_position(){
+        hopperr.setPosition(1);
+        hopperl.setPosition(1);
+
     }
-    public void off(){
-        hopper.setPosition(0.5);
+    public void nothing(){
+        hopperr.setPosition(0.5);
+        hopperl.setPosition(0.5);
     }
-    public void out(){
-        hopper.setPosition(0);
+    public void score_position(){
+        hopperr.setPosition(0);
+        hopperl.setPosition(0);
     }
+
+
 }

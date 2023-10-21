@@ -38,11 +38,11 @@ public class WeedWacker extends LinearOpMode {
 
 
             if (gamepad1.right_bumper){
-                mRobot.mlift.up();}
+                mRobot.mHanger.up();}
             else if(gamepad1.left_bumper){
-                mRobot.mlift.down();}
+                mRobot.mHanger.down();}
             else{
-                mRobot.mlift.off();}
+                mRobot.mHanger.off();}
 
 
 
