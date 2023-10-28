@@ -40,6 +40,9 @@ public class TeleOp extends LinearOpMode {
                 mRobot.mHopper.intake_position();}
             else if(gamepad1.left_trigger > 0.1){
                 mRobot.mHopper.score_position();}
+            else if(gamepad1.right_bumper){
+                mRobot.mHopper.middle_position();
+            }
 
             // Hanger Code
             if (gamepad2.a){

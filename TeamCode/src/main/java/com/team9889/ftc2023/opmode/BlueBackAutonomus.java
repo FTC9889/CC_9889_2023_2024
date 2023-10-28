@@ -34,7 +34,7 @@ public class BlueBackAutonomus extends LinearOpMode {
         mRobot.mHopper.score_position();
         sleep(750);
         mRobot.mHopper.intake_position();
-        mRobot.mDrive.setPower(-0.5, 0, 0);
+
 
 
 

@@ -20,8 +20,13 @@ public class Hopper {
     }
 
     public void score_position(){
-        hopperr.setPosition(0.55);
-        hopperl.setPosition(0.55);
+        hopperr.setPosition(0.62);
+        hopperl.setPosition(0.62);
+    }
+
+    public void middle_position(){
+        hopperr.setPosition(0.45);
+        hopperl.setPosition(0.45);
     }
 
 
