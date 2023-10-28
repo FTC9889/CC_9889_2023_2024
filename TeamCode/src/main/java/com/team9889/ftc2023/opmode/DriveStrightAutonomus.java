@@ -2,11 +2,10 @@ package com.team9889.ftc2023.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.team9889.ftc2023.subsystems.Robot;
 
 @Autonomous
-public class Autonomus100000 extends LinearOpMode {
+public class DriveStrightAutonomus extends LinearOpMode {
     Robot mRobot = new Robot();
 
     public void runOpMode() throws InterruptedException {
@@ -15,10 +14,22 @@ public class Autonomus100000 extends LinearOpMode {
 
 
         waitForStart();
+        long tile = 46 * (2500 / 3);
+        sleep(15000);
+        mRobot.mDrive.setPower(0, 0.5, 0);
+        mRobot.mIntake.on();
 
-        mRobot.mDrive.setPower(0.1, 0.1, 0.1, 0.1);
-        sleep(100);
+        sleep(tile);
+        mRobot.mIntake.off();
         mRobot.mDrive.setPower(0, 0, 0, 0);
+
+
+
+
+
+
+
+
 
     }
 }
