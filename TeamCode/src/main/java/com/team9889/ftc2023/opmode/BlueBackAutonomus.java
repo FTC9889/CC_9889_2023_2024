@@ -15,8 +15,12 @@ public class BlueBackAutonomus extends LinearOpMode {
 
         waitForStart();
         long tile = (2500 / 3);
-
+        mRobot.mDrive.setPower(0.5, 0, 0);
+        sleep(250);
+        mRobot.mDrive.setPower(0, 0, 0);
         mRobot.mDrive.setPower(0, 0.5, 0);
+        sleep(tile * 5);
+        mRobot.mDrive.setPower(0, 0, 0);
         mRobot.mIntake.on();
 
         mRobot.mDrive.setPower(0.5, 0, 0);

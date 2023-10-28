@@ -25,9 +25,9 @@ public class RedAutonomus extends LinearOpMode {
         mRobot.mDrive.setPower(-0.5, 0, 0);
         sleep(tile * 2);
         mRobot.mDrive.setPower(0, 0, 0, 0);
-        mRobot.mDrive.setPower(0, 0.1, 0);
-        sleep(500);
-        mRobot.mDrive.setPower(0, -0.1, 0);
+        mRobot.mDrive.setPower(0, 0.25, 0);
+        sleep(1000);
+        mRobot.mDrive.setPower(0, -0.25, 0);
         sleep(150);
         mRobot.mDrive.setPower(0, 0, 0);
         mRobot.mHopper.score_position();
