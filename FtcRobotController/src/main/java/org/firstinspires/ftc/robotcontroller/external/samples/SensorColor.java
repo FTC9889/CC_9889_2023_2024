@@ -111,10 +111,10 @@ public class SensorColor extends LinearOpMode {
   protected void runSample() {
     // You can give the sensor a gain value, will be multiplied by the sensor's raw value before the
     // normalized color values are calculated. Color sensors (especially the REV Color Sensor V3)
-    // can give very low values (depending on the lighting conditions), which only use a small part
-    // of the 0-1 range that is available for the red, green, and blue values. In brighter conditions,
-    // you should use a smaller gain than in dark conditions. If your gain is too high, all of the
-    // colors will report at or near 1, and you won't be able to determine what color you are
+    // can give very low values (depening on the lighting conditions), which only use a small part
+    //    // of the 0-1 range that is available for the red, green, and blue values. In brighter conditions,
+    //    // you should use a smaller gain than in dark conditions. If your gain is too high, all of the
+    //    // colors will report at or near 1, and dyou won't be able to determine what color you are
     // actually looking at. For this reason, it's better to err on the side of a lower gain
     // (but always greater than  or equal to 1).
     float gain = 2;
