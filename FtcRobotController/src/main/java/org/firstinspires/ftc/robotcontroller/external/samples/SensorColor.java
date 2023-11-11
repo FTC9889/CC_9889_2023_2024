@@ -105,9 +105,8 @@ public class SensorColor extends LinearOpMode {
           relativeLayout.setBackgroundColor(Color.WHITE);
         }
       });
-      }
+    }
   }
-
   protected void runSample() {
     // You can give the sensor a gain value, will be multiplied by the sensor's raw value before the
     // normalized color values are calculated. Color sensors (especially the REV Color Sensor V3)
