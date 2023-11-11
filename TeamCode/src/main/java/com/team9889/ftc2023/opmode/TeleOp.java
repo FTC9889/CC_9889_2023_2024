@@ -42,6 +42,8 @@ public class TeleOp extends LinearOpMode {
                 mRobot.mHopper.score_position();}
             else if(gamepad1.right_bumper){
                 mRobot.mHopper.middle_position();
+            } else if (gamepad1.left_bumper) {mRobot.mHopper.score_TeleOp();
+
             }
 
             // Hanger Code
@@ -58,6 +60,8 @@ public class TeleOp extends LinearOpMode {
                 mRobot.mdrone.shoot();
 
             }
+
+            sleep(10);
         }
     }
 }
