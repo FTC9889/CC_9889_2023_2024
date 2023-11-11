@@ -7,7 +7,7 @@ public class Robot {
     public Drive mDrive=new Drive();
 
     public Intake mIntake = new Intake();
-    public Hopper mHopper = new Hopper();
+    public ScoringLift mHopper = new ScoringLift();
     public Hanger mHanger = new Hanger();
     public Drone mdrone = new Drone();
 

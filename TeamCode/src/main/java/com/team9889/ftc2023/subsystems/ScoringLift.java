@@ -1,11 +1,13 @@
 package com.team9889.ftc2023.subsystems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class Hopper {
+public class ScoringLift {
     Servo hopperl, hopperr; ElapsedTime timer=new ElapsedTime();
+    DcMotor LiftMotor;
 
     public void init(HardwareMap hardwareMap){
         hopperr = hardwareMap.servo.get("hopperr");
