@@ -26,7 +26,6 @@ public class TestingSenors extends LinearOpMode{
             };
             telemetry.update();
 
-
         }
     }
 }
