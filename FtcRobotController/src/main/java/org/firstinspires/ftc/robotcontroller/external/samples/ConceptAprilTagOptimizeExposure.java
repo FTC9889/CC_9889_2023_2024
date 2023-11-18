@@ -69,6 +69,7 @@ public class ConceptAprilTagOptimizeExposure extends LinearOpMode
 {
     private VisionPortal visionPortal = null;        // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
+    
     private int     myExposure  ;
     private int     minExposure ;
     private int     maxExposure ;
