@@ -6,14 +6,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class ScoringLift {
-    Servo hopperl, hopperr; ElapsedTime timer=new ElapsedTime();
+    Servo armL, armR; ElapsedTime timer=new ElapsedTime();
     DcMotor LiftMotor;
     DigitalChannel digitalTouch;
-
+Servo GrabberL, GrabberR;
     public void init(HardwareMap hardwareMap){
-        hopperr = hardwareMap.servo.get("hopperr");
-        hopperl = hardwareMap.servo.get("hopperl");
-        hopperl.setDirection(Servo.Direction.REVERSE);
+        armR = hardwareMap.servo.get("hopperr");
+        armL = hardwareMap.servo.get("hopperl");
+        armL.setDirection(Servo.Direction.REVERSE);
 
         LiftMotor = hardwareMap.dcMotor.get("liftmotor");
         LiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -21,49 +21,64 @@ public class ScoringLift {
         digitalTouch = hardwareMap.digitalChannel.get("liftmagnet");
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
+        GrabberR = hardwareMap.servo.get("GrabberR");
+        GrabberL = hardwareMap.servo.get("GrabberL");
+
+        GrabberR.setDirection(Servo.Direction.REVERSE);
+
 
     }
     public void setPower(double power){
         if (power < 0){
-            if (digitalTouch.getState()==true){
+            if (digitalTouch.getState()==false){
                 LiftMotor.setPower(power);
             } else {
                 LiftMotor.setPower(0);
+                LiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                LiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
+        } else {if (LiftMotor.getCurrentPosition() < 3001){
+            LiftMotor.setPower(power);
+
+        }else
+            LiftMotor.setPower(0);
+
         }
 
+    } public void setArmPosition(double position){
+        armL.setPosition(position);
+        armR.setPosition(position);
     }
-    //turn on hopper
-    //turn off hopper
-    //go back hopper
+
+
+
+
     public void intake_position(){
-        hopperr.setPosition(0);
-        hopperl.setPosition(0);
-        servoPosition=0.45;
+       setArmPosition(0);
+
 
     }
 
     public void score_position(){
-        hopperr.setPosition(0.62);
-        hopperl.setPosition(0.62);
-         servoPosition=0.45;
+        setArmPosition(0.62);
+
     }
 
-    public void middle_position(){
-        hopperr.setPosition(0.45);
-        hopperl.setPosition(0.45);
-        servoPosition=0.45;
-    }
-    double servoPosition=0.45;
-    public void score_TeleOp(){
-        hopperr.setPosition(servoPosition);
-        hopperl.setPosition(servoPosition);
+public void set_Grabber_Open(boolean L,boolean R){
+    if (L) {
+        GrabberL.setPosition(0.59440724975323578765432234567809876524591);
 
-        if(servoPosition < 0.62){
-            servoPosition+=0.005;
-        } else
-            servoPosition=0.45;
+    }  else {
+        GrabberL.setPosition(0);
     }
+    if (R) {
+        GrabberR.setPosition(0.59440724975323578765432234567809876524591);
+
+    }  else {
+        GrabberR.setPosition(0);
+    }
+}    
+
 
 
 }
