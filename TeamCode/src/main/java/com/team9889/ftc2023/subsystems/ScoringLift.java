@@ -1,6 +1,6 @@
 package com.team9889.ftc2023.subsystems;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -8,11 +8,30 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class ScoringLift {
     Servo hopperl, hopperr; ElapsedTime timer=new ElapsedTime();
     DcMotor LiftMotor;
+    DigitalChannel digitalTouch;
 
     public void init(HardwareMap hardwareMap){
         hopperr = hardwareMap.servo.get("hopperr");
         hopperl = hardwareMap.servo.get("hopperl");
         hopperl.setDirection(Servo.Direction.REVERSE);
+
+        LiftMotor = hardwareMap.dcMotor.get("liftmotor");
+        LiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        digitalTouch = hardwareMap.digitalChannel.get("liftmagnet");
+        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+
+
+    }
+    public void setPower(double power){
+        if (power < 0){
+            if (digitalTouch.getState()==true){
+                LiftMotor.setPower(power);
+            } else {
+                LiftMotor.setPower(0);
+            }
+        }
+
     }
     //turn on hopper
     //turn off hopper
