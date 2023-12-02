@@ -36,13 +36,13 @@ public class RedBackAutonomus extends LinearOpMode {
         mRobot.mDrive.setPower(0, -0.1, 0);
         sleep(150);
         mRobot.mDrive.setPower(0, 0, 0);
-        mRobot.mHopper.score_position();
+        mRobot.mLift.score_position();
         sleep(2500);
-        mRobot.mHopper.intake_position();
+        mRobot.mLift.intake_position();
         sleep(1000);
-        mRobot.mHopper.score_position();
+        mRobot.mLift.score_position();
         sleep(2500);
-        mRobot.mHopper.intake_position();
+        mRobot.mLift.intake_position();
         sleep(1000);
 
 

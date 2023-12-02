@@ -39,6 +39,14 @@ public class Intake {
             }
         }
     }
+
+    public boolean canIntake () {
+        return extend.getCurrentPosition() > 10 && !digitalTouch.getState();
+    }
+    public boolean canTransfer (){
+        return digitalTouch.getState() && vfbUp;
+    }
+
     public void on() {
         intake.setPower(1);
     }
@@ -62,12 +70,14 @@ public class Intake {
         gate.setPosition(1);
     }
 
-
+boolean vfbUp=true;
     public void vfbUp(){
         vfb.setPosition(1);
+        vfbUp=true;
     }
     public void vfbDown(){
         vfb.setPosition(0);
+        vfbUp=false;
     }
 
     public void startIntake(){
@@ -79,9 +89,14 @@ public class Intake {
     public void stopIntake(){
        vfbUp();
        slowOn();
-       
+        closeGate();
     }
 
+public void transfer(){
+        vfbUp();
+        on();
+        openGate();
+}
 
 }
 

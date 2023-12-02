@@ -51,18 +51,24 @@ Servo GrabberL, GrabberR;
     }
 
 
-
+boolean armTransfer=true;
 
     public void intake_position(){
        setArmPosition(0);
+       armTransfer=true;
 
 
     }
 
     public void score_position(){
         setArmPosition(0.62);
+        armTransfer=false;
 
     }
+public boolean canTransfer(){
+        return armTransfer && digitalTouch.getState();
+
+}
 
 public void set_Grabber_Open(boolean L,boolean R){
     if (L) {
@@ -77,7 +83,7 @@ public void set_Grabber_Open(boolean L,boolean R){
     }  else {
         GrabberR.setPosition(0);
     }
-}    
+}
 
 
 

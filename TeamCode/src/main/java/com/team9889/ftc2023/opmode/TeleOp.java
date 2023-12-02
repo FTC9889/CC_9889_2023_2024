@@ -30,27 +30,36 @@ public class TeleOp extends LinearOpMode {
             if (intakeOn) mRobot.mIntake.on();
             else mRobot.mIntake.off();
 
-            if (gamepad1.b) {
-                mRobot.mIntake.out();
-                intakeOn = false;
-            }
 
-            // Hopper Code
-            if(gamepad1.right_trigger > 0.1){
-                mRobot.mHopper.intake_position();}
-            else if(gamepad1.left_trigger > 0.1){
-                mRobot.mHopper.score_position();}
-            else if(gamepad1.right_bumper){
-                mRobot.mHopper.middle_position();
-            } else if (gamepad1.left_bumper) {mRobot.mHopper.score_TeleOp();
+
+            if (gamepad1.left_bumper) mRobot.mLift.set_Grabber_Open(true, true);
+            else if (gamepad2.dpad_left)  {mRobot.mLift.set_Grabber_Open(true,false);
+
+            } else if (gamepad2.dpad_right) {mRobot.mLift.set_Grabber_Open(false,true);
 
             }
 
+            if (gamepad2.right_trigger > 0.1 && mRobot.mIntake.canIntake())  mRobot.mIntake.startIntake();
+            else if (gamepad2.left_trigger > 0.1) mRobot.mIntake.stopIntake();
+
+            mRobot.mIntake.setPower(-gamepad2.right_stick_y);
+
+            if (gamepad2.right_bumper) mRobot.mLift.score_position();
+            else if (gamepad2.left_bumper) mRobot.mLift.intake_position();
+
+            if (gamepad2.y && mRobot.mIntake.canTransfer() && mRobot.mLift.canTransfer()){
+                mRobot.mIntake.transfer();
+                mRobot.mLift.set_Grabber_Open(true,true);
+            } else if (gamepad2.b && mRobot.mIntake.canTransfer() && mRobot.mLift.canTransfer()) {
+                mRobot.mIntake.slowOn(); mRobot.mLift.set_Grabber_Open(false, false);
+            }
+
+mRobot.mLift.setPower(-gamepad2.left_stick_y);
             // Hanger Code
-            if (gamepad2.a){
+            if (gamepad2.dpad_up){
                 mRobot.mHanger.down();
             }
-            else if (gamepad2.b){
+            else if (gamepad2.dpad_down){
                 mRobot.mHanger.up();
             }
             else{
