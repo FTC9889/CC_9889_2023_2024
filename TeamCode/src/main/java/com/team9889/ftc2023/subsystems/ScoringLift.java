@@ -72,13 +72,13 @@ public boolean canTransfer(){
 
 public void set_Grabber_Open(boolean L,boolean R){
     if (L) {
-        GrabberL.setPosition(0.59440724975323578765432234567809876524591);
+        GrabberL.setPosition(0.5944);
 
     }  else {
         GrabberL.setPosition(0);
     }
     if (R) {
-        GrabberR.setPosition(0.59440724975323578765432234567809876524591);
+        GrabberR.setPosition(0.5944);
 
     }  else {
         GrabberR.setPosition(0);

@@ -5,7 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Hanger {
     DcMotor Hang;
-    public void init(HardwareMap hardwaremap){
+
+    public void init(HardwareMap hardwaremap) {
         Hang = hardwaremap.dcMotor.get("lift");
         Hang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
@@ -13,13 +14,31 @@ public class Hanger {
     // lift up
     // go down
     // turn off
-    public void up(){
+    public void up() {
         Hang.setPower(1);
     }
-    public void off(){
+
+    public void off() {
         Hang.setPower(0);
     }
-    public void down(){
+
+    public void down() {
         Hang.setPower(-1);
+    }
+
+    public void setPower(double power) {
+        if (power < 0) {
+            if (Hang.getCurrentPosition() > 0) {
+                Hang.setPower(power);
+            } else {
+                Hang.setPower(0);
+            }
+        } else {
+            if (Hang.getCurrentPosition() < 3500) {
+                Hang.setPower(power);
+            } else {
+                Hang.setPower(0);
+            }
+        }
     }
 }

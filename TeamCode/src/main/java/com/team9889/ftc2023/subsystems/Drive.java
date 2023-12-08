@@ -10,14 +10,26 @@ public class Drive { DcMotor leftFront, rightFront, leftBack, rightBack;
 //init hardware
     public void init(HardwareMap hardwareMap){
         leftFront=hardwareMap.dcMotor.get("LF");
-         rightFront=hardwareMap.dcMotor.get("RF");
-         leftBack=hardwareMap.dcMotor.get("LB");
-         rightBack=hardwareMap.dcMotor.get("RB");
+        rightFront=hardwareMap.dcMotor.get("RF");
+        leftBack=hardwareMap.dcMotor.get("LB");
+        rightBack=hardwareMap.dcMotor.get("RB");
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
     }
     public void setPower(double LFPower,double RFPower,double LBPower, double RBPower){
-     rightFront.setPower(RFPower);
+        rightFront.setPower(RFPower);
         leftFront.setPower(LFPower);
         leftBack.setPower(LBPower);
         rightBack.setPower(RBPower);
@@ -33,6 +45,21 @@ public class Drive { DcMotor leftFront, rightFront, leftBack, rightBack;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 setPower(v1,v2,v3,v4);
 
+    }
+
+    public int front_encoder(){
+        return leftFront.getCurrentPosition();
+
+    }
+    public void reset_encoder(){
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+    public void brake(){
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE );
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE );
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE );
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE );
     }
 }
 

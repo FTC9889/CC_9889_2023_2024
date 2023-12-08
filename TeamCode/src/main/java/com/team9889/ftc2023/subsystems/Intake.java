@@ -89,10 +89,10 @@ boolean vfbUp=true;
     public void stopIntake(){
        vfbUp();
        slowOn();
-        closeGate();
+       closeGate();
     }
 
-public void transfer(){
+    public void transfer(){
         vfbUp();
         on();
         openGate();
