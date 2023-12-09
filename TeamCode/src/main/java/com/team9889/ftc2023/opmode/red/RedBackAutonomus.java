@@ -1,4 +1,4 @@
-package com.team9889.ftc2023.opmode;
+package com.team9889.ftc2023.opmode.red;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

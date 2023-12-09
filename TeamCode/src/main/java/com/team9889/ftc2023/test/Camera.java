@@ -1,18 +1,20 @@
-package com.team9889.ftc2023.opmode;
+package com.team9889.ftc2023.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
-
- import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
  import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
  import org.firstinspires.ftc.vision.VisionPortal;
  import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
  import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-         import java.util.List;
+ import java.util.List;
 
-         @Autonomous()
+
+ @Autonomous
+ @Disabled
  public class Camera extends OpMode {
  private AprilTagProcessor aprilTagProcessor;
  private VisionPortal visionPortal;

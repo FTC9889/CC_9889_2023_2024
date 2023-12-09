@@ -19,58 +19,46 @@ public class TeleOp extends LinearOpMode {
             mRobot.mDrive.setPower(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x * 0.85);
 
             // Toggle Intake On
-            if (gamepad1.a && intakeToggle){
-                mRobot.mIntake.on();
-                intakeOn=! intakeOn;
-                intakeToggle=false;
-            } else if (! gamepad1.a){
-                intakeToggle=true;
-            }
-
-            if (intakeOn) mRobot.mIntake.on();
-            else mRobot.mIntake.off();
-
-
+//            if (gamepad1.a && intakeToggle){
+//                mRobot.mIntake.on();
+//                intakeOn=! intakeOn;
+//                intakeToggle=false;
+//            } else if (! gamepad1.a){
+//                intakeToggle=true;
+//            }
+//
+//            if (intakeOn) mRobot.mIntake.on();
+//            else mRobot.mIntake.off();
 
             if (gamepad1.left_bumper) mRobot.mLift.set_Grabber_Open(true, true);
-            else if (gamepad2.dpad_left)  {mRobot.mLift.set_Grabber_Open(true,false);
+            else if (gamepad2.dpad_left)  mRobot.mLift.set_Grabber_Open(true,false);
+            else if (gamepad2.dpad_right) mRobot.mLift.set_Grabber_Open(false,true);
 
-            } else if (gamepad2.dpad_right) {mRobot.mLift.set_Grabber_Open(false,true);
 
-            }
-
-            if (gamepad2.right_trigger > 0.1 && mRobot.mIntake.canIntake())  mRobot.mIntake.startIntake();
+            if (gamepad2.right_trigger > 0.1)  mRobot.mIntake.startIntake();
             else if (gamepad2.left_trigger > 0.1) mRobot.mIntake.stopIntake();
+            else if (gamepad2.dpad_up) mRobot.mIntake.out();
 
             mRobot.mIntake.setPower(-gamepad2.right_stick_y);
 
             if (gamepad2.right_bumper) mRobot.mLift.score_position();
             else if (gamepad2.left_bumper) mRobot.mLift.intake_position();
-
-            if (gamepad2.y && mRobot.mIntake.canTransfer() && mRobot.mLift.canTransfer()){
+            else if (gamepad2.y){
                 mRobot.mIntake.transfer();
                 mRobot.mLift.set_Grabber_Open(true,true);
-            } else if (gamepad2.b && mRobot.mIntake.canTransfer() && mRobot.mLift.canTransfer()) {
+            } else if (gamepad2.b) {
                 mRobot.mIntake.slowOn(); mRobot.mLift.set_Grabber_Open(false, false);
             }
 
-mRobot.mLift.setPower(-gamepad2.left_stick_y);
-            // Hanger Code
-            if (gamepad2.dpad_up){
-                mRobot.mHanger.down();
-            }
-            else if (gamepad2.dpad_down){
-                mRobot.mHanger.up();
-            }
-            else{
-                mRobot.mHanger.off();
-            }
-            if (gamepad2.left_stick_button && gamepad2.right_stick_button  && gamepad1.left_stick_button && gamepad1.right_stick_button){
-                mRobot.mdrone.shoot();
-
-            }
+            mRobot.mLift.setPower(-gamepad2.left_stick_y);
 
             sleep(10);
+
+            telemetry.addData("", mRobot.mIntake.intake.getCurrentPosition());
+            telemetry.addData("-", mRobot.mIntake.digitalTouch.getState());
+            telemetry.update();
+
+
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.team9889.ftc2023.opmode;
+package com.team9889.ftc2023.opmode.blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,17 +15,20 @@ public class BlueAutonomus extends LinearOpMode {
 
         waitForStart();
         long tile = 830;
+        long side_tile = 2300;
 
-        mRobot.mDrive.setPower(0, 0.5, 0);
+        mRobot.mDrive.setPower(0, -0.5, 0);
 //        mRobot.mIntake.on();
         while (mRobot.mDrive.front_encoder() < 830 && opModeIsActive()) sleep(50);
         mRobot.mDrive.setPower(0, 0, 0);
         mRobot.mDrive.brake();
         sleep(500);
         mRobot.mDrive.setPower(0.5, 0, 0);
-        sleep(2300);
+        sleep(2500);
         mRobot.mDrive.setPower(0, 0, 0);
         mRobot.mDrive.brake();
+        mRobot.mLift.score_position();
+
 
 
     }

@@ -1,10 +1,12 @@
-package com.team9889.ftc2023.opmode;
+package com.team9889.ftc2023.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
+@Disabled
 public class Two_Servos extends LinearOpMode {
 
     @Override

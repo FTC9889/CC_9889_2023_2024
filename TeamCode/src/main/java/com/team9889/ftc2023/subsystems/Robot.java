@@ -13,9 +13,9 @@ public class Robot {
 
     public void init (HardwareMap hardwareMap){
         mDrive.init(hardwareMap);
-//        mIntake.init(hardwareMap);
-//        mLift.init(hardwareMap);
-//        mHanger.init(hardwareMap);
+        mIntake.init(hardwareMap);
+        mLift.init(hardwareMap);
+        mHanger.init(hardwareMap);
 //        mdrone.init(hardwareMap);
     }
 

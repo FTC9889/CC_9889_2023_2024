@@ -1,21 +1,23 @@
 package com.team9889.ftc2023.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake {
-    DcMotor intake, extend;
-    DigitalChannel digitalTouch;
+    public DcMotor intake, extend;
+    public DigitalChannel digitalTouch;
     Servo vfb, gate;
     public void init(HardwareMap hardwareMap) {
         intake = hardwareMap.dcMotor.get("intake");
         extend = hardwareMap.dcMotor.get("extend");
+        extend.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        vfb = hardwareMap.servo.get("lift");
+        vfb = hardwareMap.servo.get("vfb");
         gate = hardwareMap.servo.get("gate");
 
-        digitalTouch = hardwareMap.digitalChannel.get("liftmagnet");
+        digitalTouch = hardwareMap.digitalChannel.get("intakemagnet");
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
         extend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -24,24 +26,22 @@ public class Intake {
     //turn off intake
     public void setPower(double power){
         if(power < 0) {
-            if (digitalTouch.getState() ==false) {
+            if (digitalTouch.getState()) {
                 extend.setPower(power);
             } else {
                 extend.setPower(0);
-                extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                extend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
         } else {
-            if (extend.getCurrentPosition() < 3500){
+           // if (extend.getCurrentPosition() > 3500){
                 extend.setPower(power);
-            } else {
-                extend.setPower(0);
-            }
+//            } else {
+//                extend.setPower(0);
+//            }
         }
     }
 
     public boolean canIntake () {
-        return extend.getCurrentPosition() > 10 && !digitalTouch.getState();
+        return !digitalTouch.getState();
     }
     public boolean canTransfer (){
         return digitalTouch.getState() && vfbUp;
@@ -56,7 +56,7 @@ public class Intake {
     }
 
     public void slowOn(){
-        intake.setPower(0.2);
+        intake.setPower(0.1);
     }
 
     public void out() {
@@ -64,15 +64,15 @@ public class Intake {
     }
 
     public void openGate(){
-        gate.setPosition(0);
+        gate.setPosition(.65);
     }
     public void closeGate(){
-        gate.setPosition(1);
+        gate.setPosition(0.47);
     }
 
 boolean vfbUp=true;
     public void vfbUp(){
-        vfb.setPosition(1);
+        vfb.setPosition(0.75);
         vfbUp=true;
     }
     public void vfbDown(){
@@ -96,7 +96,7 @@ boolean vfbUp=true;
         vfbUp();
         on();
         openGate();
-}
+    }
 
 }
 

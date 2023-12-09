@@ -1,11 +1,13 @@
-package com.team9889.ftc2023.opmode;
+package com.team9889.ftc2023.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @TeleOp
+@Disabled
 public class TestingSenors extends LinearOpMode{
     NormalizedColorSensor colorSensor;
     TouchSensor touchSensor;

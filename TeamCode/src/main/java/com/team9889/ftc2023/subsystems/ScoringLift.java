@@ -30,7 +30,7 @@ Servo GrabberL, GrabberR;
     }
     public void setPower(double power){
         if (power < 0){
-            if (digitalTouch.getState()==false){
+            if (digitalTouch.getState()== true){
                 LiftMotor.setPower(power);
             } else {
                 LiftMotor.setPower(0);
@@ -54,20 +54,20 @@ Servo GrabberL, GrabberR;
 boolean armTransfer=true;
 
     public void intake_position(){
-       setArmPosition(0);
+       setArmPosition(1);
        armTransfer=true;
 
 
     }
 
     public void score_position(){
-        setArmPosition(0.62);
+        setArmPosition(0.1);
         armTransfer=false;
 
     }
 public boolean canTransfer(){
-        return armTransfer && digitalTouch.getState();
-
+//        return armTransfer && digitalTouch.getState();
+return true;
 }
 
 public void set_Grabber_Open(boolean L,boolean R){
@@ -75,13 +75,13 @@ public void set_Grabber_Open(boolean L,boolean R){
         GrabberL.setPosition(0.5944);
 
     }  else {
-        GrabberL.setPosition(0);
+        GrabberL.setPosition(0.4);
     }
     if (R) {
         GrabberR.setPosition(0.5944);
 
     }  else {
-        GrabberR.setPosition(0);
+        GrabberR.setPosition(0.4);
     }
 }
 
