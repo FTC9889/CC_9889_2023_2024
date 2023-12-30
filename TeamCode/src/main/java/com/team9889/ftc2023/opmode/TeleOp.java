@@ -30,16 +30,16 @@ public class TeleOp extends LinearOpMode {
 //            if (intakeOn) mRobot.mIntake.on();
 //            else mRobot.mIntake.off();
 
-            if (gamepad1.left_bumper) mRobot.mLift.set_Grabber_Open(true, true);
-            else if (gamepad2.dpad_left)  mRobot.mLift.set_Grabber_Open(true,false);
-            else if (gamepad2.dpad_right) mRobot.mLift.set_Grabber_Open(false,true);
+            if (gamepad1.left_bumper) mRobot.mLift.set_Grabber_Open(true, true, true);
+            else if (gamepad2.dpad_left)  mRobot.mLift.set_Grabber_Open(true,false, true);
+            else if (gamepad2.dpad_right) mRobot.mLift.set_Grabber_Open(false,true, true);
 
 
             if (gamepad2.right_trigger > 0.1)  mRobot.mIntake.startIntake();
             else if (gamepad2.left_trigger > 0.1) mRobot.mIntake.stopIntake();
             else if (gamepad2.dpad_up) mRobot.mIntake.out();
 
-            mRobot.mIntake.setPower(-gamepad2.right_stick_y);
+            mRobot.mIntake.setPower(-gamepad2.left_stick_y);
 
             if (gamepad2.right_bumper) mRobot.mLift.score_position();
             else if (gamepad2.left_bumper) mRobot.mLift.intake_position();
@@ -48,9 +48,11 @@ public class TeleOp extends LinearOpMode {
                 mRobot.mLift.set_Grabber_Open(true,true);
             } else if (gamepad2.b) {
                 mRobot.mIntake.slowOn(); mRobot.mLift.set_Grabber_Open(false, false);
+            } else if (gamepad2.a) {
+                mRobot.mLift.score_position_second_level();
             }
 
-            mRobot.mLift.setPower(-gamepad2.left_stick_y);
+            mRobot.mLift.setPower(-gamepad2.right_stick_y);
 
             sleep(10);
 

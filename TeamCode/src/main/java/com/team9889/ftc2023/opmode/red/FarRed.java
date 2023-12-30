@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.subsystems.Robot;
 
 @Autonomous
-public class RedAutonomus extends LinearOpMode {
+public class FarRed extends LinearOpMode {
     Robot mRobot = new Robot();
 
     public void runOpMode() throws InterruptedException {
@@ -20,6 +20,12 @@ public class RedAutonomus extends LinearOpMode {
         long side_tile = 2300;
 
         mRobot.mDrive.setPower(-0.5, 0, 0);
+        sleep(5300);
+        mRobot.mDrive.reset_encoder();
+        mRobot.mDrive.setPower(0, 0.5, 0);
+        while (mRobot.mDrive.front_encoder() < 1150 && opModeIsActive()) sleep(50);
+        mRobot.mDrive.brake();
+        mRobot.mDrive.setPower(0.5, 0, 0);
         sleep(2500);
         mRobot.mLift.score_position();
         mRobot.mDrive.setPower(0, 0.5, 0);
@@ -35,9 +41,9 @@ public class RedAutonomus extends LinearOpMode {
         sleep(500);
         mRobot.mDrive.setPower(0, -0.5, 0);
         sleep(500);
-        mRobot.mDrive.setPower(0.5, 0, 0);
-        sleep(2000);
+
 
 
     }
 }
+

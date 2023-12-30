@@ -61,9 +61,17 @@ boolean armTransfer=true;
     }
 
     public void score_position(){
-        setArmPosition(0.1);
+        setArmPosition(0.12);
         armTransfer=false;
 
+    }
+
+    public void score_position_second_level(){
+        setArmPosition(0.20);
+    }
+
+    public void initPosition(){
+        setArmPosition(0.75);
     }
 public boolean canTransfer(){
 //        return armTransfer && digitalTouch.getState();
@@ -85,6 +93,20 @@ public void set_Grabber_Open(boolean L,boolean R){
     }
 }
 
+
+    public void set_Grabber_Open(boolean L,boolean R, boolean A){
+        if (L) {
+            GrabberL.setPosition(0.63);
+        }  else {
+            GrabberL.setPosition(0.4);
+        }
+        if (R) {
+            GrabberR.setPosition(0.63);
+
+        }  else {
+            GrabberR.setPosition(0.4);
+        }
+    }
 
 
 }
