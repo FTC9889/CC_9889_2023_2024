@@ -8,12 +8,19 @@ import com.team9889.ftc2023.subsystems.Robot;
 public class FarRed extends LinearOpMode {
     Robot mRobot = new Robot();
 
+    enum BackDrop {
+        LEFT, RIGHT, CENTER
+    }
+
+    BackDrop side;
+
     public void runOpMode() throws InterruptedException {
 
         mRobot.init(hardwareMap);
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
 
+        side = BackDrop.LEFT;
 
         waitForStart();
         long tile = 830;
@@ -42,6 +49,13 @@ public class FarRed extends LinearOpMode {
         mRobot.mDrive.setPower(0, -0.5, 0);
         sleep(500);
 
+        if(side == BackDrop.LEFT) {
+
+        } else if (side == BackDrop.RIGHT) {
+
+        } else {
+
+        }
 
 
     }

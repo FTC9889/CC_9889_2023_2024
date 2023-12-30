@@ -30,6 +30,7 @@ public class Test_Open_CV_Camera extends OpenCvPipeline {
         Scalar highsv = new Scalar(255, 255, 255);
 
         Core.inRange(mat, lowsv, highsv, mat);
+
         Mat left = mat.submat(LEFT_BOI);
         Mat right = mat.submat(RIGHT_BOI);
 

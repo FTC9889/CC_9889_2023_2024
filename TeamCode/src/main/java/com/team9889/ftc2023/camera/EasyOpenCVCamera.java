@@ -8,6 +8,17 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 public class EasyOpenCVCamera extends OpenCvPipeline {
+    Telemetry telemetry;
+
+    public EasyOpenCVCamera(Telemetry telemetry) {
+        this.telemetry = telemetry;
+    }
+
+    public static int x1 = 600;
+    public static int x2 = 650;
+    public static int y1 = 500;
+    public static int y2 = 450;
+
     /*
      * These are our variables that will be
      * modifiable from the variable tuner.
@@ -41,6 +52,18 @@ public class EasyOpenCVCamera extends OpenCvPipeline {
 
     @Override
     public Mat processFrame(Mat input) {
+         Rect LEFT_BOI = new Rect(
+                new Point(x1, y1),
+                new Point(x2, y2)
+        );
+
+        Rect RIGHT_BOI = new Rect(
+                new Point(0, 0),
+                new Point(100, 100)
+        );
+
+        Mat left = input.submat(LEFT_BOI);
+        Mat right = input.submat(RIGHT_BOI);
         /*
          * Converts our input mat from RGB to YCrCb.
          * EOCV ALWAYS returns RGB mats, so you'd
@@ -50,7 +73,7 @@ public class EasyOpenCVCamera extends OpenCvPipeline {
          * Takes our "input" mat as an input, and outputs
          * to a separate Mat buffer "ycrcbMat"
          */
-        Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_RGB2YCrCb);
+        Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_RGB2HSV);
 
         /*
          * This is where our thresholding actually happens.
@@ -93,6 +116,20 @@ public class EasyOpenCVCamera extends OpenCvPipeline {
          * pixel from the input Mat that were inside
          * the threshold range.
          */
-        return maskedInputMat;
+
+        Imgproc.rectangle(input, LEFT_BOI, new Scalar(255, 0, 0));
+
+//        double leftvalue = Core.sumElems(left).val[0] / LEFT_BOI.area() / 255;
+//        double rightvalue = Core.sumElems(right).val[0] / RIGHT_BOI.area() / 255;
+//        left.release();
+//        right.release();
+        telemetry.addData("Left raw value", (int) Core.sumElems(left).val[0]/ LEFT_BOI.area() / 255);
+        telemetry.addData("Left raw value1", (int) Core.sumElems(left).val[1]/ LEFT_BOI.area() / 255);
+        telemetry.addData("Left raw value2", (int) Core.sumElems(left).val[2]/ LEFT_BOI.area() / 255);
+//        telemetry.addData("Left percentage", Math.round(leftvalue * 100) + "%");
+        telemetry.addData("Right raw value", (int) Core.sumElems(right).val[0]);
+//        telemetry.addData("Right percentage", Math.round(rightvalue * 100) + "%");
+        telemetry.update();
+        return input;
     }
 }
