@@ -53,7 +53,7 @@ public class FarBlue extends LinearOpMode {
             while (mRobot.mDrive.front_encoder() < 830 && opModeIsActive()) sleep(50);
             mRobot.mDrive.brake();
             mRobot.mDrive.reset_encoder();
-            mRobot.mDrive.setPower(0, 0, 0.5);
+            mRobot.mDrive.setPower(0, 0, -0.5);
             sleep(???);
             mRobot.mDrive.brake();
             mRobot.mLift.score_position();
