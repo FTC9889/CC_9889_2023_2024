@@ -29,8 +29,33 @@ public class FarBlue extends LinearOpMode {
         long side_tile = 2300;
 
         if(side == FarBlue.BackDrop.LEFT) {
-
+            mRobot.mDrive.setPower(0, 0.5, 0);
+            sleep(tile);
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0, 0, 0.5);
+            sleep(???);
+            mRobot.mDrive.brake();
+            mRobot.mIntake.out();
+            sleep(100);
+            mRobot.mIntake.off();
+            mRobot.mDrive.setPower(0, 0, -0.5);
+            sleep(???)
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0, 0.5, 0);
+            sleep(tile * 4);
+            mRobot.mDrive.brake();
+            mRobot.mLift.score_position();
+            mRobot.mLift.set_Grabber_Open(true, true);
+            mRobot.mLift.intake_position();
+            mRobot.mDrive.setPower(0.5, 0, 0);
+            sleep(side_tile + 750);
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0, 0.5, 0);
+            sleep(500);
+            mRobot.mDrive.brake();
+            
         }
+
         if (side == FarBlue.BackDrop.RIGHT) {
             mRobot.mDrive.setPower(0, 0.5, 0);
             sleep(tile);
@@ -61,7 +86,6 @@ public class FarBlue extends LinearOpMode {
             sleep(500);
             mRobot.mDrive.brake();
         }
-
 
         if (side == FarBlue.BackDrop.CENTER) {
             mRobot.mDrive.setPower(0, 0.5, 0);
