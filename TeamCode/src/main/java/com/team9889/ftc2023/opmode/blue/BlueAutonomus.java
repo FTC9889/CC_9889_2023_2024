@@ -27,6 +27,39 @@ public class BlueAutonomus extends LinearOpMode {
         long side_tile = 2300;
 
         if(side == BlueAutonomus.BackDrop.LEFT) {
+            mRobot.mDrive.setPower(0, 0.5, 0);
+            sleep(tile);
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0, 0, -0.5);
+            sleep(???);
+            mRobot.mDrive.brake();
+            mRobot.mIntake.out();
+            mRobot.mIntake.off();
+            mRobot.mDrive.setPower(-0.5, 0, 0);
+            sleep(side_tile - 300);
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0, 0, 0.5);
+            sleep(???);
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0, -0.5, 0);
+            sleep(tile +400);
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0.5, 0, 0);
+            sleep(2000);
+            mRobot.mDrive.brake();
+            mRobot.mLift.score_position();
+            mRobot.mDrive.setPower(0, -0.5, 0);
+            sleep(440);
+            mRobot.mDrive.brake();
+            mRobot.mLift.set_Grabber_Open(true, true);
+            sleep(500);
+            mRobot.mLift.intake_position();
+            mRobot.mDrive.setPower(0.5, 0, 0);
+            sleep(3000);
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0, -0.5, 0);
+            sleep(500);
+            mRobot.mDrive.brake();
 
         }
 
