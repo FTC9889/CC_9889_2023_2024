@@ -61,7 +61,7 @@ public class BlueAutonomus extends LinearOpMode {
             sleep(500);
             mRobot.mDrive.brake();
 
-        }
+            }
 
         if(side == BlueAutonomus.BackDrop.CENTER) {
             mRobot.mDrive.setPower(0, 0.5, 0);
