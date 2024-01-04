@@ -4,9 +4,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.subsystems.Robot;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorMRColor;
+
 @Autonomous
 public class RedAutonomus extends LinearOpMode {
     Robot mRobot = new Robot();
+
+    enum BackDrop {
+        LEFT, RIGHT, CENTER
+    }
+
+    RedAutonomus.BackDrop side;
 
     public void runOpMode() throws InterruptedException {
 
@@ -19,24 +27,63 @@ public class RedAutonomus extends LinearOpMode {
         long tile = 830;
         long side_tile = 2300;
 
-        mRobot.mDrive.setPower(-0.5, 0, 0);
-        sleep(2500);
-        mRobot.mLift.score_position();
-        mRobot.mDrive.setPower(0, 0.5, 0);
-//        mRobot.mIntake.on();
-        mRobot.mDrive.reset_encoder();
-        while (mRobot.mDrive.front_encoder() < 1150 && opModeIsActive()) sleep(50);
-        mRobot.mDrive.setPower(0, 0, 0);
-        mRobot.mDrive.brake();
-        sleep(500);
-        mRobot.mDrive.setPower(0, 0, 0);
-        mRobot.mDrive.brake();
-        mRobot.mLift.set_Grabber_Open(true, true);
-        sleep(500);
-        mRobot.mDrive.setPower(0, -0.5, 0);
-        sleep(500);
-        mRobot.mDrive.setPower(0.5, 0, 0);
-        sleep(2000);
+        if(side == RedAutonomus.BackDrop.LEFT) {
+
+        }
+
+        if(side == RedAutonomus.BackDrop.CENTER) {
+            mRobot.mDrive.setPower(0, 0.5, 0);
+            sleep(830);
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0.5, 0, 0);
+            sleep(side_tile);
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0, 0, 0.5);
+            sleep(???);
+            mRobot.mDrive.brake();
+            mRobot.mLift.score_position();
+            mRobot.mDrive.setPower(0, 0.5, 0);
+            sleep(450);
+            mRobot.mDrive.brake();
+            mRobot.mLift.set_Grabber_Open(true, true);
+            mRobot.mLift.intake_position();
+            mRobot.mDrive.setPower(-0.5, 0, 0);
+            sleep(2500);
+            mRobot.mDrive.brake();
+            mRobot.mDrive.setPower(0, 0.5, 0);
+            sleep(500);
+            mRobot.mDrive.brake();
+        }
+
+        if(side == RedAutonomus.BackDrop.RIGHT) {
+
+        }
+
+
+
+
+
+
+
+
+//        mRobot.mDrive.setPower(-0.5, 0, 0);
+//        sleep(2500);
+//        mRobot.mLift.score_position();
+//        mRobot.mDrive.setPower(0, 0.5, 0);
+////        mRobot.mIntake.on();
+//        mRobot.mDrive.reset_encoder();
+//        while (mRobot.mDrive.front_encoder() < 1150 && opModeIsActive()) sleep(50);
+//        mRobot.mDrive.setPower(0, 0, 0);
+//        mRobot.mDrive.brake();
+//        sleep(500);
+//        mRobot.mDrive.setPower(0, 0, 0);
+//        mRobot.mDrive.brake();
+//        mRobot.mLift.set_Grabber_Open(true, true);
+//        sleep(500);
+//        mRobot.mDrive.setPower(0, -0.5, 0);
+//        sleep(500);
+//        mRobot.mDrive.setPower(0.5, 0, 0);
+//        sleep(2000);
 
 
     }
