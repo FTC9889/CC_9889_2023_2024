@@ -1,5 +1,6 @@
 package com.team9889.ftc2023.subsystems;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Robot {
@@ -17,6 +18,12 @@ public class Robot {
         mLift.init(hardwareMap);
         mHanger.init(hardwareMap);
 //        mdrone.init(hardwareMap);
+    }
+    public void encoder(double distance, LinearOpMode opMode){
+        while (Math.abs(mDrive.front_encoder()) < distance && opMode.opModeIsActive()) opMode.sleep(10);
+        mDrive.brake();
+        mDrive.reset_encoder();
+
     }
 
 }
