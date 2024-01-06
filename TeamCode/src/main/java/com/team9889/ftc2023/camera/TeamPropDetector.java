@@ -7,10 +7,10 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
-public class EasyOpenCVCamera extends OpenCvPipeline {
+public class TeamPropDetector extends OpenCvPipeline {
     Telemetry telemetry;
 
-    public EasyOpenCVCamera(Telemetry telemetry) {
+    public TeamPropDetector(Telemetry telemetry) {
         this.telemetry = telemetry;
     }
 
@@ -52,18 +52,23 @@ public class EasyOpenCVCamera extends OpenCvPipeline {
 
     @Override
     public Mat processFrame(Mat input) {
-         Rect LEFT_BOI = new Rect(
+         Rect LEFT_ROI = new Rect(
                 new Point(x1, y1),
                 new Point(x2, y2)
         );
+         Rect CENTER_ROI = new Rect(
+                 new Point(400,50),
+                 new Point(800, 100)
+         );
 
-        Rect RIGHT_BOI = new Rect(
+        Rect RIGHT_ROI = new Rect(
                 new Point(0, 0),
                 new Point(100, 100)
         );
 
-        Mat left = input.submat(LEFT_BOI);
-        Mat right = input.submat(RIGHT_BOI);
+        Mat left = input.submat(LEFT_ROI);
+        Mat right = input.submat(RIGHT_ROI);
+        Mat center = input.submat(CENTER_ROI);
         /*
          * Converts our input mat from RGB to YCrCb.
          * EOCV ALWAYS returns RGB mats, so you'd
@@ -117,19 +122,37 @@ public class EasyOpenCVCamera extends OpenCvPipeline {
          * the threshold range.
          */
 
-        Imgproc.rectangle(input, LEFT_BOI, new Scalar(255, 0, 0));
+        Imgproc.rectangle(input, LEFT_ROI, new Scalar(255, 0, 0));
+        Imgproc.rectangle(input, CENTER_ROI, new Scalar(255, 0, 0));
+        Imgproc.rectangle(input, RIGHT_ROI, new Scalar(255, 0, 0));
 
 //        double leftvalue = Core.sumElems(left).val[0] / LEFT_BOI.area() / 255;
 //        double rightvalue = Core.sumElems(right).val[0] / RIGHT_BOI.area() / 255;
 //        left.release();
 //        right.release();
-        telemetry.addData("Left raw value", (int) Core.sumElems(left).val[0]/ LEFT_BOI.area() / 255);
-        telemetry.addData("Left raw value1", (int) Core.sumElems(left).val[1]/ LEFT_BOI.area() / 255);
-        telemetry.addData("Left raw value2", (int) Core.sumElems(left).val[2]/ LEFT_BOI.area() / 255);
+        telemetry.addData("Left raw value", (int) Core.sumElems(left).val[0]/ LEFT_ROI.area() / 255);
+        telemetry.addData("Left raw value1", (int) Core.sumElems(left).val[1]/ LEFT_ROI.area() / 255);
+        telemetry.addData("Left raw value2", (int) Core.sumElems(left).val[2]/ LEFT_ROI.area() / 255);
 //        telemetry.addData("Left percentage", Math.round(leftvalue * 100) + "%");
         telemetry.addData("Right raw value", (int) Core.sumElems(right).val[0]);
 //        telemetry.addData("Right percentage", Math.round(rightvalue * 100) + "%");
         telemetry.update();
+        telemetry.addData("Left raw value", (int) Core.sumElems(left).val[0]/ CENTER_ROI.area() / 255);
+        telemetry.addData("Left raw value1", (int) Core.sumElems(left).val[1]/ CENTER_ROI.area() / 255);
+        telemetry.addData("Left raw value2", (int) Core.sumElems(left).val[2]/CENTER_ROI.area() / 255);
+//        telemetry.addData("Left percentage", Math.round(leftvalue * 100) + "%");
+        telemetry.addData("Right raw value", (int) Core.sumElems(right).val[0]);
+//        telemetry.addData("Right percentage", Math.round(rightvalue * 100) + "%");
+        telemetry.update();
+        telemetry.addData("Left raw value", (int) Core.sumElems(left).val[0]/ RIGHT_ROI.area() / 255);
+        telemetry.addData("Left raw value1", (int) Core.sumElems(left).val[1]/ RIGHT_ROI.area() / 255);
+        telemetry.addData("Left raw value2", (int) Core.sumElems(left).val[2]/ RIGHT_ROI.area() / 255);
+//        telemetry.addData("Left percentage", Math.round(leftvalue * 100) + "%");
+        telemetry.addData("Right raw value", (int) Core.sumElems(right).val[0]);
+//        telemetry.addData("Right percentage", Math.round(rightvalue * 100) + "%");
+        telemetry.update();
+
+
         return input;
     }
 }
