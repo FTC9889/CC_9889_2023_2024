@@ -5,9 +5,13 @@ import static java.lang.Math.PI;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.team9889.lib.hardware.RevIMU;
 
 public class Drive { DcMotor leftFront, rightFront, leftBack, rightBack;
 //init hardware
+RevIMU imu;
+
     public void init(HardwareMap hardwareMap){
         leftFront=hardwareMap.dcMotor.get("LF");
         rightFront=hardwareMap.dcMotor.get("RF");
@@ -15,6 +19,8 @@ public class Drive { DcMotor leftFront, rightFront, leftBack, rightBack;
         rightBack=hardwareMap.dcMotor.get("RB");
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        imu = new RevIMU("imu", hardwareMap);
 
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -34,6 +40,11 @@ public class Drive { DcMotor leftFront, rightFront, leftBack, rightBack;
         leftBack.setPower(LBPower);
         rightBack.setPower(RBPower);
     }
+
+    public double get_angle(){
+        return imu.getNormalHeading();
+    }
+
 
     public void setPower(double leftStickX, double leftStickY, double rightStickX){
         double r = Math.hypot(leftStickX, leftStickY);
