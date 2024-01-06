@@ -7,20 +7,19 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake {
     public DcMotor intake, extend;
+    public int extendPosition(){
+        return extend.getCurrentPosition();}
     public DigitalChannel digitalTouch;
     Servo vfb, gate;
     public void init(HardwareMap hardwareMap) {
         intake = hardwareMap.dcMotor.get("intake");
         extend = hardwareMap.dcMotor.get("extend");
         extend.setDirection(DcMotorSimple.Direction.REVERSE);
-
         vfb = hardwareMap.servo.get("vfb");
         gate = hardwareMap.servo.get("gate");
-
         digitalTouch = hardwareMap.digitalChannel.get("intakemagnet");
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
         extend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
     }
     //turn on intake
     //turn off intake
