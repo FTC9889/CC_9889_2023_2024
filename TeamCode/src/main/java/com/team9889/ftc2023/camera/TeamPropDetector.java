@@ -57,13 +57,13 @@ public class TeamPropDetector extends OpenCvPipeline {
                 new Point(x2, y2)
         );
          Rect CENTER_ROI = new Rect(
-                 new Point(400,50),
-                 new Point(800, 100)
+                 new Point(484,120),
+                 new Point(434, 170)
          );
 
         Rect RIGHT_ROI = new Rect(
-                new Point(0, 0),
-                new Point(100, 100)
+                new Point(1000, 250),
+                new Point(1050, 200)
         );
 
         Mat left = input.submat(LEFT_ROI);
