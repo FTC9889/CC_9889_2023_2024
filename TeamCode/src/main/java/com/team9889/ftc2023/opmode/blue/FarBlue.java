@@ -10,11 +10,8 @@ public class FarBlue extends LinearOpMode {
 
     Robot mRobot = new Robot();
 
-    enum BackDrop {
-        LEFT, RIGHT, CENTER
-    }
 
-    FarBlue.BackDrop side;
+    Robot.BackDrop side;
 
     public void runOpMode() throws InterruptedException {
 
@@ -22,7 +19,7 @@ public class FarBlue extends LinearOpMode {
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
 
-        side = BackDrop.CENTER;
+        side = Robot.BackDrop.CENTER;
 
         waitForStart();
 
@@ -58,7 +55,7 @@ public class FarBlue extends LinearOpMode {
 //            mRobot.mDrive.brake();
             
 //        }
-        if (side == FarBlue.BackDrop.CENTER){
+        if (side == Robot.BackDrop.CENTER){
             mRobot.mDrive.setPower(0, -0.5, 0);
             mRobot.encoder(ticks_per_inch * 28, this);
             mRobot.mDrive.setPower(0, 0, -0.2);

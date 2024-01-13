@@ -26,6 +26,10 @@ public class Robot {
 
     }
 
+    public enum BackDrop {
+        LEFT, RIGHT, CENTER
+    }
+
 }
 
 
