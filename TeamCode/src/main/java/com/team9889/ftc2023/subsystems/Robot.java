@@ -25,6 +25,7 @@ public class Robot {
         mDrive.reset_encoder();
 
     }
+    public double ticks_per_inch = 1.0 / ((((96.0/25.4) * Math.PI) * ((((double) 18) / ((double) 15)))) / 537.7);
 
 }
 

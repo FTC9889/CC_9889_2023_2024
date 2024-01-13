@@ -59,33 +59,27 @@ public class FarRed extends LinearOpMode {
 //        }
 
 //        if (side ==BackDrop.CENTER){
-//            mRobot.mDrive.setPower(0, 0.5, 0);
-//            mRobot.encoder(tile, this);
-//            mRobot.mDrive.setPower(0.5, 0, 0);
-//            sleep(2000);
-//            mRobot.mDrive.brake();
-//            mRobot.mDrive.setPower(0, 0.5, 0);
-//            mRobot.encoder(850, this);
-//            mRobot.mDrive.setPower(-0.5, 0, 0);
-//            sleep(8900);
-//            mRobot.mDrive.brake();
+//            mRobot.mIntake.vfbDown();
 //            mRobot.mDrive.setPower(0, -0.5, 0);
-//            mRobot.encoder(830, this);
-//            mRobot.mDrive.brake();
-//            mRobot.mDrive.reset_encoder();
+//            mRobot.encoder(ticks_per_inch * 28, this);
+//            mRobot.mIntake.slow_out();
+//            sleep(150);
+//            mRobot.mIntake.off();
+//            mRobot.mIntake.vfbUp();
 //            mRobot.mDrive.setPower(0, 0, 0.2);
-//            while (mRobot.mDrive.get_angle() < 90 && opModeIsActive()) sleep(10);
+//            while (mRobot.mDrive.get_angle() > -90 && opModeIsActive()) sleep(10);
 //            mRobot.mDrive.brake();
-//            mRobot.mLift.score_position();
 //            mRobot.mDrive.setPower(0, 0.5, 0);
-//            mRobot.encoder(800, this);
+//            mRobot.encoder((int) (tile * 2), this);
+//            mRobot.mLift.score_position();
+//            mRobot.encoder(tile + 200, this);
 //            mRobot.mLift.set_Grabber_Open(true, true);
 //            sleep(500);
 //            mRobot.mLift.intake_position();
 //            mRobot.mDrive.setPower(-0.5, 0, 0);
 //            sleep(2500);
 //            mRobot.mDrive.brake();
-//            mRobot.mDrive.setPower(0, 0.5, 0);
+//            mRobot.mDrive.setPower(0, -0.5, 0);
 //            mRobot.encoder(700, this);
 //            mRobot.mDrive.setPower(0, 0, 0);
 //        }

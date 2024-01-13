@@ -61,6 +61,7 @@ public class Intake {
     public void out() {
         intake.setPower(-1);
     }
+    public void slow_out() {intake.setPower(-0.25);}
 
     public void openGate(){
         gate.setPosition(.65);
