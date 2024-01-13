@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.opmode.red.FarRed;
 import com.team9889.ftc2023.subsystems.Robot;
+import com.team9889.ftc2023.subsystems.Robot.BackDrop;
+
 @Autonomous
 public class FarBlue extends LinearOpMode {
 
@@ -11,8 +13,7 @@ public class FarBlue extends LinearOpMode {
     Robot mRobot = new Robot();
 
 
-    FarBlue.BackDrop side;
-    Robot.BackDrop side;
+    BackDrop side;
 
     public void runOpMode() throws InterruptedException {
 
@@ -23,6 +24,7 @@ public class FarBlue extends LinearOpMode {
         mRobot.mIntake.closeGate();
 
         side = BackDrop.RIGHT;
+
 
         waitForStart();
 
@@ -56,11 +58,8 @@ public class FarBlue extends LinearOpMode {
 //            mRobot.mDrive.brake();
             
 //        }
-<<<<<<< HEAD
-        if (side == FarBlue.BackDrop.CENTER){
-            mRobot.mIntake.vfbDown();
-=======
->>>>>>> 4a1c03f0b9d05a29cc37514e2cdb14d4bc93d3e7
+
+        if (side == BackDrop.CENTER){
             mRobot.mDrive.setPower(0, -0.5, 0);
             mRobot.encoder(mRobot.ticks_per_inch * 28, this);
             mRobot.mIntake.slow_out();
@@ -85,7 +84,7 @@ public class FarBlue extends LinearOpMode {
             mRobot.mDrive.setPower(0, 0, 0);
         }
 
-        else if (side == FarBlue.BackDrop.RIGHT) {
+        else if (side ==   BackDrop.RIGHT) {
             mRobot.mDrive.setPower(-0.2, 0, -0.2, 0);
             while (mRobot.mDrive.get_angle() > -15 && opModeIsActive()) {
                 sleep(10);
