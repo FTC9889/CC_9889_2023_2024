@@ -71,6 +71,7 @@ setPower(v1,v2,v3,v4);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE );
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE );
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE );
+        setPower(0, 0, 0);
     }
 }
 
