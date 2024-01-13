@@ -30,6 +30,8 @@ public class TeamPropDetector extends OpenCvPipeline {
         Rect RIGHT_ROI = null;
          if(red){
 
+
+             //red
              //change numbers later...
              LEFT_ROI = new Rect(
                      new Point(600, 500),
@@ -39,6 +41,7 @@ public class TeamPropDetector extends OpenCvPipeline {
                      new Point(1000, 250),
                      new Point(1050, 200)
              );
+             //blue
          }else{
              LEFT_ROI = new Rect(
                      new Point(600, 500),

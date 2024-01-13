@@ -18,6 +18,7 @@ public class FarBlue extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         mRobot.init(hardwareMap);
+        mRobot.init_camera(hardwareMap, telemetry, false);
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
         mRobot.mIntake.vfbUp();
@@ -25,8 +26,14 @@ public class FarBlue extends LinearOpMode {
 
         side = BackDrop.RIGHT;
 
+<<<<<<< Updated upstream
 
         waitForStart();
+=======
+        waitForStart();
+        side = mRobot.teamPropDetector.side;
+        double ticks_per_inch = (537.7 * 18. / 15.) / (Math.PI * (96.0 / 25.4));
+>>>>>>> Stashed changes
 
         int tile = 830;
         long side_tile = 2300;
