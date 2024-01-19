@@ -35,7 +35,7 @@ public class TestAprilTag extends LinearOpMode {
 
 
 
-        int backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
+        int backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
         while (Math.abs(backdrop_postion) > 5) {
 
             if (backdrop_postion > 5){
@@ -45,7 +45,7 @@ public class TestAprilTag extends LinearOpMode {
             } else if (backdrop_postion == 6) {
                 mRobot.mDrive.setPower(0, 0, 0);
             }
-            backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
+            backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
             telemetry.addData("backdrop", backdrop_postion);
             telemetry.update();
             sleep(20);

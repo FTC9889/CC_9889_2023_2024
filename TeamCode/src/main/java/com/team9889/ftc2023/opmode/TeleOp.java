@@ -18,18 +18,6 @@ public class TeleOp extends LinearOpMode {
             // Drive Code
             mRobot.mDrive.setPower(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x * 0.85);
 
-            // Toggle Intake On
-//            if (gamepad1.a && intakeToggle){
-//                mRobot.mIntake.on();
-//                intakeOn=! intakeOn;
-//                intakeToggle=false;
-//            } else if (! gamepad1.a){
-//                intakeToggle=true;
-//            }
-//
-//            if (intakeOn) mRobot.mIntake.on();
-//            else mRobot.mIntake.off();
-
             if (gamepad1.left_bumper) mRobot.mLift.set_Grabber_Open(true, true, true);
             else if (gamepad2.dpad_left)  mRobot.mLift.set_Grabber_Open(true,false, true);
             else if (gamepad2.dpad_right) mRobot.mLift.set_Grabber_Open(false,true, true);
@@ -39,7 +27,19 @@ public class TeleOp extends LinearOpMode {
             else if (gamepad2.left_trigger > 0.1) mRobot.mIntake.stopIntake();
             else if (gamepad2.dpad_up) mRobot.mIntake.out();
 
-            mRobot.mIntake.setPower(-gamepad2.left_stick_y);
+
+            if (gamepad2.dpad_down) {
+                mRobot.mHanger.down();
+                mRobot.mIntake.vfbUp();
+                mRobot.mIntake.off();
+                mRobot.mIntake.setPower(-0.2);
+            } else if (gamepad2.left_trigger > 0.1) {
+                mRobot.mHanger.up();
+                mRobot.mIntake.setPower(-gamepad2.left_stick_y);
+            }else {
+                mRobot.mIntake.setPower(-gamepad2.left_stick_y);
+                mRobot.mHanger.off();
+            }
 
             if (gamepad2.right_bumper) mRobot.mLift.score_position();
             else if (gamepad2.left_bumper) mRobot.mLift.intake_position();
@@ -53,6 +53,10 @@ public class TeleOp extends LinearOpMode {
             }
 
             mRobot.mLift.setPower(-gamepad2.right_stick_y);
+
+            if (gamepad2.left_stick_button && gamepad2.right_stick_button  && gamepad1.left_stick_button && gamepad1.right_stick_button){
+                mRobot.mDrone.shoot();
+            }
 
             sleep(10);
 

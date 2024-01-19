@@ -100,7 +100,9 @@ public class AprilTagBackdrop {
 
     /**
      * Add telemetry about AprilTag detections.
-     */int lastDetection = 6;
+     */
+
+    int lastDetection = 6;
     public int detect_backdrop_center() {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -119,4 +121,42 @@ public class AprilTagBackdrop {
 
         return lastDetection;
     }
+    public int detect_backdrop_left() {
+
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+
+        for (AprilTagDetection detection : currentDetections) {
+
+            if (detection.id == 4 || detection.id == 1) {
+                int error = -(int) (280 - detection.center.x);
+                lastDetection = error;
+            } else {
+                if (detection.id == 5 || detection.id == 2
+                        || detection.id == 6 || detection.id == 3) lastDetection = -200;
+                else lastDetection = 201;
+            }
+        }
+
+        return lastDetection;
+    }
+    public int detect_backdrop_right() {
+
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+
+        for (AprilTagDetection detection : currentDetections) {
+
+            if (detection.id == 6 || detection.id == 3) {
+                int error = -(int) (280 - detection.center.x);
+                lastDetection = error;
+            } else {
+                if (detection.id == 5 || detection.id == 2
+                        || detection.id == 4 || detection.id == 1) lastDetection = 200;
+                else lastDetection = 201;
+            }
+        }
+
+        return lastDetection;
+    }
+
+
 }

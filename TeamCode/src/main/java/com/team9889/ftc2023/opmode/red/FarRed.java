@@ -69,7 +69,7 @@ public class FarRed extends LinearOpMode {
             mRobot.mDrive.setPower(0, 0.3, 0, 0.3);
             sleep(700);
             mRobot.mDrive.setPower(0, 0.5, 0);
-            sleep(500);
+            sleep(700);
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.setPower(0, -0.5, 0);
             mRobot.encoder(tile * 2 + 200, this);
@@ -104,11 +104,24 @@ public class FarRed extends LinearOpMode {
             }
             mRobot.mDrive.brake();
             mRobot.mDrive.reset_encoder();
-            sleep(Math.max((long) (30000 - 7000 - Timer.milliseconds()), 0));
+            sleep(Math.max((long) (30000 - 9000 - Timer.milliseconds()), 0));
             mRobot.mDrive.setPower(0.5, 0, 0);
-            sleep(side_tile - 700);
-            mRobot.mDrive.setPower(0, 0, 0);
+            sleep(200);
+
+            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_left();
+            while (Math.abs(backdrop_postion) > 5) {
+
+                if (backdrop_postion > 5){
+                    mRobot.mDrive.setPower(0.35, 0, 0);
+                }else if(backdrop_postion < -5){
+                    mRobot.mDrive.setPower(-0.35, 0, 0);
+                }
+                backdrop_postion = mRobot.mBackdrop.detect_backdrop_left();
+            }
             mRobot.mDrive.brake();
+
+            mRobot.mBackdrop.visionPortal.stopStreaming();
+            sleep(250);
             sleep(350);
             mRobot.mLift.score_position_second_level();
             sleep(750);
@@ -282,8 +295,21 @@ public class FarRed extends LinearOpMode {
             mRobot.mDrive.reset_encoder();
             sleep(Math.max((long) (30000 - 8000 - Timer.milliseconds()), 0));
             mRobot.mDrive.setPower(0.5, 0, 0);
-            sleep(side_tile + 200);
+            sleep(side_tile);
             mRobot.mDrive.brake();
+            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
+            while (Math.abs(backdrop_postion) > 5) {
+
+                if (backdrop_postion > 5){
+                    mRobot.mDrive.setPower(0.4, 0, 0);
+                }else if(backdrop_postion < -5){
+                    mRobot.mDrive.setPower(-0.4, 0, 0);
+                }
+                backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
+            }
+            mRobot.mDrive.brake();
+
+            mRobot.mBackdrop.visionPortal.stopStreaming();
             sleep(500);
             mRobot.mLift.score_position_second_level();
             sleep(750);

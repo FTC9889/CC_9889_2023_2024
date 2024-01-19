@@ -21,7 +21,7 @@ public class Robot {
 
     public ScoringLift mLift = new ScoringLift();
     public Hanger mHanger = new Hanger();
-    public Drone mdrone = new Drone();
+    public Drone mDrone = new Drone();
 
     OpenCvWebcam webcam1;
     public TeamPropDetector teamPropDetector;
@@ -31,7 +31,7 @@ public class Robot {
         mIntake.init(hardwareMap);
         mLift.init(hardwareMap);
         mHanger.init(hardwareMap);
-//        mdrone.init(hardwareMap);
+        mDrone.init(hardwareMap);
     }
 
     public void init_camera(HardwareMap hardwareMap, Telemetry telemetry, boolean red) {
