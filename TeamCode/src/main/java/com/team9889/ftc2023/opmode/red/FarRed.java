@@ -3,6 +3,7 @@ package com.team9889.ftc2023.opmode.red;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2023.subsystems.Robot;
 
 
@@ -10,29 +11,40 @@ import com.team9889.ftc2023.subsystems.Robot;
 public class FarRed extends LinearOpMode {
     Robot mRobot = new Robot();
 
-    enum BackDrop {
-        LEFT, RIGHT, CENTER
-    }
+    ElapsedTime Timer = new ElapsedTime();
 
-    BackDrop side;
+    Robot.BackDrop side;
 
     public void runOpMode() throws InterruptedException {
 
         mRobot.init(hardwareMap);
-        mRobot.mLift.initPosition();
-        mRobot.mLift.set_Grabber_Open(false, false);
+        mRobot.init_camera(hardwareMap, telemetry, true);
 
-        side = BackDrop.CENTER;
-        //mRobot = cool
-        //Ivan = also cool
+        mRobot.mLift.initPosition();
+
+        mRobot.mLift.set_Grabber_Open(false, false);
+        mRobot.mIntake.vfbUp();
+        mRobot.mIntake.closeGate();
+
+
+
         waitForStart();
+        Timer.reset();
+
+        side = mRobot.teamPropDetector.side;
+        side= Robot.BackDrop.RIGHT;
+        mRobot.mLift.set_Grabber_Open(true, true);
+        mRobot.stop_team_prop_scanner();
+        sleep(100);
+        mRobot.mLift.set_Grabber_Open(false, false);
+        mRobot.mBackdrop.initAprilTag(hardwareMap);
+
         int tile = 830;
         long side_tile = 2300;
 
-
-        if(side == BackDrop.LEFT) {
+        if(side == Robot.BackDrop.LEFT) {
             mRobot.mDrive.setPower(0, -0.2, 0, -0.2);
-            while (mRobot.mDrive.get_angle() < 27 && opModeIsActive()) {
+            while (mRobot.mDrive.get_angle() < 13 && opModeIsActive()) {
                 sleep(10);
                 telemetry.addData("Angle" , mRobot.mDrive.get_angle());
                 telemetry.update();
@@ -43,7 +55,7 @@ public class FarRed extends LinearOpMode {
             mRobot.mIntake.setPower(0.5);
             sleep(200);
             mRobot.mIntake.vfbDown();
-            sleep(500);
+            sleep(600);
             mRobot.mIntake.setPower(0);
             mRobot.mIntake.vfbDown();
             sleep(700);
@@ -52,17 +64,17 @@ public class FarRed extends LinearOpMode {
             mRobot.mIntake.off();
             mRobot.mIntake.vfbUp();
             mRobot.mIntake.setPower(-0.5);
-            sleep(1000);
+            sleep(900);
             mRobot.mIntake.setPower(0);
             mRobot.mDrive.setPower(0, 0.3, 0, 0.3);
-            sleep(900);
+            sleep(700);
             mRobot.mDrive.setPower(0, 0.5, 0);
             sleep(500);
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.setPower(0, -0.5, 0);
             mRobot.encoder(tile * 2 + 200, this);
             mRobot.mDrive.setPower(0, 0, 0.2);
-            while (mRobot.mDrive.get_angle() > -92 && opModeIsActive()){
+            while (mRobot.mDrive.get_angle() < 85 && opModeIsActive()){
                 sleep(10);
                 telemetry.addData("Angle", mRobot.mDrive.get_angle());
                 telemetry.update();
@@ -70,19 +82,38 @@ public class FarRed extends LinearOpMode {
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.brake();
             mRobot.mDrive.setPower(0, 0.5, 0);
-            mRobot.encoder(tile * 4 , this);
+            mRobot.encoder(tile * 4 - 400, this);
             mRobot.mDrive.setPower(0, 0,0);
             mRobot.mDrive.brake();
-            sleep(7000);
+            if(mRobot.mDrive.get_angle() < 90) {
+                mRobot.mDrive.setPower(0, 0, 0.2);
+                while (mRobot.mDrive.get_angle() < 94 && opModeIsActive()) {
+                    telemetry.addData("gyro", mRobot.mDrive.get_angle());
+                    telemetry.update();
+                    sleep(10);
+                }
+                mRobot.mDrive.brake();
+                mRobot.mDrive.reset_encoder();
+            }
+
+            mRobot.mDrive.setPower(0, 0, -0.2);
+            while (mRobot.mDrive.get_angle() > 87 && opModeIsActive()) {
+                telemetry.addData("gyro", mRobot.mDrive.get_angle());
+                telemetry.update();
+                sleep(10);
+            }
+            mRobot.mDrive.brake();
+            mRobot.mDrive.reset_encoder();
+            sleep(Math.max((long) (30000 - 7000 - Timer.milliseconds()), 0));
             mRobot.mDrive.setPower(0.5, 0, 0);
-            sleep(side_tile);
+            sleep(side_tile - 700);
             mRobot.mDrive.setPower(0, 0, 0);
             mRobot.mDrive.brake();
             sleep(350);
             mRobot.mLift.score_position_second_level();
             sleep(750);
             mRobot.mDrive.setPower(0, 0.5, 0);
-            sleep(400);
+            sleep(600);
             mRobot.mDrive.setPower(0, 0, 0);
             mRobot.mDrive.brake();
             sleep(500);
@@ -102,39 +133,85 @@ public class FarRed extends LinearOpMode {
 
         }
 
-        if (side ==BackDrop.CENTER){
+            else if (side == Robot.BackDrop.CENTER){
             mRobot.mIntake.setPower(0.5);
             sleep(250);
             mRobot.mIntake.setPower(0);
             mRobot.mIntake.vfbDown();
+            telemetry.addData("gyro", mRobot.mDrive.get_angle());
+            telemetry.update();
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.setPower(0, -0.5, 0);
             mRobot.encoder(mRobot.ticks_per_inch * 16, this);
             mRobot.mIntake.slow_out();
+            telemetry.addData("gyro", mRobot.mDrive.get_angle());
+            telemetry.update();
             sleep(1000);
             mRobot.mIntake.off();
             mRobot.mIntake.vfbUp();
             mRobot.mIntake.setPower(-0.5);
             sleep(350);
             mRobot.mIntake.setPower(0);
+            telemetry.addData("gyro", mRobot.mDrive.get_angle());
+            telemetry.update();
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.setPower(0, -0.5, 0);
-            mRobot.encoder(225, this);
+            mRobot.encoder(200, this);
             mRobot.mDrive.setPower(0, 0, 0.2);
-            while (mRobot.mDrive.get_angle() > -92 && opModeIsActive()) sleep(10);
+            while (mRobot.mDrive.get_angle() < 87 && opModeIsActive()) {
+                telemetry.addData("gyro", mRobot.mDrive.get_angle());
+                telemetry.update();
+                sleep(10);
+            }
             mRobot.mDrive.brake();
             mRobot.mDrive.reset_encoder();
 
+
             // sleep(15000);
             mRobot.mDrive.setPower(0, 0.5, 0);
-            mRobot.encoder((int) (tile * 4), this);
+            mRobot.encoder((int) (tile * 4) - 200, this);
             mRobot.mLift.score_position_second_level();
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.setPower(-0.5, 0, 0);
             sleep(200);
             mRobot.mDrive.brake();
-            mRobot.mDrive.setPower(0, 0.5, 0);
-            sleep(200);
+
+            if(mRobot.mDrive.get_angle() < 90) {
+                mRobot.mDrive.setPower(0, 0, 0.2);
+                while (mRobot.mDrive.get_angle() < 94 && opModeIsActive()) {
+                    telemetry.addData("gyro", mRobot.mDrive.get_angle());
+                    telemetry.update();
+                    sleep(10);
+                }
+                mRobot.mDrive.brake();
+                mRobot.mDrive.reset_encoder();
+            }
+
+            mRobot.mDrive.setPower(0, 0, -0.2);
+            while (mRobot.mDrive.get_angle() > 90 && opModeIsActive()) {
+                telemetry.addData("gyro", mRobot.mDrive.get_angle());
+                telemetry.update();
+                sleep(10);
+            }
+            mRobot.mDrive.brake();
+            mRobot.mDrive.reset_encoder();
+
+            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
+            while (Math.abs(backdrop_postion) > 5) {
+
+                if (backdrop_postion > 5){
+                    mRobot.mDrive.setPower(0.4, 0, 0);
+                }else if(backdrop_postion < -5){
+                    mRobot.mDrive.setPower(-0.4, 0, 0);
+                }
+                backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
+            }
+            mRobot.mDrive.brake();
+
+            mRobot.mBackdrop.visionPortal.stopStreaming();
+            sleep(250);
+            mRobot.mDrive.setPower(0, 0.25, 0);
+            sleep(1700);
             mRobot.mDrive.brake();
             sleep(500);
             mRobot.mLift.set_Grabber_Open(true, true);
@@ -144,9 +221,9 @@ public class FarRed extends LinearOpMode {
             sleep(500);
         }
 
-        if (side == BackDrop.RIGHT) {
+        if (side == Robot.BackDrop.RIGHT) {
             mRobot.mDrive.setPower(-0.2, 0, -0.2, 0);
-            while (mRobot.mDrive.get_angle() > -16 && opModeIsActive()) {
+            while (mRobot.mDrive.get_angle() > -32 && opModeIsActive()) {
                 sleep(10);
                 telemetry.addData("Angle" , mRobot.mDrive.get_angle());
                 telemetry.update();
@@ -155,26 +232,25 @@ public class FarRed extends LinearOpMode {
             mRobot.mDrive.setPower(0,0,0);
             mRobot.mDrive.brake();
             mRobot.mIntake.setPower(0.5);
-            sleep(500);
-            mRobot.mIntake.setPower(0);
             mRobot.mIntake.vfbDown();
-            sleep(500);
+            sleep(350);
+            mRobot.mIntake.setPower(0);
             mRobot.mIntake.slow_out();
             sleep(1000);
             mRobot.mIntake.off();
             mRobot.mIntake.vfbUp();
             mRobot.mIntake.setPower(-0.5);
-            sleep(1000);
+            sleep(450);
             mRobot.mIntake.setPower(0);
             mRobot.mDrive.setPower(0.3, 0, 0.3, 0);
-            sleep(750);
+            sleep(900);
             mRobot.mDrive.setPower(0, 0.5, 0);
-            sleep(500);
+            sleep(700);
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.setPower(0, -0.5, 0);
-            mRobot.encoder(tile * 2 + 200, this);
+            mRobot.encoder(tile * 2 + 300-150, this);
             mRobot.mDrive.setPower(0, 0, 0.2);
-            while (mRobot.mDrive.get_angle() > -92 && opModeIsActive()){
+            while (mRobot.mDrive.get_angle() < 84 && opModeIsActive()){
                 sleep(10);
                 telemetry.addData("Angle", mRobot.mDrive.get_angle());
                 telemetry.update();
@@ -182,24 +258,45 @@ public class FarRed extends LinearOpMode {
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.brake();
             mRobot.mDrive.setPower(0, 0.5, 0);
-            mRobot.encoder(tile * 4 , this);
+            mRobot.encoder(tile * 4 - 400 , this);
             mRobot.mDrive.setPower(0, 0,0);
             mRobot.mDrive.brake();
-            sleep(7000);
+            if(mRobot.mDrive.get_angle() < 87.5) {
+                mRobot.mDrive.setPower(0, 0, 0.2);
+                while (mRobot.mDrive.get_angle() < 94 && opModeIsActive()) {
+                    telemetry.addData("gyro", mRobot.mDrive.get_angle());
+                    telemetry.update();
+                    sleep(10);
+                }
+                mRobot.mDrive.brake();
+                mRobot.mDrive.reset_encoder();
+            }
+
+            mRobot.mDrive.setPower(0, 0, -0.2);
+            while (mRobot.mDrive.get_angle() > 87 && opModeIsActive()) {
+                telemetry.addData("gyro", mRobot.mDrive.get_angle());
+                telemetry.update();
+                sleep(10);
+            }
+            mRobot.mDrive.brake();
+            mRobot.mDrive.reset_encoder();
+            sleep(Math.max((long) (30000 - 8000 - Timer.milliseconds()), 0));
             mRobot.mDrive.setPower(0.5, 0, 0);
-            sleep(side_tile - 850);
-            mRobot.mDrive.setPower(0, 0, 0);
+            sleep(side_tile + 200);
             mRobot.mDrive.brake();
             sleep(500);
             mRobot.mLift.score_position_second_level();
             sleep(750);
             mRobot.mDrive.setPower(0, 0.5, 0);
-            sleep(400);
+            sleep(350);
+            mRobot.mDrive.setPower(0, 0.25, 0);
+            sleep(700);
             mRobot.mDrive.setPower(0, 0, 0);
             mRobot.mDrive.brake();
             sleep(500);
             mRobot.mLift.set_Grabber_Open(true, true);
             sleep(1000);
+
 //            mRobot.mIntake.setPower(0.5);
 //            sleep(500);
 //            mRobot.mIntake.setPower(0);
@@ -211,6 +308,9 @@ public class FarRed extends LinearOpMode {
 //            sleep(500);
 //            mRobot.mIntake.setPower(0);
 //            sleep(50);
+            mRobot.mDrive.setPower(0, 0.5, 0);
+            sleep(200);
+            mRobot.mDrive.brake();
 
         }
 

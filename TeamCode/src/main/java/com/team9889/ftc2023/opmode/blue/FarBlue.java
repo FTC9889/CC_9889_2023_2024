@@ -24,12 +24,10 @@ public class FarBlue extends LinearOpMode {
         mRobot.mIntake.vfbUp();
         mRobot.mIntake.closeGate();
 
-        side = BackDrop.CENTER;
 
-        telemetry.addData("gyro", mRobot.mDrive.get_angle());
-        telemetry.update();
+
         waitForStart();
-//        side = mRobot.teamPropDetector.side;
+        side = mRobot.teamPropDetector.side;
 
         mRobot.stop_team_prop_scanner();
         sleep(100);
@@ -62,7 +60,7 @@ public class FarBlue extends LinearOpMode {
             telemetry.update();
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.setPower(0, -0.5, 0);
-            mRobot.encoder(225, this);
+            mRobot.encoder(150, this);
             mRobot.mDrive.setPower(0, 0, -0.2);
             while (mRobot.mDrive.get_angle() > -94 && opModeIsActive()) {
                 telemetry.addData("gyro", mRobot.mDrive.get_angle());
@@ -82,6 +80,26 @@ public class FarBlue extends LinearOpMode {
             sleep(200);
             mRobot.mDrive.brake();
 
+            if(mRobot.mDrive.get_angle() > -90) {
+                mRobot.mDrive.setPower(0, 0, -0.2);
+                while (mRobot.mDrive.get_angle() > -94 && opModeIsActive()) {
+                    telemetry.addData("gyro", mRobot.mDrive.get_angle());
+                    telemetry.update();
+                    sleep(10);
+                }
+                mRobot.mDrive.brake();
+                mRobot.mDrive.reset_encoder();
+            }
+
+            mRobot.mDrive.setPower(0, 0, 0.2);
+            while (mRobot.mDrive.get_angle() < -90 && opModeIsActive()) {
+                telemetry.addData("gyro", mRobot.mDrive.get_angle());
+                telemetry.update();
+                sleep(10);
+            }
+            mRobot.mDrive.brake();
+            mRobot.mDrive.reset_encoder();
+
             int backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
             while (Math.abs(backdrop_postion) > 5) {
 
@@ -97,7 +115,7 @@ public class FarBlue extends LinearOpMode {
             mRobot.mBackdrop.visionPortal.stopStreaming();
             sleep(250);
             mRobot.mDrive.setPower(0, 0.25, 0);
-            sleep(1200);
+            sleep(1700);
             mRobot.mDrive.brake();
             sleep(500);
             mRobot.mLift.set_Grabber_Open(true, true);

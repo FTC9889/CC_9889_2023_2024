@@ -86,7 +86,7 @@ public void set_Grabber_Open(boolean L,boolean R){
         GrabberL.setPosition(0.4);
     }
     if (R) {
-        GrabberR.setPosition(0.5944);
+        GrabberR.setPosition(0.622222222222222222222222222222222222222222222222222222222222222222);
 
     }  else {
         GrabberR.setPosition(0.4);

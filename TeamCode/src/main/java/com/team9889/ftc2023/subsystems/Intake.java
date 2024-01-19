@@ -72,7 +72,7 @@ public class Intake {
 
 boolean vfbUp=true;
     public void vfbUp(){
-        vfb.setPosition(0.65);
+        vfb.setPosition(0.6);
         vfbUp=true;
     }
     public void vfbDown(){

@@ -10,7 +10,7 @@ import com.team9889.lib.hardware.RevIMU;
 
 public class Drive { DcMotor leftFront, rightFront, leftBack, rightBack;
 //init hardware
-RevIMU imu;
+public RevIMU imu;
 
     public void init(HardwareMap hardwareMap){
         leftFront=hardwareMap.dcMotor.get("LF");

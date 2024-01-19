@@ -26,11 +26,9 @@ public class TeamPropDetector extends OpenCvPipeline {
     public Robot.BackDrop side = Robot.BackDrop.RIGHT;
     @Override
     public Mat processFrame(Mat input) {
-         Rect LEFT_ROI= null;
-        Rect RIGHT_ROI = null;
-         if(red){
+        Rect LEFT_ROI, RIGHT_ROI;
 
-
+        if(red){
              //red
              //change numbers later...
              LEFT_ROI = new Rect(
@@ -44,12 +42,12 @@ public class TeamPropDetector extends OpenCvPipeline {
              //blue
          }else{
              LEFT_ROI = new Rect(
-                     new Point(450, 250),
-                     new Point(550, 230));
+                     new Point(370, 260),
+                     new Point(530, 190));
 
              RIGHT_ROI = new Rect(
-                     new Point(1000, 270),
-                     new Point(1050, 220)
+                     new Point(1000, 300),
+                     new Point(1100, 220)
              );
          }
 
@@ -59,32 +57,29 @@ public class TeamPropDetector extends OpenCvPipeline {
         Imgproc.rectangle(input, LEFT_ROI, new Scalar(255, 0, 0));
         Imgproc.rectangle(input, RIGHT_ROI, new Scalar(255, 0, 0));
 
-        int leftred = (int) (Core.sumElems(left).val[0]/ LEFT_ROI.area() / 255);
-        int leftblue = (int) (Core.sumElems(left).val[2]/ LEFT_ROI.area() / 255);
-        int rightred = (int) (Core.sumElems(right).val[0]/ RIGHT_ROI.area() / 255);
-        int rightblue = (int) (Core.sumElems(right).val[2]/ RIGHT_ROI.area() / 255);
+        double leftred = (Core.sumElems(left).val[0]/ LEFT_ROI.area() / 255);
+        double leftgreen = (Core.sumElems(left).val[1]/ LEFT_ROI.area() / 255);
+        double leftblue = (Core.sumElems(left).val[2]/ LEFT_ROI.area() / 255);
+        double rightred = (Core.sumElems(right).val[0]/ RIGHT_ROI.area() / 255);
+        double rightgreen = (Core.sumElems(right).val[1]/ RIGHT_ROI.area() / 255);
+        double rightblue = (Core.sumElems(right).val[2]/ RIGHT_ROI.area() / 255);
 
-        telemetry.addData("Left blue value", leftblue);
-        telemetry.addData("Left red value1", leftred);
-        telemetry.addData("Right blue value", rightblue);
-        telemetry.addData("Right red value1", rightred);
-        telemetry.update();
+        double avarage_right = (rightgreen + rightblue + rightred) / 3.0;
+        double avarage_left = (leftgreen + leftblue + leftred) / 3.0;
+
 
         if (red){
-            int diff = Math.abs(leftred - rightred);
-            if (diff < 5){
+            double diff = Math.abs(leftred - rightred);
+            if (diff < 0.06){
                 side = Robot.BackDrop.LEFT;
             } else if(leftred < rightred) {
                 side = Robot.BackDrop.RIGHT;
-
-            }
-
-            else{
+            } else{
                 side = Robot.BackDrop.CENTER;
             }
         }else{
-            int diff = Math.abs(leftblue - rightblue);
-            if (diff < 5){
+            double diff = Math.abs(leftblue - rightblue);
+            if (diff < 0.05){
                 side = Robot.BackDrop.LEFT;
             } else if(leftblue < rightblue) {
                 side = Robot.BackDrop.RIGHT;
@@ -95,6 +90,19 @@ public class TeamPropDetector extends OpenCvPipeline {
                 side = Robot.BackDrop.CENTER;
             }
         }
+
+        telemetry.addData("Left blue value", leftblue);
+        telemetry.addData("Right blue value", rightblue);
+        telemetry.addData("Blue Diff", Math.abs(leftblue - rightblue));
+
+        telemetry.addData("Left red value", leftred);
+        telemetry.addData("Right red value", rightred);
+        telemetry.addData("Red Diff", Math.abs(leftred - rightred));
+
+        telemetry.addData("avg.right", avarage_right);
+        telemetry.addData("avg.left", avarage_left);
+        telemetry.addData("side", side.toString());
+        telemetry.update();
 
 
 

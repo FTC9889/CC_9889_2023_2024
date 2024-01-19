@@ -9,12 +9,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.SensorMRColor;
 @Autonomous
 public class RedAutonomus extends LinearOpMode {
     Robot mRobot = new Robot();
-
-    enum BackDrop {
-        LEFT, RIGHT, CENTER
-    }
-
-    RedAutonomus.BackDrop side;
+    Robot.BackDrop side;
 
     public void runOpMode() throws InterruptedException {
 

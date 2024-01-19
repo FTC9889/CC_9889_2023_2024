@@ -74,7 +74,20 @@ public class Robot {
     public double ticks_per_inch = 1.0 / ((((96.0/25.4) * Math.PI) * ((((double) 18) / ((double) 15)))) / 537.7);
 
     public enum BackDrop {
-        LEFT, RIGHT, CENTER
+        LEFT, RIGHT, CENTER;
+
+        public String toString(){
+            switch (this) {
+                case LEFT:
+                    return "LEFT";
+                case RIGHT:
+                    return "RIGHT";
+                case CENTER:
+                    return "CENTER";
+                default:
+                    return "";
+            }
+        }
     }
 
 }

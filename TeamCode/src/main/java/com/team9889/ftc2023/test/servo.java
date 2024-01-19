@@ -16,35 +16,35 @@ public class servo extends LinearOpMode{
         mRobot.init(hardwareMap);
 
         waitForStart();
-        while (!gamepad1.a){
-            mRobot.mIntake.vfbUp();
-        }
-        while (gamepad1.a) sleep(10);
-
-        while (!gamepad1.a){
-            mRobot.mIntake.vfbDown();
-        }
-        while (gamepad1.a) sleep(10);
-
-        while (!gamepad1.a){
-            mRobot.mIntake.openGate();
-        }
-        while (gamepad1.a) sleep(10);
-
-        while (!gamepad1.a){
-            mRobot.mIntake.closeGate();
-        }
-        while (gamepad1.a) sleep(10);
-
-        while (!gamepad1.a){
-            mRobot.mLift.intake_position();
-        }
-        while (gamepad1.a) sleep(10);
-
-        while (!gamepad1.a){
-            mRobot.mLift.score_position();
-        }
-        while (gamepad1.a) sleep(10);
+//        while (!gamepad1.a){
+//            mRobot.mIntake.vfbUp();
+//        }
+//        while (gamepad1.a) sleep(10);
+//
+//        while (!gamepad1.a){
+//            mRobot.mIntake.vfbDown();
+//        }
+//        while (gamepad1.a) sleep(10);
+//
+//        while (!gamepad1.a){
+//            mRobot.mIntake.openGate();
+//        }
+//        while (gamepad1.a) sleep(10);
+//
+//        while (!gamepad1.a){
+//            mRobot.mIntake.closeGate();
+//        }
+//        while (gamepad1.a) sleep(10);
+//
+//        while (!gamepad1.a){
+//            mRobot.mLift.intake_position();
+//        }
+//        while (gamepad1.a) sleep(10);
+//
+//        while (!gamepad1.a){
+//            mRobot.mLift.score_position();
+//        }
+//        while (gamepad1.a) sleep(10);
 
         while (!gamepad1.a){
             mRobot.mLift.set_Grabber_Open(true, true);
