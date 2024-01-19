@@ -26,10 +26,15 @@ public class FarBlue extends LinearOpMode {
 
         side = BackDrop.CENTER;
 
-
+        telemetry.addData("gyro", mRobot.mDrive.get_angle());
+        telemetry.update();
         waitForStart();
-        side = mRobot.teamPropDetector.side;
-        
+//        side = mRobot.teamPropDetector.side;
+
+        mRobot.stop_team_prop_scanner();
+        sleep(100);
+        mRobot.mBackdrop.initAprilTag(hardwareMap);
+
         int tile = 830;
         long side_tile = 2300;
 
@@ -39,34 +44,60 @@ public class FarBlue extends LinearOpMode {
             sleep(250);
             mRobot.mIntake.setPower(0);
             mRobot.mIntake.vfbDown();
+            telemetry.addData("gyro", mRobot.mDrive.get_angle());
+            telemetry.update();
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.setPower(0, -0.5, 0);
             mRobot.encoder(mRobot.ticks_per_inch * 16, this);
             mRobot.mIntake.slow_out();
+            telemetry.addData("gyro", mRobot.mDrive.get_angle());
+            telemetry.update();
             sleep(1000);
             mRobot.mIntake.off();
             mRobot.mIntake.vfbUp();
             mRobot.mIntake.setPower(-0.5);
             sleep(350);
             mRobot.mIntake.setPower(0);
+            telemetry.addData("gyro", mRobot.mDrive.get_angle());
+            telemetry.update();
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.setPower(0, -0.5, 0);
             mRobot.encoder(225, this);
             mRobot.mDrive.setPower(0, 0, -0.2);
-            while (mRobot.mDrive.get_angle() > -92 && opModeIsActive()) sleep(10);
+            while (mRobot.mDrive.get_angle() > -94 && opModeIsActive()) {
+                telemetry.addData("gyro", mRobot.mDrive.get_angle());
+                telemetry.update();
+                sleep(10);
+            }
             mRobot.mDrive.brake();
             mRobot.mDrive.reset_encoder();
 
+
             // sleep(15000);
             mRobot.mDrive.setPower(0, 0.5, 0);
-            mRobot.encoder((int) (tile * 4), this);
+            mRobot.encoder((int) (tile * 4) - 200, this);
             mRobot.mLift.score_position_second_level();
             mRobot.mDrive.reset_encoder();
             mRobot.mDrive.setPower(0.5, 0, 0);
             sleep(200);
             mRobot.mDrive.brake();
-            mRobot.mDrive.setPower(0, 0.5, 0);
-            sleep(200);
+
+            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
+            while (Math.abs(backdrop_postion) > 5) {
+
+                if (backdrop_postion > 5){
+                    mRobot.mDrive.setPower(0.4, 0, 0);
+                }else if(backdrop_postion < -5){
+                    mRobot.mDrive.setPower(-0.4, 0, 0);
+                }
+                backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
+            }
+            mRobot.mDrive.brake();
+
+            mRobot.mBackdrop.visionPortal.stopStreaming();
+            sleep(250);
+            mRobot.mDrive.setPower(0, 0.25, 0);
+            sleep(1200);
             mRobot.mDrive.brake();
             sleep(500);
             mRobot.mLift.set_Grabber_Open(true, true);

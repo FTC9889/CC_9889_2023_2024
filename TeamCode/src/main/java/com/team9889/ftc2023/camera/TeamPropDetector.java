@@ -44,12 +44,12 @@ public class TeamPropDetector extends OpenCvPipeline {
              //blue
          }else{
              LEFT_ROI = new Rect(
-                     new Point(600, 500),
-                     new Point(650, 450));
+                     new Point(450, 250),
+                     new Point(550, 230));
 
              RIGHT_ROI = new Rect(
-                     new Point(1000, 250),
-                     new Point(1050, 200)
+                     new Point(1000, 270),
+                     new Point(1050, 220)
              );
          }
 

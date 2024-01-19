@@ -2,6 +2,7 @@ package com.team9889.ftc2023.subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.team9889.ftc2023.camera.AprilTagBackdrop;
 import com.team9889.ftc2023.camera.TeamPropDetector;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -12,10 +13,12 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 public class Robot {
+    public AprilTagBackdrop mBackdrop = new AprilTagBackdrop();
 
     public Drive mDrive = new Drive();
 
     public Intake mIntake = new Intake();
+
     public ScoringLift mLift = new ScoringLift();
     public Hanger mHanger = new Hanger();
     public Drone mdrone = new Drone();
@@ -56,6 +59,10 @@ public class Robot {
                      */
                 }
             });
+    }
+    public void stop_team_prop_scanner(){
+        webcam1.stopStreaming();
+        webcam1.closeCameraDevice();
     }
 
     public void encoder(double distance, LinearOpMode opMode){
