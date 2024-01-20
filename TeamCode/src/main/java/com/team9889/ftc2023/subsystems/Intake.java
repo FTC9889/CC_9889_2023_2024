@@ -72,11 +72,11 @@ public class Intake {
 
 boolean vfbUp=true;
     public void vfbUp(){
-        vfb.setPosition(0.6);
+        vfb.setPosition(0.67);
         vfbUp=true;
     }
     public void vfbDown(){
-        vfb.setPosition(0);
+        vfb.setPosition(0.02);
         vfbUp=false;
     }
 
@@ -90,6 +90,12 @@ boolean vfbUp=true;
        vfbUp();
        slowOn();
        closeGate();
+    }
+
+    public void transfer2(){
+        vfbUp();
+        openGate();
+        slowOn();
     }
 
     public void transfer(){

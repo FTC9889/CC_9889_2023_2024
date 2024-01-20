@@ -78,15 +78,20 @@ public boolean canTransfer(){
 return true;
 }
 
+public boolean left_teleop_last_state = false;
+    public boolean right_teleop_last_state = false;
+
 public void set_Grabber_Open(boolean L,boolean R){
+    left_teleop_last_state = L;
+    right_teleop_last_state = R;
     if (L) {
-        GrabberL.setPosition(0.5944);
+        GrabberL.setPosition(0.62);
 
     }  else {
-        GrabberL.setPosition(0.4);
+        GrabberL.setPosition(0.35);
     }
     if (R) {
-        GrabberR.setPosition(0.622222222222222222222222222222222222222222222222222222222222222222);
+        GrabberR.setPosition(0.65);
 
     }  else {
         GrabberR.setPosition(0.4);
