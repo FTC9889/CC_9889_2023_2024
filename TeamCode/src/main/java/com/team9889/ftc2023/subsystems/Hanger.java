@@ -15,7 +15,7 @@ public class Hanger {
     // go down
     // turn off
     public void up() {
-        Hang.setPower(0.25);
+        Hang.setPower(0.4);
     }
 
     public void off() {

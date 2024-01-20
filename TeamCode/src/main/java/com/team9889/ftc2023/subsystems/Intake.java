@@ -75,6 +75,10 @@ boolean vfbUp=true;
         vfb.setPosition(0.67);
         vfbUp=true;
     }
+
+    public void  VFBAutoPostion(){
+        vfb.setPosition(0.1);
+    }
     public void vfbDown(){
         vfb.setPosition(0.02);
         vfbUp=false;

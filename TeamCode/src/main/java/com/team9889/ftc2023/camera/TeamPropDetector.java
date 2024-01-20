@@ -19,6 +19,9 @@ public class TeamPropDetector extends OpenCvPipeline {
         this.red = red;
     }
 
+    public double difvalue = 0.008;
+
+
     public static int x1;
     public static int x2;
     public static int y1;
@@ -45,8 +48,8 @@ public class TeamPropDetector extends OpenCvPipeline {
              //blue
          }else{
              LEFT_ROI = new Rect(
-                     new Point(370, 260),
-                     new Point(530, 190));
+                     new Point(390, 260),
+                     new Point(570, 190));
 
              RIGHT_ROI = new Rect(
                      new Point(1000, 300),
@@ -91,7 +94,7 @@ public class TeamPropDetector extends OpenCvPipeline {
             }
         }else{ // BLUE SIDE
             double diff = Math.abs(leftblue - rightblue);
-            if (diff < 0.05){
+            if (diff < difvalue){
                 side = Robot.BackDrop.LEFT;
             } else if(leftblue < rightblue) {
                 side = Robot.BackDrop.RIGHT;
@@ -106,6 +109,7 @@ public class TeamPropDetector extends OpenCvPipeline {
         telemetry.addData("Left blue value", leftblue);
         telemetry.addData("Right blue value", rightblue);
         telemetry.addData("Blue Diff", Math.abs(leftblue - rightblue));
+        telemetry.addData("blue diff value", difvalue);
 
         telemetry.addData("Left red value", leftred);
         telemetry.addData("Right red value", rightred);

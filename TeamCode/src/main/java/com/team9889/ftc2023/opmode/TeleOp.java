@@ -175,13 +175,13 @@ public class TeleOp extends LinearOpMode {
                 mRobot.mDrone.shoot();
             }
 
-            if (gamepad2.left_bumper) {
+            if (gamepad2.right_bumper) {
                 if(currentLiftState == LiftState.FIRST_POSITION)
                     requestedLiftState = LiftState.SECOND_POSITION;
                 else
                     requestedLiftState = LiftState.FIRST_POSITION;
 
-            } else if (gamepad2.right_bumper) {
+            } else if (gamepad2.left_bumper) {
                 requestedLiftState = LiftState.INTAKE_POSITION;
             }
 
@@ -480,7 +480,6 @@ public class TeleOp extends LinearOpMode {
             } else {
                 mRobot.mHanger.off();
             }
-
 
             telemetry.addData("Intake Wanted", requestedIntakeState.toString());
             telemetry.addData("Intake Current", currentIntakeState.toString());
