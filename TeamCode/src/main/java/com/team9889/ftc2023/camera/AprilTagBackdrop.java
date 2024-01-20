@@ -146,7 +146,7 @@ public class AprilTagBackdrop {
         for (AprilTagDetection detection : currentDetections) {
 
             if (detection.id == 6 || detection.id == 3) {
-                int error = -(int) (280 - detection.center.x);
+                int error = -(int) (240 - detection.center.x);
                 lastDetection = error;
             } else {
                 if (detection.id == 5 || detection.id == 2
