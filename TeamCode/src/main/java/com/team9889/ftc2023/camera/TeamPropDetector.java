@@ -60,7 +60,8 @@ public class TeamPropDetector extends OpenCvPipeline {
 
         Imgproc.rectangle(input, LEFT_ROI, new Scalar(255, 0, 0));
         Imgproc.rectangle(input, RIGHT_ROI, new Scalar(255, 0, 0));
-        Imgproc.rectangle(input, RED_FAR_RIGHT, new Scalar(255, 0, 0));
+
+        if(red) Imgproc.rectangle(input, RED_FAR_RIGHT, new Scalar(255, 0, 0));
 
         double leftred = (Core.sumElems(left).val[0]/ LEFT_ROI.area() / 255);
         double leftgreen = (Core.sumElems(left).val[1]/ LEFT_ROI.area() / 255);
@@ -122,8 +123,4 @@ public class TeamPropDetector extends OpenCvPipeline {
 
         return input;
     }
-
-
-    public Robot.BackDrop getside(){
-        return side;}
 }

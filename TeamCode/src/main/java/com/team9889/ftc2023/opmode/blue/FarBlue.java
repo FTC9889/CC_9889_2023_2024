@@ -2,6 +2,7 @@ package com.team9889.ftc2023.opmode.blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2023.opmode.red.FarRed;
 import com.team9889.ftc2023.subsystems.Robot;
 import com.team9889.ftc2023.subsystems.Robot.BackDrop;
@@ -11,6 +12,8 @@ public class FarBlue extends LinearOpMode {
 
 
     Robot mRobot = new Robot();
+
+    ElapsedTime Timer = new ElapsedTime();
 
 
     BackDrop side;
@@ -24,14 +27,16 @@ public class FarBlue extends LinearOpMode {
         mRobot.mIntake.vfbUp();
         mRobot.mIntake.closeGate();
 
-
-
         waitForStart();
+
+        Timer.reset();
+        mRobot.mLift.set_Grabber_Open(true, true);
         side = mRobot.teamPropDetector.side;
 
         mRobot.stop_team_prop_scanner();
         sleep(100);
         mRobot.mBackdrop.initAprilTag(hardwareMap);
+        mRobot.mLift.set_Grabber_Open(false, false);
 
         int tile = 830;
         long side_tile = 2300;
@@ -71,7 +76,7 @@ public class FarBlue extends LinearOpMode {
             mRobot.mDrive.reset_encoder();
 
 
-            // sleep(15000);
+            sleep(Math.max((long) (30000 - 11000 - Timer.milliseconds()), 0));
             mRobot.mDrive.setPower(0, 0.5, 0);
             mRobot.encoder((int) (tile * 4) - 200, this);
             mRobot.mLift.score_position_second_level();
@@ -112,14 +117,19 @@ public class FarBlue extends LinearOpMode {
             }
             mRobot.mDrive.brake();
 
+
+
             mRobot.mBackdrop.visionPortal.stopStreaming();
             sleep(250);
             mRobot.mDrive.setPower(0, 0.25, 0);
-            sleep(1700);
+            sleep(1200);
             mRobot.mDrive.brake();
             sleep(500);
             mRobot.mLift.set_Grabber_Open(true, true);
             sleep(500);
+            mRobot.mDrive.setPower(0.5, 0, 0);
+            sleep(200);
+            mRobot.mDrive.brake();
             mRobot.mLift.initPosition();
             mRobot.mDrive.setPower(0, 0, 0);
             sleep(500);
@@ -166,21 +176,36 @@ public class FarBlue extends LinearOpMode {
             mRobot.encoder(tile * 4 , this);
             mRobot.mDrive.setPower(0, 0,0);
             mRobot.mDrive.brake();
-            sleep(7000);
-            mRobot.mDrive.setPower(-0.5, 0, 0);
-            sleep(side_tile - 850);
-            mRobot.mDrive.setPower(0, 0, 0);
+            sleep(Math.max((long) (30000 - 9000 - Timer.milliseconds()), 0));
+            mRobot.mDrive.setPower(-1, 0, 0);
+            sleep(1100);
+            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
+            while (Math.abs(backdrop_postion) > 5) {
+                if (backdrop_postion > 5){
+                    mRobot.mDrive.setPower(0.35, 0, 0);
+                }else if(backdrop_postion < -5){
+                    mRobot.mDrive.setPower(-0.35, 0, 0);
+                }
+                backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
+            }
             mRobot.mDrive.brake();
-            sleep(500);
+
+
+            mRobot.mBackdrop.visionPortal.stopStreaming();
+            sleep(250);
             mRobot.mLift.score_position_second_level();
-            sleep(750);
-            mRobot.mDrive.setPower(0, 0.5, 0);
-            sleep(400);
+            sleep(500);
+            mRobot.mDrive.setPower(0, 0.25, 0);
+            sleep(1000);
             mRobot.mDrive.setPower(0, 0, 0);
             mRobot.mDrive.brake();
             sleep(500);
             mRobot.mLift.set_Grabber_Open(true, true);
-            sleep(1000);
+            sleep(500);
+            mRobot.mDrive.setPower(0.5, 0, 0);
+            sleep(200);
+            mRobot.mDrive.brake();
+
 //            mRobot.mIntake.setPower(0.5);
 //            sleep(500);
 //            mRobot.mIntake.setPower(0);
@@ -237,27 +262,43 @@ public class FarBlue extends LinearOpMode {
             mRobot.encoder(tile * 4 , this);
             mRobot.mDrive.setPower(0, 0,0);
             mRobot.mDrive.brake();
-            sleep(7000);
-            mRobot.mDrive.setPower(-0.5, 0, 0);
-            sleep(side_tile);
-            mRobot.mDrive.setPower(0, 0, 0);
+
+            sleep(Math.max((long) (30000 - 10000 - Timer.milliseconds()), 0));
+            mRobot.mDrive.setPower(-1, 0, 0);
+            sleep(1200);
+
+            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_left();
+            while (Math.abs(backdrop_postion) > 5) {
+
+                if (backdrop_postion > 5){
+                    mRobot.mDrive.setPower(0.35, 0, 0);
+                }else if(backdrop_postion < -5){
+                    mRobot.mDrive.setPower(-0.35, 0, 0);
+                }
+                backdrop_postion = mRobot.mBackdrop.detect_backdrop_left();
+            }
             mRobot.mDrive.brake();
+
+            mRobot.mBackdrop.visionPortal.stopStreaming();
             sleep(350);
             mRobot.mLift.score_position_second_level();
-            sleep(750);
+            sleep(250);
             mRobot.mDrive.setPower(0, 0.5, 0);
-            sleep(400);
+            sleep(600);
             mRobot.mDrive.setPower(0, 0, 0);
             mRobot.mDrive.brake();
-            sleep(500);
+            sleep(250);
             mRobot.mLift.set_Grabber_Open(true, true);
-            sleep(1000);
+            sleep(500);
+            mRobot.mDrive.setPower(0.5, 0, 0);
+            sleep(200);
+            mRobot.mDrive.brake();
 //            mRobot.mIntake.setPower(0.5);
 //            sleep(500);
 //            mRobot.mIntake.setPower(0);
 //            sleep(50);
             mRobot.mLift.initPosition();
-            sleep(500);
+            sleep(250);
 //            sleep(500);
 //            mRobot.mIntake.setPower(-0.5);
 //            sleep(500);
