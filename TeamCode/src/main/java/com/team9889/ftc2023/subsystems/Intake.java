@@ -1,18 +1,23 @@
 package com.team9889.ftc2023.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 public class Intake {
-    public DcMotor intake, extend;
+    public DcMotorEx intake;
+    public DcMotor extend;
+
     public int extendPosition(){
         return extend.getCurrentPosition();}
     public DigitalChannel digitalTouch;
     Servo vfb, gate;
     public void init(HardwareMap hardwareMap) {
-        intake = hardwareMap.dcMotor.get("intake");
+        intake = hardwareMap.get(DcMotorEx.class, "intake");
         extend = hardwareMap.dcMotor.get("extend");
         extend.setDirection(DcMotorSimple.Direction.REVERSE);
         vfb = hardwareMap.servo.get("vfb");
@@ -68,6 +73,14 @@ public class Intake {
     }
     public void closeGate(){
         gate.setPosition(0.47);
+    }
+
+    public double currentDraw() {
+        return intake.getCurrent(CurrentUnit.MILLIAMPS);
+    }
+
+    public boolean twoPixelsInIntake() {
+        return currentDraw() > 1500;
     }
 
 boolean vfbUp=true;
