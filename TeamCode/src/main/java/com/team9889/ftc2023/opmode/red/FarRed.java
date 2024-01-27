@@ -284,6 +284,12 @@ public class FarRed extends LinearOpMode {
 
 
 
+
+
+
+
+
+
         else if (side == Robot.BackDrop.RIGHT) {
             mRobot.mDrive.setPower(-0.2, 0, -0.2, 0);
             while (mRobot.mDrive.get_angle() > -32 && opModeIsActive()) {
