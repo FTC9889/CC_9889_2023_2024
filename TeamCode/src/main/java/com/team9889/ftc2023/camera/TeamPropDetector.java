@@ -1,7 +1,12 @@
 package com.team9889.ftc2023.camera;
+import android.graphics.Canvas;
+
 import com.team9889.ftc2023.subsystems.Robot;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -9,7 +14,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
-public class TeamPropDetector extends OpenCvPipeline {
+public class TeamPropDetector implements VisionProcessor {
     Telemetry telemetry;
 
     boolean red;
@@ -27,7 +32,6 @@ public class TeamPropDetector extends OpenCvPipeline {
     public static int y1;
     public static int y2;
     public Robot.BackDrop side = Robot.BackDrop.RIGHT;
-    @Override
     public Mat processFrame(Mat input) {
         Rect LEFT_ROI, RIGHT_ROI;
         Rect RED_FAR_RIGHT = new Rect(
@@ -126,5 +130,20 @@ public class TeamPropDetector extends OpenCvPipeline {
 
 
         return input;
+    }
+
+    @Override
+    public void init(int width, int height, CameraCalibration calibration) {
+
+    }
+
+    @Override
+    public Object processFrame(Mat frame, long captureTimeNanos) {
+        return null;
+    }
+
+    @Override
+    public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+
     }
 }
