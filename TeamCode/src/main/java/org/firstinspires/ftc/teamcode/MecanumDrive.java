@@ -62,13 +62,16 @@ public final class MecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
         // drive model parameters
-        public double inPerTick = 1;
+        private static double WheelDiameter = 35 / 25.4;  // https://www.rotacaster.com.au/shop/35mm-rotacaster-wheels/index
+        public double inPerTick = ((WheelDiameter * Math.PI) * ((((double) 40) / ((double) 24)))) / 1440;
         public double lateralInPerTick = inPerTick;
-        public double trackWidthTicks = 0;
+        public double trackWidthTicks = 1./ (13.25 / inPerTick);
+
+        public static final double MAX_RPM = 435;
 
         // feedforward parameters (in tick units)
         public double kS = 0;
-        public double kV = 0;
+        public double kV = 1.0 / rpmToVelocity(MAX_RPM);;
         public double kA = 0;
 
         // path profile parameters (in inches)
@@ -85,9 +88,15 @@ public final class MecanumDrive {
         public double lateralGain = 0.0;
         public double headingGain = 0.0; // shared with turn
 
+        public static double GEAR_RATIO = 1.125;
+
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
         public double headingVelGain = 0.0; // shared with turn
+
+        public static double rpmToVelocity(double rpm) {
+            return rpm * GEAR_RATIO * 2 * Math.PI * WheelDiameter / 120.0;
+        }
     }
 
     public static Params PARAMS = new Params();

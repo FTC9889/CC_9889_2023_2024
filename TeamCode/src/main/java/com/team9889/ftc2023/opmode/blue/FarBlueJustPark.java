@@ -27,11 +27,11 @@ public class FarBlueJustPark extends LinearOpMode {
         mRobot.mIntake.closeGate();
         while (opModeInInit() &&! isStopRequested()){
             if (gamepad1.dpad_up){
-                mRobot.teamPropDetector.difvalue += 0.00000001;
-            } else if (gamepad1.dpad_down) {
-                if (mRobot.teamPropDetector.difvalue > 0){
-                    mRobot.teamPropDetector.difvalue -= 0.00000001;
-                }
+//                mRobot.teamPropDetector.difvalue += 0.00000001;
+//            } else if (gamepad1.dpad_down) {
+//                if (mRobot.teamPropDetector.difvalue > 0){
+//                    mRobot.teamPropDetector.difvalue -= 0.00000001;
+//                }
             }
         }
 

@@ -1,12 +1,19 @@
 package com.team9889.ftc2023.camera;
 import android.graphics.Canvas;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.team9889.ftc2023.subsystems.Robot;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -14,136 +21,134 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
-public class TeamPropDetector implements VisionProcessor {
-    Telemetry telemetry;
 
+import java.util.List;
+
+public class TeamPropDetector {
+
+    /*
+     * This OpMode illustrates the basics of TensorFlow Object Detection,
+     * including Java Builder structures for specifying Vision parameters.
+     *
+     * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
+     * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
+     */
+
+    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+
+    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
+    // this is only used for Android Studio when using models in Assets.
+
+    private static final String TFOD_MODEL_ASSET = "model_20240203_100529.tflite";
+    // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
+    // this is used when uploading models directly to the RC using the model upload interface.
+    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
+    // Define the labels recognized in the model for TFOD (must be in training order!)
+    private static final String[] LABELS = {
+            "BTP", "RTP",
+    };
+    public Robot.BackDrop side;
+
+    /**
+     * The variable to store our instance of the TensorFlow Object Detection processor.
+     */
+    private TfodProcessor tfod;
+
+    /**
+     * The variable to store our instance of the vision portal.
+     */
+    private VisionPortal visionPortal;
+    Telemetry telemetry;
     boolean red;
 
-    public TeamPropDetector(Telemetry telemetry, boolean red) {
-        this.telemetry = telemetry;
+    public TeamPropDetector(boolean red) {
         this.red = red;
     }
 
-    public double difvalue = 0.008;
 
+    /**
+     * Initialize the TensorFlow Object Detection processor.
+     */
+    public void initTfod(HardwareMap hardwareMap) {
 
-    public static int x1;
-    public static int x2;
-    public static int y1;
-    public static int y2;
-    public Robot.BackDrop side = Robot.BackDrop.RIGHT;
-    public Mat processFrame(Mat input) {
-        Rect LEFT_ROI, RIGHT_ROI;
-        Rect RED_FAR_RIGHT = new Rect(
-                new Point(1210, 320),
-                new Point(1280, 240));
-        if(red){
-             //red
-             //change numbers later...
-             LEFT_ROI = new Rect(
-                     new Point(110, 360),
-                     new Point(40, 290));
+        // Create the TensorFlow processor by using a builder.
+        tfod = new TfodProcessor.Builder()
 
-             RIGHT_ROI = new Rect(
-                     new Point(710, 260),
-                     new Point(640, 190)
-             );
+                // With the following lines commented out, the default TfodProcessor Builder
+                // will load the default model for the season. To define a custom model to load,
+                // choose one of the following:
+                //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
+                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                .setModelAssetName(TFOD_MODEL_ASSET)
+                //.setModelFileName(TFOD_MODEL_FILE)
 
-             //blue
-         }else{
-             LEFT_ROI = new Rect(
-                     new Point(390, 260),
-                     new Point(570, 190));
+                // The following default settings are available to un-comment and edit as needed to
+                // set parameters for custom models.
+                .setModelLabels(LABELS)
+                //.setIsModelTensorFlow2(true)
+                //.setIsModelQuantized(true)
+                .setModelInputSize(320)
+                //.setModelAspectRatio(16.0 / 9.0)
 
-             RIGHT_ROI = new Rect(
-                     new Point(1000, 300),
-                     new Point(1100, 220)
-             );
-         }
+                .build();
 
-        Mat left = input.submat(LEFT_ROI);
-        Mat right = input.submat(RIGHT_ROI);
-        Mat red_right = input.submat(RED_FAR_RIGHT);
+        // Create the vision portal by using a builder.
+        VisionPortal.Builder builder = new VisionPortal.Builder();
 
-        Imgproc.rectangle(input, LEFT_ROI, new Scalar(255, 0, 0));
-        Imgproc.rectangle(input, RIGHT_ROI, new Scalar(255, 0, 0));
-
-        if(red) Imgproc.rectangle(input, RED_FAR_RIGHT, new Scalar(255, 0, 0));
-
-        double leftred = (Core.sumElems(left).val[0]/ LEFT_ROI.area() / 255);
-        double leftgreen = (Core.sumElems(left).val[1]/ LEFT_ROI.area() / 255);
-        double leftblue = (Core.sumElems(left).val[2]/ LEFT_ROI.area() / 255);
-        double rightred = (Core.sumElems(right).val[0]/ RIGHT_ROI.area() / 255);
-        double rightgreen = (Core.sumElems(right).val[1]/ RIGHT_ROI.area() / 255);
-        double rightblue = (Core.sumElems(right).val[2]/ RIGHT_ROI.area() / 255);
-
-
-        double farrightred = (Core.sumElems(red_right).val[0]/ RED_FAR_RIGHT.area() / 255);
-        double farrightgreen = (Core.sumElems(red_right).val[1]/ RED_FAR_RIGHT.area() / 255);
-        double farrightblue = (Core.sumElems(red_right).val[2]/ RED_FAR_RIGHT.area() / 255);
-
-
-        double avarage_right = (rightgreen + rightblue + rightred) / 3.0;
-        double avarage_left = (leftgreen + leftblue + leftred) / 3.0;
-        double avg_far = (farrightblue + farrightgreen + farrightred) / 3.0;
-
-
-        if (red){ // RED SIDE
-            if(rightred > leftred && rightred > farrightred){
-                side = Robot.BackDrop.CENTER;
-            } else if(leftred > rightred && leftred > farrightred){
-                side = Robot.BackDrop.LEFT;
-            } else if(farrightred > rightred && farrightred > leftred){
-                side = Robot.BackDrop.RIGHT;
-            }
-        }else{ // BLUE SIDE
-            double diff = Math.abs(leftblue - rightblue);
-            if (diff < difvalue){
-                side = Robot.BackDrop.LEFT;
-            } else if(leftblue < rightblue) {
-                side = Robot.BackDrop.RIGHT;
-
-            }
-
-            else{
-                side = Robot.BackDrop.CENTER;
-            }
+        // Set the camera (webcam vs. built-in RC phone camera).
+        if (USE_WEBCAM) {
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        } else {
+            builder.setCamera(BuiltinCameraDirection.BACK);
         }
 
-        telemetry.addData("Left blue value", leftblue);
-        telemetry.addData("Right blue value", rightblue);
-        telemetry.addData("Blue Diff", Math.abs(leftblue - rightblue));
-        telemetry.addData("blue diff value", difvalue);
+        // Choose a camera resolution. Not all cameras support all resolutions.
 
-        telemetry.addData("Left red value", leftred);
-        telemetry.addData("Right red value", rightred);
-        telemetry.addData("Red Diff", Math.abs(leftred - rightred));
+        // builder.setCameraResolution(new Size(320, 320));
 
-        telemetry.addData("Red FAR_", farrightred);
-        telemetry.addData("Red FAR", avg_far);
+        // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
+        //builder.enableLiveView(true);
 
-        telemetry.addData("avg.right", avarage_right);
-        telemetry.addData("avg.left", avarage_left);
-        telemetry.addData("side", side.toString());
-        telemetry.update();
+        // Set the stream format; MJPEG uses less bandwidth than default YUY2.
+        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
 
+        // Choose whether or not LiveView stops if no processors are enabled.
+        // If set "true", monitor shows solid orange screen if no processors enabled.
+        // If set "false", monitor shows camera view without annotations.
+        //builder.setAutoStopLiveView(false);
 
+        // Set and enable the processor.
+        builder.addProcessor(tfod);
 
-        return input;
-    }
+        // Build the Vision Portal, using the above settings.
+        visionPortal = builder.build();
 
-    @Override
-    public void init(int width, int height, CameraCalibration calibration) {
+        // Set confidence threshold for TFOD recognitions, at any time.
+        //tfod.setMinResultConfidence(0.75f);
 
-    }
+        // Disable or re-enable the TFOD processor at any time.
+        //visionPortal.setProcessorEnabled(tfod, true);
 
-    @Override
-    public Object processFrame(Mat frame, long captureTimeNanos) {
-        return null;
-    }
+    }   // end method initTfod()
 
-    @Override
-    public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+    /**
+     * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
+     */
+    public void telemetryTfod(Telemetry telemetry) {
+
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        telemetry.addData("# Objects Detected", currentRecognitions.size());
+
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+            double y = (recognition.getTop() + recognition.getBottom()) / 2;
+
+            telemetry.addData("", " ");
+            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+        }   // end for() loop
 
     }
 }
