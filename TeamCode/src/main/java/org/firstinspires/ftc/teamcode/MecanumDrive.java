@@ -57,22 +57,21 @@ public final class MecanumDrive {
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.UP;
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+                RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         // drive model parameters
-        private static double WheelDiameter = 35 / 25.4;  // https://www.rotacaster.com.au/shop/35mm-rotacaster-wheels/index
-        public double inPerTick = ((WheelDiameter * Math.PI) * ((((double) 40) / ((double) 24)))) / 1440;
-        public double lateralInPerTick = inPerTick;
-        public double trackWidthTicks = 1./ (13.25 / inPerTick);
+        public double inPerTick = 70.0 / 13955.0;
+        public double lateralInPerTick = 0.003422993;
+        public double trackWidthTicks = 2528.5;
 
         public static final double MAX_RPM = 435;
 
         // feedforward parameters (in tick units)
-        public double kS = 0;
-        public double kV = 1.0 / rpmToVelocity(MAX_RPM);;
-        public double kA = 0;
+        public double kS = 1.0240196398663368;
+        public double kV = 0.0008418764281585246;
+        public double kA = 0.00015;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -86,17 +85,13 @@ public final class MecanumDrive {
         // path controller gains
         public double axialGain = 0.0;
         public double lateralGain = 0.0;
-        public double headingGain = 0.0; // shared with turn
+        public double headingGain = 10.0; // shared with turn
 
         public static double GEAR_RATIO = 1.125;
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
         public double headingVelGain = 0.0; // shared with turn
-
-        public static double rpmToVelocity(double rpm) {
-            return rpm * GEAR_RATIO * 2 * Math.PI * WheelDiameter / 120.0;
-        }
     }
 
     public static Params PARAMS = new Params();
@@ -221,7 +216,8 @@ public final class MecanumDrive {
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // TODO: reverse motor directions if needed
-        //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
@@ -232,7 +228,7 @@ public final class MecanumDrive {
 
         localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
 
-        FlightRecorder.write("MECANUM_PARAMS", PARAMS);
+        //FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
 
     public void setDrivePowers(PoseVelocity2d powers) {
