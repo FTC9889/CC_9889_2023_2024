@@ -40,25 +40,25 @@ public class Robot {
             int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
             webcam1 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-            teamPropDetector = (new TeamPropDetector(telemetry, red));
-            webcam1.setPipeline(teamPropDetector);
-            webcam1.setMillisecondsPermissionTimeout(5000);
-            webcam1.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-            {
-                @Override
-                public void onOpened()
-                {
-                    webcam1.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
-                }
-
-                @Override
-                public void onError(int errorCode)
-                {
-                    /*
-                     * This will be called if the camera could not be opened
-                     */
-                }
-            });
+//            teamPropDetector = (new TeamPropDetector(telemetry, red));
+//            webcam1.setPipeline(teamPropDetector);
+//            webcam1.setMillisecondsPermissionTimeout(5000);
+//            webcam1.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+//            {
+//                @Override
+//                public void onOpened()
+//                {
+//                    webcam1.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+//                }
+//
+//                @Override
+//                public void onError(int errorCode)
+//                {
+//                    /*
+//                     * This will be called if the camera could not be opened
+//                     */
+//                }
+//            });
     }
     public void stop_team_prop_scanner(){
         webcam1.stopStreaming();

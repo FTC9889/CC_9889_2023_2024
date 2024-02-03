@@ -1,6 +1,8 @@
 package com.team9889.ftc2023.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.team9889.ftc2023.camera.TeamPropDetector;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -9,6 +11,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
+@TeleOp
+@Disabled
 public class Test_Team_prop_Detector extends LinearOpMode {
     OpenCvWebcam webcam1;
     TeamPropDetector teamPropDetector;
@@ -24,8 +28,8 @@ public class Test_Team_prop_Detector extends LinearOpMode {
          * of a frame from the camera. Note that switching pipelines on-the-fly
          * (while a streaming session is in flight) *IS* supported.
          */
-        teamPropDetector = (new TeamPropDetector(telemetry, false));
-        webcam1.setPipeline(teamPropDetector);
+//        teamPropDetector = (new TeamPropDetector(telemetry, false));
+//        webcam1.setPipeline(teamPropDetector);
 
         /*
          * Open the connection to the camera device. New in v1.4.0 is the ability
