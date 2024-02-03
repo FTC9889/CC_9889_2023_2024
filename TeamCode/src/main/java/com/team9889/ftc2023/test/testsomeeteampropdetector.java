@@ -13,6 +13,10 @@ public class testsomeeteampropdetector extends LinearOpMode {
         TeamPropDetector teamPropDetector = new TeamPropDetector(true);
 
         teamPropDetector.initTfod(hardwareMap);
+        while(opModeInInit()) {
+            teamPropDetector.telemetryTfod(telemetry);
+            telemetry.update();
+        }
 
         waitForStart();
 

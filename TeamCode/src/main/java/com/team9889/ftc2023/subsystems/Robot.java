@@ -38,7 +38,7 @@ public class Robot {
             int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
             webcam1 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-            teamPropDetector = (new TeamPropDetector(telemetry, red));
+            teamPropDetector = (new TeamPropDetector(red));
     }
     public void stop_team_prop_scanner(){
         webcam1.stopStreaming();
