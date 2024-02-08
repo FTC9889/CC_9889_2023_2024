@@ -144,7 +144,48 @@ public void set_Grabber_Open(boolean L,boolean R){
         }
     }
 
+    public class IntakePosition implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            intake_position();
+            set_Grabber_Open(false, false);
+            return false;
+        }
+    }
 
+    public class DeploySecondStage implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            score_position_second_level();
+            return false;
+        }
+    }
+
+    public class setgrabber implements Action {
+        boolean left, right;
+
+        public setgrabber(boolean left, boolean right){
+            this.left = left;
+            this.right = right;
+
+        }
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            set_Grabber_Open(left, right);
+            return false;
+        }
+    }
+
+    public Action setgrabber(boolean left, boolean right) {
+        return new setgrabber(left, right);
+    }
+    public Action DeploySecondStage(){
+        return new DeploySecondStage();
+    }
+
+    public Action IntakePosition(){
+    return new IntakePosition();
+    }
 
     public Action Deploy() {
         return new Deploy();

@@ -74,7 +74,7 @@ public class Intake {
         intake.setPower(-1);
     }
 
-    public void slow_out() {intake.setPower(-0.75);}
+    public void slow_out() {intake.setPower(-0.7);}
 
     public void openGate(){
         gate.setPosition(.65);
@@ -103,6 +103,10 @@ boolean vfbUp=true;
     public void vfbDown(){
         vfb.setPosition(0.02);
         vfbUp=false;
+    }
+
+    public void vfb5thPixleDown(){
+        vfb.setPosition(0.21);
     }
 
     public void startIntake(){
@@ -141,6 +145,7 @@ boolean vfbUp=true;
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             telemetryPacket.put("Step", "Intake Extend");
+            closeGate();
             if (Math.abs(extend.getCurrentPosition()) < postion){
                 extend.setPower(1);
                 return true;
@@ -213,9 +218,20 @@ public class BringBackIntake implements Action {
             return false;
         }
     }
-
     public Action Off(){
         return new Off();
+    }
+
+    public class On implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            telemetryPacket.put("Step", "Intake On");
+            on();
+            return false;
+        }
+    }
+    public Action On() {
+        return new On();
     }
 
     // Outtake
@@ -226,6 +242,31 @@ public class BringBackIntake implements Action {
             slow_out();
             return false;
         }
+    }
+
+    public class Transfer implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            telemetryPacket.put("Step", "Transfer");
+            transfer();
+            return false;
+        }
+    }
+
+    public class vfb5thpixle implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            telemetryPacket.put("Step", "vfb5thpixle");
+            vfb5thPixleDown();
+            return false;
+        }
+    }
+
+    public Action vfb5thpixle() {
+        return new vfb5thpixle();
+    }
+    public Action Transfer() {
+        return new Transfer();
     }
 
     public Action Outtake(){
