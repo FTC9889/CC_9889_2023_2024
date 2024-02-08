@@ -1,5 +1,8 @@
 package com.team9889.ftc2023.subsystems;
 
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Actions;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.team9889.ftc2023.camera.AprilTagBackdrop;
@@ -7,12 +10,15 @@ import com.team9889.ftc2023.camera.TeamPropDetector;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.DriveAuto;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 public class Robot {
+
+    public DriveAuto aDrive;
     public AprilTagBackdrop mBackdrop = new AprilTagBackdrop();
 
     public Drive mDrive = new Drive();
@@ -27,12 +33,24 @@ public class Robot {
     public TeamPropDetector teamPropDetector;
 
     public void init (HardwareMap hardwareMap){
-        mDrive.init(hardwareMap);
+        init(hardwareMap, new Pose2d(0,0,0));
+    }
+
+    public void init (HardwareMap hardwareMap, Pose2d initialPose){
+        if (initialPose == new Pose2d(0,0,0)){
+            mDrive.init(hardwareMap);
+        }
+        else{
+            aDrive = new DriveAuto(hardwareMap, initialPose);
+        }
+
         mIntake.init(hardwareMap);
         mLift.init(hardwareMap);
         mHanger.init(hardwareMap);
         mDrone.init(hardwareMap);
     }
+
+
 
     public void init_camera(HardwareMap hardwareMap, Telemetry telemetry, boolean red) {
             int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -69,7 +87,6 @@ public class Robot {
             }
         }
     }
-
 }
 
 

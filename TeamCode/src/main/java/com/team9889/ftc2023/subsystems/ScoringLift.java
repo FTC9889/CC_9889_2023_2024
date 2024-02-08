@@ -1,4 +1,8 @@
 package com.team9889.ftc2023.subsystems;
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -113,5 +117,44 @@ public void set_Grabber_Open(boolean L,boolean R){
         }
     }
 
+    public class Deploy implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            score_position();
+            return false;
+        }
+    }
 
+
+    public class Retract implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            initPosition();
+            return false;
+        }
+    }
+
+
+
+    public class Score implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            set_Grabber_Open(true, true);
+            return false;
+        }
+    }
+
+
+
+    public Action Deploy() {
+        return new Deploy();
+    }
+
+    public Action Score(){
+    return new Score();
+    }
+
+    public Action Retract() {
+        return new Retract();
+    }
 }

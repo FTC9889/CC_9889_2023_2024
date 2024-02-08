@@ -51,7 +51,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Config
-public final class MecanumDrive {
+public final class DriveAuto {
     public static class Params {
         // IMU orientation
         // TODO: fill in these values based on
@@ -83,15 +83,15 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 0.0;
-        public double lateralGain = 0.0;
-        public double headingGain = 10.0; // shared with turn
+        public double axialGain = 20.0;
+        public double lateralGain = 45.0;
+        public double headingGain = 17.0; // shared with turn
 
         public static double GEAR_RATIO = 1.125;
 
-        public double axialVelGain = 0.0;
-        public double lateralVelGain = 0.0;
-        public double headingVelGain = 0.0; // shared with turn
+        public double axialVelGain = 2.0;
+        public double lateralVelGain = 1.0;
+        public double headingVelGain = 0.5; // shared with turn
     }
 
     public static Params PARAMS = new Params();
@@ -132,10 +132,10 @@ public final class MecanumDrive {
         private Rotation2d lastHeading;
 
         public DriveLocalizer() {
-            leftFront = new OverflowEncoder(new RawEncoder(MecanumDrive.this.leftFront));
-            leftBack = new OverflowEncoder(new RawEncoder(MecanumDrive.this.leftBack));
-            rightBack = new OverflowEncoder(new RawEncoder(MecanumDrive.this.rightBack));
-            rightFront = new OverflowEncoder(new RawEncoder(MecanumDrive.this.rightFront));
+            leftFront = new OverflowEncoder(new RawEncoder(DriveAuto.this.leftFront));
+            leftBack = new OverflowEncoder(new RawEncoder(DriveAuto.this.leftBack));
+            rightBack = new OverflowEncoder(new RawEncoder(DriveAuto.this.rightBack));
+            rightFront = new OverflowEncoder(new RawEncoder(DriveAuto.this.rightFront));
 
             // TODO: reverse encoders if needed
             //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -194,7 +194,7 @@ public final class MecanumDrive {
         }
     }
 
-    public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
+    public DriveAuto(HardwareMap hardwareMap, Pose2d pose) {
         this.pose = pose;
 
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
@@ -315,7 +315,7 @@ public final class MecanumDrive {
             leftBack.setPower(leftBackPower);
             rightBack.setPower(rightBackPower);
             rightFront.setPower(rightFrontPower);
-
+            p.put("right back", rightBackPower);
             p.put("x", pose.position.x);
             p.put("y", pose.position.y);
             p.put("heading (deg)", Math.toDegrees(pose.heading.toDouble()));
@@ -341,7 +341,7 @@ public final class MecanumDrive {
 
             return true;
         }
-//ugi6vybvb  vv b
+
         @Override
         public void preview(Canvas c) {
             c.setStroke("#4CAF507A");
