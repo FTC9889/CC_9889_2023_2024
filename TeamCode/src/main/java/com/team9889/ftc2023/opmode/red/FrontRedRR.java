@@ -18,7 +18,7 @@ public class FrontRedRR extends LinearOpMode {
         mRobot.init(hardwareMap, beginPose);
 
         Robot.BackDrop side = Robot.BackDrop.RIGHT;
-        
+
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
         mRobot.mIntake.vfbUp();
