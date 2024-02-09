@@ -50,7 +50,7 @@ public class FarBlueRR extends LinearOpMode {
                             .waitSeconds(0.75)
                             .stopAndAdd( mRobot.mIntake.Off())
                             .stopAndAdd(mRobot.mIntake.BringBackIntake())
-                            .stopAndAdd(mRobot.mLift.setgrabber(false, true))
+                            .stopAndAdd(mRobot.mLift.setgrabber(true, true))
                             .afterDisp(3,mRobot.mIntake.RetractIntake())
                             .afterDisp(20, mRobot.mIntake.Transfer())
                             .strafeToLinearHeading(new Vector2d(-52, 8), Math.toRadians(-180))
@@ -100,7 +100,6 @@ public class FarBlueRR extends LinearOpMode {
                             .strafeToLinearHeading(new Vector2d(50, 34), Math.toRadians(-180))
                             .stopAndAdd(mRobot.mLift.Score())
                             .waitSeconds(1)
-
                             .build());
         } else if (side == Robot.BackDrop.RIGHT){
             Actions.runBlocking(
@@ -124,8 +123,11 @@ public class FarBlueRR extends LinearOpMode {
                             .build());
         }
 
-        mRobot.mLift.initPosition();
+        mRobot.mIntake.setPower(0.5);
+        sleep(500);
+        mRobot.mLift.intake_position();
         sleep(100);
-
+        mRobot.mIntake.setPower(-0.5);
+        sleep(650);
     }
 }
