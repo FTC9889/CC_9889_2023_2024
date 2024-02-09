@@ -75,7 +75,7 @@ boolean armTransfer=true;
     }
 
     public void initPosition(){
-        setArmPosition(0.75);
+        setArmPosition(0.70);
     }
 public boolean canTransfer(){
 //        return armTransfer && digitalTouch.getState();
