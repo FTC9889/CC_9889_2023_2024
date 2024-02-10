@@ -1,8 +1,6 @@
 package com.team9889.ftc2023.camera;
-import android.graphics.Canvas;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.team9889.ftc2023.subsystems.Robot;
 
@@ -10,20 +8,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.VisionProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.List;
-
+@Config
 public class TeamPropDetector {
 
     /*
@@ -134,21 +123,71 @@ public class TeamPropDetector {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
+    public static double RC_X = 50;
+    public static double RC_Y = 50;
+    public static double RL_X = 50;
+    public static double RL_Y = 50;
+    public static double BC_X = 50;
+    public static double BC_Y = 50;
+    public static double BL_X = 50;
+    public static double BL_Y = 50;
+
     public void telemetryTfod(Telemetry telemetry) {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
+        Recognition highestConfidence = null;
+
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2;
-            double y = (recognition.getTop() + recognition.getBottom()) / 2;
+
+
+            if (red && recognition.getLabel() == "RTP"){
+                if (highestConfidence == null) {
+                    highestConfidence = recognition;
+                }else if (highestConfidence.getConfidence()< recognition.getConfidence()) {
+                   highestConfidence = recognition;
+                }
+            } else if(recognition.getLabel() == "BTP")  {
+                if (highestConfidence == null) {
+                    highestConfidence = recognition;
+                }else if (highestConfidence.getConfidence()< recognition.getConfidence()) {
+                    highestConfidence = recognition;
+                }
+            }
 
             telemetry.addData("", " ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
         }   // end for() loop
+
+        double x = 0, y = 0;
+        if (highestConfidence != null){
+            x = (highestConfidence.getLeft() + highestConfidence.getRight()) / 2;
+            y = (highestConfidence.getTop() + highestConfidence.getBottom()) / 2;
+        }
+
+
+        if (red) {
+            if (highestConfidence == null){
+                // Off Screen
+            } else if (Math.hypot(x - RC_X, y- RC_Y) > Math.hypot(x- RL_X, y- RL_Y)){
+                // Left
+            } else
+            {
+                //center
+            }
+        } else {
+            if (highestConfidence == null){
+                // Off Screen
+            } else if (Math.hypot(x - BC_X, y- BC_Y) > Math.hypot(x- BL_X, y- BL_Y)){
+                // Left
+            } else {
+
+            }
+        }
+
+
 
     }
 }
