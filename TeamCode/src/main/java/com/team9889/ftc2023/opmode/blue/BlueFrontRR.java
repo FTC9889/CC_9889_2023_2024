@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.subsystems.Robot;
 import com.team9889.ftc2023.subsystems.ScoringLift;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.DriveAuto;
 
 @Autonomous
@@ -15,11 +16,11 @@ public final class BlueFrontRR extends LinearOpMode {
     Robot mRobot = new Robot();
     @Override
     public void runOpMode() throws InterruptedException {
-        //DON'T CHANGE THIS YOU WILL REGRET IT
+//******//DON'T CHANGE THIS YOU WILL REGRET IT//**********************************************************************************************************//////////////////////////////////********************
         Pose2d beginPose = new Pose2d(11, 63.5, Math.toRadians(-90));
         mRobot.init(hardwareMap, beginPose);
 
-        Robot.BackDrop side = Robot.BackDrop.RIGHT;
+        Robot.BackDrop side = Robot.BackDrop.CENTER;
 
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
@@ -33,7 +34,8 @@ public final class BlueFrontRR extends LinearOpMode {
                     mRobot.aDrive.actionBuilder(beginPose)
                             .setTangent(Math.toRadians(-90))
                             .afterDisp(15, mRobot.mLift.Deploy())
-                            .splineToLinearHeading(new Pose2d(51, 32, Math.toRadians(-180)), 0)
+                            .splineToLinearHeading(new Pose2d(45, 32, Math.toRadians(-180)), 0)
+                            .strafeToLinearHeading(new Vector2d(51, 32), Math.toRadians(-180))
                             .stopAndAdd(mRobot.mLift.Score())
                             .waitSeconds(1)
                             .stopAndAdd(mRobot.mLift.Retract())

@@ -27,7 +27,7 @@ public class FarRedRR extends LinearOpMode {
 
         waitForStart();
 
-        mRobot.mBackdrop.initAprilTag(hardwareMap);
+//        mRobot.mBackdrop.initAprilTag(hardwareMap);
 
         if (side == Robot.BackDrop.CENTER) {
             Actions.runBlocking(
@@ -102,6 +102,7 @@ public class FarRedRR extends LinearOpMode {
                             .waitSeconds(1)
                             .build());
         } else if (side == Robot.BackDrop.RIGHT){
+
 
         }
     }

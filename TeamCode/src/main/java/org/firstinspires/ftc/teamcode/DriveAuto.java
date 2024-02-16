@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -40,6 +42,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumEncodersMessage;
@@ -339,6 +342,17 @@ public final class DriveAuto {
             c.setStrokeWidth(1);
             c.strokePolyline(xPoints, yPoints);
 
+            double lf = leftFront.getCurrent(CurrentUnit.MILLIAMPS) +
+                    leftBack.getCurrent(CurrentUnit.MILLIAMPS) +
+                    rightFront.getCurrent(CurrentUnit.MILLIAMPS) +
+                    rightBack.getCurrent(CurrentUnit.MILLIAMPS);
+
+            p.put("Total Drive Current", String.valueOf(lf));
+//            p.put("Left Back Current", String.valueOf(leftBack.getCurrent(CurrentUnit.MILLIAMPS)));
+//            p.put("Right Front Current", String.valueOf(rightFront.getCurrent(CurrentUnit.MILLIAMPS)));
+//            p.put("Right Back Current", String.valueOf(rightBack.getCurrent(CurrentUnit.MILLIAMPS)));
+
+
             return true;
         }
 
@@ -460,7 +474,7 @@ public final class DriveAuto {
         c.strokePolyline(xPoints, yPoints);
     }
 
-    private static void drawRobot(Canvas c, Pose2d t) {
+    public static void drawRobot(Canvas c, Pose2d t) {
         final double ROBOT_RADIUS = 9;
 
         c.setStrokeWidth(1);

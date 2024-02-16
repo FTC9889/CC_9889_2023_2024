@@ -17,16 +17,16 @@ public class TestAprilTag extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         mRobot.init(hardwareMap);
-        mRobot.init_camera(hardwareMap, telemetry, false);
+//        mRobot.init_camera(hardwareMap, telemetry, false);
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
         mRobot.mIntake.vfbUp();
         mRobot.mIntake.closeGate();
 
         side = BackDrop.CENTER;
-        mRobot.stop_team_prop_scanner();
+//        mRobot.stop_team_prop_scanner();
         sleep(100);
-        mRobot.mBackdrop.initAprilTag(hardwareMap);
+//        mRobot.mBackdrop.initAprilTag(hardwareMap);
 
 
         waitForStart();
@@ -35,22 +35,22 @@ public class TestAprilTag extends LinearOpMode {
 
 
 
-        int backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
-        while (Math.abs(backdrop_postion) > 5) {
-
-            if (backdrop_postion > 5){
-                mRobot.mDrive.setPower(0.4, 0, 0);
-            }else if(backdrop_postion < -5){
-                mRobot.mDrive.setPower(-0.4, 0, 0);
-            } else if (backdrop_postion == 6) {
-                mRobot.mDrive.setPower(0, 0, 0);
-            }
-            backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
-            telemetry.addData("backdrop", backdrop_postion);
-            telemetry.update();
-            sleep(20);
-        }
-        mRobot.mDrive.brake();
+//        int backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
+//        while (Math.abs(backdrop_postion) > 5) {
+//
+//            if (backdrop_postion > 5){
+//                mRobot.mDrive.setPower(0.4, 0, 0);
+//            }else if(backdrop_postion < -5){
+//                mRobot.mDrive.setPower(-0.4, 0, 0);
+//            } else if (backdrop_postion == 6) {
+//                mRobot.mDrive.setPower(0, 0, 0);
+//            }
+//            backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
+//            telemetry.addData("backdrop", backdrop_postion);
+//            telemetry.update();
+//            sleep(20);
+//        }
+//        mRobot.mDrive.brake();
 
     }
 }

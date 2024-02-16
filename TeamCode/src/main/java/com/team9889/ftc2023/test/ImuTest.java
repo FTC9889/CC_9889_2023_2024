@@ -15,7 +15,7 @@ public class ImuTest extends LinearOpMode {
 
 
         mRobot.init(hardwareMap);
-        mRobot.init_camera(hardwareMap, telemetry, true);
+//        mRobot.init_camera(hardwareMap, telemetry, true);
         mRobot.mLift.initPosition();
 
         mRobot.mLift.set_Grabber_Open(false, false);

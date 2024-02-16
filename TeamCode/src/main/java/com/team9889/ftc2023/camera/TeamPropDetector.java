@@ -36,7 +36,16 @@ public class TeamPropDetector {
     private static final String[] LABELS = {
             "BTP", "RTP",
     };
-    public Robot.BackDrop side;
+    public Robot.BackDrop side = Robot.BackDrop.CENTER;
+
+    public static double RC_X = 50;
+    public static double RC_Y = 50;
+    public static double RL_X = 50;
+    public static double RL_Y = 50;
+    public static double BC_X = 50;
+    public static double BC_Y = 50;
+    public static double BL_X = 50;
+    public static double BL_Y = 50;
 
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
@@ -46,7 +55,7 @@ public class TeamPropDetector {
     /**
      * The variable to store our instance of the vision portal.
      */
-    private VisionPortal visionPortal;
+    public VisionPortal visionPortal;
     Telemetry telemetry;
     boolean red;
 
@@ -123,14 +132,6 @@ public class TeamPropDetector {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    public static double RC_X = 50;
-    public static double RC_Y = 50;
-    public static double RL_X = 50;
-    public static double RL_Y = 50;
-    public static double BC_X = 50;
-    public static double BC_Y = 50;
-    public static double BL_X = 50;
-    public static double BL_Y = 50;
 
     public void telemetryTfod(Telemetry telemetry) {
 
@@ -171,19 +172,23 @@ public class TeamPropDetector {
         if (red) {
             if (highestConfidence == null){
                 // Off Screen
+                side = Robot.BackDrop.LEFT;
             } else if (Math.hypot(x - RC_X, y- RC_Y) > Math.hypot(x- RL_X, y- RL_Y)){
                 // Left
-            } else
-            {
+                side = Robot.BackDrop.RIGHT;
+            } else {
                 //center
+                side = Robot.BackDrop.CENTER;
             }
         } else {
             if (highestConfidence == null){
                 // Off Screen
+                side = Robot.BackDrop.RIGHT;
             } else if (Math.hypot(x - BC_X, y- BC_Y) > Math.hypot(x- BL_X, y- BL_Y)){
                 // Left
+                side = Robot.BackDrop.LEFT;
             } else {
-
+                side = Robot.BackDrop.CENTER;
             }
         }
 

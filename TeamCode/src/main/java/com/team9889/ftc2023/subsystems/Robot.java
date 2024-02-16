@@ -19,7 +19,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 public class Robot {
 
     public DriveAuto aDrive;
-    public AprilTagBackdrop mBackdrop = new AprilTagBackdrop();
+//    public AprilTagBackdrop mBackdrop = new AprilTagBackdrop();
 
     public Drive mDrive = new Drive();
 
@@ -29,8 +29,10 @@ public class Robot {
     public Hanger mHanger = new Hanger();
     public Drone mDrone = new Drone();
 
-    OpenCvWebcam webcam1;
-    public TeamPropDetector teamPropDetector;
+    public Camera mCamera = new Camera();
+
+//    OpenCvWebcam webcam1;
+//    public TeamPropDetector teamPropDetector;
 
     public void init (HardwareMap hardwareMap){
         init(hardwareMap, new Pose2d(0,0,0));
@@ -42,25 +44,13 @@ public class Robot {
         }
         else{
             aDrive = new DriveAuto(hardwareMap, initialPose);
+            mCamera.init(hardwareMap);
         }
 
         mIntake.init(hardwareMap);
         mLift.init(hardwareMap);
         mHanger.init(hardwareMap);
         mDrone.init(hardwareMap);
-    }
-
-
-
-    public void init_camera(HardwareMap hardwareMap, Telemetry telemetry, boolean red) {
-            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-            webcam1 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-
-            teamPropDetector = (new TeamPropDetector(red));
-    }
-    public void stop_team_prop_scanner(){
-        webcam1.stopStreaming();
-        webcam1.closeCameraDevice();
     }
 
     public void encoder(double distance, LinearOpMode opMode){

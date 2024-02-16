@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class Intake {
     public DcMotorEx intake;
-    public DcMotor extend;
+    public DcMotorEx extend;
 
     public int extendPosition(){
         return extend.getCurrentPosition();}
@@ -23,7 +23,7 @@ public class Intake {
     Servo vfb, gate;
     public void init(HardwareMap hardwareMap) {
         intake = hardwareMap.get(DcMotorEx.class, "intake");
-        extend = hardwareMap.dcMotor.get("extend");
+        extend = hardwareMap.get(DcMotorEx.class, "extend");
         extend.setDirection(DcMotorSimple.Direction.REVERSE);
         vfb = hardwareMap.servo.get("vfb");
         gate = hardwareMap.servo.get("gate");
@@ -88,7 +88,7 @@ public class Intake {
     }
 
     public boolean twoPixelsInIntake() {
-        return currentDraw() > 1500;
+        return currentDraw() > 3400;
     }
 
 boolean vfbUp=true;
@@ -144,9 +144,14 @@ boolean vfbUp=true;
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            double extensionCurrent = extend.getCurrent(CurrentUnit.MILLIAMPS);
             telemetryPacket.put("Step", "Intake Extend");
+            telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetryPacket.put("Extension Motor Current", extensionCurrent);
             closeGate();
-            if (Math.abs(extend.getCurrentPosition()) < postion){
+            if (Math.abs(extend.getCurrentPosition()) < postion &&
+                    (extensionCurrent < 8000 || Math.abs(extend.getCurrentPosition()) < postion * 0.75))
+            {
                 extend.setPower(1);
                 return true;
             }
@@ -164,6 +169,8 @@ boolean vfbUp=true;
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             telemetryPacket.put("Step", "Intake Extend");
+            telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetryPacket.put("Extension Motor Current", extend.getCurrent(CurrentUnit.MILLIAMPS));
             if (Math.abs(extend.getCurrentPosition()) > 15 && digitalTouch.getState()){
                 extend.setPower(-1);
                 return true;
@@ -185,6 +192,8 @@ boolean vfbUp=true;
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             telemetryPacket.put("Step", "Intake Deploy");
+            telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetryPacket.put("Extension Motor Current", extend.getCurrent(CurrentUnit.MILLIAMPS));
             vfbDown();
             return false;
         }
@@ -198,6 +207,8 @@ public class BringBackIntake implements Action {
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
         telemetryPacket.put("Step", "Bring Back Intake");
+        telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+        telemetryPacket.put("Extension Motor Current", extend.getCurrent(CurrentUnit.MILLIAMPS));
         vfbUp();
         return false;
     }
@@ -214,6 +225,8 @@ public class BringBackIntake implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             telemetryPacket.put("Step", "Intake Off");
+            telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetryPacket.put("Extension Motor Current", extend.getCurrent(CurrentUnit.MILLIAMPS));
             off();
             return false;
         }
@@ -226,7 +239,10 @@ public class BringBackIntake implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             telemetryPacket.put("Step", "Intake On");
+            telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetryPacket.put("Extension Motor Current", extend.getCurrent(CurrentUnit.MILLIAMPS));
             on();
+            closeGate();
             return false;
         }
     }
@@ -239,6 +255,8 @@ public class BringBackIntake implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             telemetryPacket.put("Step", "Intake Outtake");
+            telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetryPacket.put("Extension Motor Current", extend.getCurrent(CurrentUnit.MILLIAMPS));
             slow_out();
             return false;
         }
@@ -248,6 +266,8 @@ public class BringBackIntake implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             telemetryPacket.put("Step", "Transfer");
+            telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetryPacket.put("Extension Motor Current", extend.getCurrent(CurrentUnit.MILLIAMPS));
             transfer();
             return false;
         }
@@ -257,6 +277,8 @@ public class BringBackIntake implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             telemetryPacket.put("Step", "vfb5thpixle");
+            telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetryPacket.put("Extension Motor Current", extend.getCurrent(CurrentUnit.MILLIAMPS));
             vfb5thPixleDown();
             return false;
         }

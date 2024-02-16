@@ -20,7 +20,7 @@ public class FarBlueJustPark extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         mRobot.init(hardwareMap);
-        mRobot.init_camera(hardwareMap, telemetry, false);
+//        mRobot.init_camera(hardwareMap, telemetry, false);
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
         mRobot.mIntake.vfbUp();
@@ -39,11 +39,11 @@ public class FarBlueJustPark extends LinearOpMode {
 
         Timer.reset();
         mRobot.mLift.set_Grabber_Open(true, true);
-        side = mRobot.teamPropDetector.side;
-
-        mRobot.stop_team_prop_scanner();
-        sleep(100);
-        mRobot.mBackdrop.initAprilTag(hardwareMap);
+//        side = mRobot.teamPropDetector.side;
+//
+//        mRobot.stop_team_prop_scanner();
+//        sleep(100);
+//        mRobot.mBackdrop.initAprilTag(hardwareMap);
         mRobot.mLift.set_Grabber_Open(false, false);
 
         int tile = 830;

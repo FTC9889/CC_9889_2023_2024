@@ -18,7 +18,7 @@ public class FarRed extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         mRobot.init(hardwareMap);
-        mRobot.init_camera(hardwareMap, telemetry, true);
+//        mRobot.init_camera(hardwareMap, telemetry, true);
 
         mRobot.mLift.initPosition();
 
@@ -29,15 +29,15 @@ public class FarRed extends LinearOpMode {
         waitForStart();
         Timer.reset();
 
-         side = mRobot.teamPropDetector.side;
+//         side = mRobot.teamPropDetector.side;
 
 //        side = Robot.BackDrop.LEFT;
 
         mRobot.mLift.set_Grabber_Open(true, true);
-        mRobot.stop_team_prop_scanner();
+//        mRobot.stop_team_prop_scanner();
         sleep(100);
         mRobot.mLift.set_Grabber_Open(false, false);
-        mRobot.mBackdrop.initAprilTag(hardwareMap);
+//        mRobot.mBackdrop.initAprilTag(hardwareMap);
 
         int tile = 830;
         long side_tile = 2300;
@@ -107,19 +107,19 @@ public class FarRed extends LinearOpMode {
             mRobot.mDrive.setPower(0.5, 0, 0);
             sleep(800);
 
-            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_left();
-            while (Math.abs(backdrop_postion) > 5) {
-
-                if (backdrop_postion > 5){
-                    mRobot.mDrive.setPower(0.35, 0, 0);
-                }else if(backdrop_postion < -5){
-                    mRobot.mDrive.setPower(-0.35, 0, 0);
-                }
-                backdrop_postion = mRobot.mBackdrop.detect_backdrop_left();
-            }
-            mRobot.mDrive.brake();
-
-            mRobot.mBackdrop.visionPortal.stopStreaming();
+//            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_left();
+//            while (Math.abs(backdrop_postion) > 5) {
+//
+//                if (backdrop_postion > 5){
+//                    mRobot.mDrive.setPower(0.35, 0, 0);
+//                }else if(backdrop_postion < -5){
+//                    mRobot.mDrive.setPower(-0.35, 0, 0);
+//                }
+//                backdrop_postion = mRobot.mBackdrop.detect_backdrop_left();
+//            }
+//            mRobot.mDrive.brake();
+//
+//            mRobot.mBackdrop.visionPortal.stopStreaming();
             sleep(350);
             mRobot.mLift.score_position_second_level();
             sleep(250);
@@ -234,20 +234,20 @@ public class FarRed extends LinearOpMode {
             }
             mRobot.mDrive.brake();
             mRobot.mDrive.reset_encoder();
-
-            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
-            while (Math.abs(backdrop_postion) > 5) {
-
-                if (backdrop_postion > 5){
-                    mRobot.mDrive.setPower(0.4, 0, 0);
-                }else if(backdrop_postion < -5){
-                    mRobot.mDrive.setPower(-0.4, 0, 0);
-                }
-                backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
-            }
-            mRobot.mDrive.brake();
-
-            mRobot.mBackdrop.visionPortal.stopStreaming();
+//
+//            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
+//            while (Math.abs(backdrop_postion) > 5) {
+//
+//                if (backdrop_postion > 5){
+//                    mRobot.mDrive.setPower(0.4, 0, 0);
+//                }else if(backdrop_postion < -5){
+//                    mRobot.mDrive.setPower(-0.4, 0, 0);
+//                }
+//                backdrop_postion = mRobot.mBackdrop.detect_backdrop_center();
+//            }
+//            mRobot.mDrive.brake();
+//
+//            mRobot.mBackdrop.visionPortal.stopStreaming();
             sleep(250);
             mRobot.mDrive.setPower(0, 0.25, 0);
             sleep(1700);
@@ -352,20 +352,20 @@ public class FarRed extends LinearOpMode {
             sleep(Math.max((long) (30000 - 12000 - Timer.milliseconds()), 0));
             mRobot.mDrive.setPower(0.75, 0, 0);
             sleep(1000);
-            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
-            while (Math.abs(backdrop_postion) > 5) {
-
-                if (backdrop_postion > 5){
-                    mRobot.mDrive.setPower(0.35, 0, 0);
-                }else if(backdrop_postion < -5){
-                    mRobot.mDrive.setPower(-0.35, 0, 0);
-                }
-                backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
-            }
-            mRobot.mDrive.brake();
-
-
-            mRobot.mBackdrop.visionPortal.stopStreaming();
+//            int backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
+//            while (Math.abs(backdrop_postion) > 5) {
+//
+//                if (backdrop_postion > 5){
+//                    mRobot.mDrive.setPower(0.35, 0, 0);
+//                }else if(backdrop_postion < -5){
+//                    mRobot.mDrive.setPower(-0.35, 0, 0);
+//                }
+//                backdrop_postion = mRobot.mBackdrop.detect_backdrop_right();
+//            }
+//            mRobot.mDrive.brake();
+//
+//
+//            mRobot.mBackdrop.visionPortal.stopStreaming();
             sleep(250);
             mRobot.mLift.score_position_second_level();
             sleep(500);
