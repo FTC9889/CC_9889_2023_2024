@@ -150,7 +150,7 @@ boolean vfbUp=true;
             telemetryPacket.put("Extension Motor Current", extensionCurrent);
             closeGate();
             if (Math.abs(extend.getCurrentPosition()) < postion &&
-                    (extensionCurrent < 8000 || Math.abs(extend.getCurrentPosition()) < postion * 0.75))
+                    (extensionCurrent < 10000 || Math.abs(extend.getCurrentPosition()) < postion * 0.75))
             {
                 extend.setPower(1);
                 return true;
