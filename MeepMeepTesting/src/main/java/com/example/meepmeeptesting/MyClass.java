@@ -75,7 +75,7 @@ public class MyClass {
 //                  .strafeToLinearHeading(new Vector2d(47.5, -37), Math.toRadians(180))
 //                  .waitSeconds(1)
 //                  .build());
-//
+
 //        RoadRunnerBotEntity RPlagerismLBot = new DefaultBotBuilder(meepMeep)
 //                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
 //                .setConstraints(50, 50, Math.PI, Math.PI, 12.688)
@@ -88,7 +88,8 @@ public class MyClass {
 //                .strafeToLinearHeading(new Vector2d(-39, -57), Math.toRadians(115))
 //                .waitSeconds(1)
 //                .turnTo(Math.toRadians(90))
-//                .strafeToLinearHeading(new Vector2d(-38, -9), Math.toRadians(90))
+//                .splineTo(new Vector2d(-34, -20), Math.toRadians(90))
+//                .splineTo(new Vector2d(-38, -9), Math.toRadians(120))
 //                .turnTo(Math.toRadians(-180))
 //                .waitSeconds(0.75)
 //                .strafeToLinearHeading(new Vector2d(38, -8), Math.toRadians(-180))
@@ -96,31 +97,30 @@ public class MyClass {
 //                .strafeToLinearHeading(new Vector2d(47.5, -30), Math.toRadians(180))
 //                .waitSeconds(1)
 //                .build());
+
+        RoadRunnerBotEntity RPlagerismCBot = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(50, 50, Math.PI, Math.PI, 12.688)
+                .setColorScheme(new ColorSchemeRedDark())
+                .build();
+
+        RPlagerismCBot.runAction(RPlagerismCBot.getDrive().actionBuilder(
+                        new Pose2d(-38, -63.5, Math.toRadians(90)))
+                .setTangent(Math.toRadians(-90))
+                .strafeToLinearHeading(new Vector2d(-39, -57), Math.toRadians(75))
+                .waitSeconds(1)
+                .splineTo(new Vector2d(-38, -9), Math.toRadians(-90))
+                .waitSeconds(0.75)
+                .strafeToLinearHeading(new Vector2d(38, -8), Math.toRadians(-180))
+                .strafeToLinearHeading(new Vector2d(38, -34), Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(47.5, -34), Math.toRadians(180))
+                .waitSeconds(1)
+                .build());
 //
-//        RoadRunnerBotEntity RPlagerismCBot = new DefaultBotBuilder(meepMeep)
-//                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-//                .setConstraints(50, 50, Math.PI, Math.PI, 12.688)
-//                .setColorScheme(new ColorSchemeRedDark())
-//                .build();
 //
-//        RPlagerismCBot.runAction(RPlagerismCBot.getDrive().actionBuilder(
-//                        new Pose2d(-38, -63.5, Math.toRadians(90)))
-//                .setTangent(Math.toRadians(-90))
-//                .strafeToLinearHeading(new Vector2d(-39, -57), Math.toRadians(75))
-//                .waitSeconds(1)
-//                .turnTo(Math.toRadians(90))
-//                .splineToLinearHeading(new Pose2d(-38, -9, Math.toRadians(-180)), 0)
-//                .waitSeconds(0.75)
-//                .strafeToLinearHeading(new Vector2d(38, -8), Math.toRadians(-180))
-//                .strafeToLinearHeading(new Vector2d(38, -34), Math.toRadians(180))
-//                .strafeToLinearHeading(new Vector2d(47.5, -34), Math.toRadians(180))
-//                .waitSeconds(1)
-//                .build());
-
-
-
-
-
+//
+//
+//
 //        RoadRunnerBotEntity BPlagerismRBot = new DefaultBotBuilder(meepMeep)
 //                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
 //                .setConstraints(50, 50, Math.PI, Math.PI, 12.688)
@@ -128,17 +128,16 @@ public class MyClass {
 //                .build();
 //
 //        BPlagerismRBot.runAction(BPlagerismRBot.getDrive().actionBuilder(
-//                        new Pose2d(-38, 63.5, Math.toRadians(0)))
-//                .setTangent(Math.toRadians(-90))
-//                .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(-35))
+//                        new Pose2d(-38, 63.5, Math.toRadians(-90)))
+//                .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(-105))
 //                .waitSeconds(1)
-//                .turnTo(Math.toRadians(90))
-//                .strafeToLinearHeading(new Vector2d(-38, 9), Math.toRadians(0))
+//                .turnTo(Math.toRadians(-90))
+//                .strafeToLinearHeading(new Vector2d(-38, 9), Math.toRadians(-90))
 //                .turnTo(Math.toRadians(-180))
 //                .waitSeconds(0.75)
-//                .strafeToLinearHeading(new Vector2d(38, 8), Math.toRadians(-90))
-//                .strafeToLinearHeading(new Vector2d(38, 34), Math.toRadians(90))
-//                .strafeToLinearHeading(new Vector2d(47.5, 37), Math.toRadians(90))
+//                .strafeToLinearHeading(new Vector2d(38, 8), Math.toRadians(-180))
+//                .strafeToLinearHeading(new Vector2d(38, 34), Math.toRadians(-180))
+//                .strafeToLinearHeading(new Vector2d(47.5, 39), Math.toRadians(-180))
 //                .waitSeconds(1)
 //                .build());
 //
@@ -149,12 +148,12 @@ public class MyClass {
 //                .build();
 //
 //        BPlagerismLBot.runAction(BPlagerismLBot.getDrive().actionBuilder(
-//                        new Pose2d(-38, 63.5, Math.toRadians(90)))
-//                .setTangent(Math.toRadians(-90))
-//                .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(115))
+//                        new Pose2d(-38, 63.5, Math.toRadians(-90)))
+//                .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(-115))
 //                .waitSeconds(1)
-//                .turnTo(Math.toRadians(90))
-//                .strafeToLinearHeading(new Vector2d(-38, 9), Math.toRadians(90))
+//                .turnTo(Math.toRadians(-90))
+//                .splineTo(new Vector2d(-34, 20), Math.toRadians(-90))
+//                .splineTo(new Vector2d(-38, 9), Math.toRadians(-120))
 //                .turnTo(Math.toRadians(-180))
 //                .waitSeconds(0.75)
 //                .strafeToLinearHeading(new Vector2d(38, 8), Math.toRadians(-180))
@@ -172,16 +171,16 @@ public class MyClass {
         BPlagerismCBot.runAction(BPlagerismCBot.getDrive().actionBuilder(
                         new Pose2d(-38, 63.5, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(-90))
-                .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(-90))
+                .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(-77.5))
                 .waitSeconds(1)
-                .turnTo(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(-38, 9, Math.toRadians(-180)), 0)
+                .splineTo(new Vector2d(-38, 9), Math.toRadians(-90))
                 .waitSeconds(0.75)
                 .strafeToLinearHeading(new Vector2d(38, 8), Math.toRadians(-180))
                 .strafeToLinearHeading(new Vector2d(38, 34), Math.toRadians(-180))
                 .strafeToLinearHeading(new Vector2d(47.5, 34), Math.toRadians(-180))
                 .waitSeconds(1)
                 .build());
+
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
@@ -189,7 +188,7 @@ public class MyClass {
 //                .addEntity(mySecondBot)
 //                .addEntity(RPlagerismRBot)
 //                .addEntity(RPlagerismLBot)
-//                .addEntity(RPlagerismCBot)
+                .addEntity(RPlagerismCBot)
 //                .addEntity(BPlagerismRBot)
 //                .addEntity(BPlagerismLBot)
                 .addEntity(BPlagerismCBot)
@@ -197,3 +196,6 @@ public class MyClass {
 
     }
 }
+
+
+// Ivan will beat Elijah in arm wresleing in 3 years this is offical**************************************************************************

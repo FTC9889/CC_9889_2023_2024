@@ -246,22 +246,30 @@ public class TeleOp extends LinearOpMode {
                             allowDriverInputIntakeExtend = false;
                             if (retractIntakeUpTimer.milliseconds() > 600) {
                                 retractIntakeUpTimer.reset();
+                                telemetry.addData("Line Number", "249");
                             }
 
                             if (retractIntakeUpTimer.milliseconds() < 400) {
                                 mRobot.mLift.set_Grabber_Open(false, false);
                                 mRobot.mIntake.setPower(-1);
+                                telemetry.addData("Line Number", "255");
                             } else if (retractIntakeUpTimer.milliseconds() > 1500 || !mRobot.mIntake.digitalTouch.getState()) {
                                 mRobot.mIntake.setPower(0);
+                                telemetry.addData("Line Number", "258");
+
 
                                 if (hangerState != HangerState.RETRACTED) {
                                     currentIntakeState = IntakeState.RETRACTED;
                                     mRobot.mLift.set_Grabber_Open(true, true);
+                                    telemetry.addData("Line Number", "264");
+
                                 }
 
 
                                 allowDriverInputIntakeExtend = true;
                                 retractIntakeUpTimer.reset();
+                                telemetry.addData("Line Number", "271");
+
                             }
                         }
                         break;
@@ -270,18 +278,25 @@ public class TeleOp extends LinearOpMode {
                             case TRANSFER_FIRST_POSITION:
                             case TRANSFER_SECOND_POSITION:
                             case RETRACTED:
-                                if (extendIntakeTimer.milliseconds() > 500)
+                                if (extendIntakeTimer.milliseconds() > 500) {
                                     extendIntakeTimer.reset();
+                                    telemetry.addData("Line Number", "283");
+                                }
+
 
                                 if (!mRobot.mIntake.digitalTouch.getState() || extendIntakeTimer.milliseconds() < 200) {
                                     mRobot.mIntake.setPower(1);
                                     allowDriverInputIntakeExtend = false;
+                                    telemetry.addData("Line Number", "290");
+
                                 } else {
                                     mRobot.mIntake.vfbUp();
                                     mRobot.mIntake.off();
                                     mRobot.mIntake.closeGate();
                                     allowDriverInputIntakeExtend = true;
                                     currentIntakeState = SLIGHT_EXTEND;
+                                    telemetry.addData("Line Number", "298");
+
                                 }
                                 break;
                             case NULL:
@@ -293,15 +308,21 @@ public class TeleOp extends LinearOpMode {
                     case TRANSFER_FIRST_POSITION:
                         if (currentIntakeState != RETRACTED) {
                             requestedIntakeState = RETRACTED;
+                            telemetry.addData("Line Number", "311");`++++++
                         } else {
                             mRobot.mLift.set_Grabber_Open(true, true);
+                            telemetry.addData("Line Number", "315");
                             mRobot.mIntake.transfer();
                             if (transferTimer.milliseconds() > 1000) {
                                 transferTimer.reset();
+                                telemetry.addData("Line Number", "319");
+
                             } else if (transferTimer.milliseconds() > 800) {
                                 mRobot.mLift.set_Grabber_Open(false, false);
                                 mRobot.mIntake.transfer2();
                                 currentIntakeState = TRANSFER_FIRST_POSITION;
+                                telemetry.addData("Line Number", "325");
+
                             }
 
                         }
@@ -313,21 +334,32 @@ public class TeleOp extends LinearOpMode {
                             if (transferTimer.milliseconds() > 1000) {
                                 transferTimer.reset();
                                 allowDriverInputIntakeExtend = false;
+                                telemetry.addData("Line Number", "338");
+
                             } else if (transferTimer.milliseconds() < 100) {
                                 mRobot.mIntake.setPower(1);
+                                telemetry.addData("Line Number", "342");
+
                             } else if (transferTimer.milliseconds() < 200) {
                                 mRobot.mIntake.setPower(0);
+                                telemetry.addData("Line Number", "346");
+
                             } else if (transferTimer.milliseconds() < 300) {
                                 mRobot.mIntake.closeGate();
                                 mRobot.mLift.set_Grabber_Open(true, true);
+                                telemetry.addData("Line Number", "351");
+
                             } else if (transferTimer.milliseconds() < 500) {
                                 mRobot.mIntake.setPower(-1);
+                                telemetry.addData("Line Number", "355");
+
                             } else if (transferTimer.milliseconds() > 700) {
                                 mRobot.mIntake.setPower(0);
                                 mRobot.mLift.set_Grabber_Open(false, false);
                                 currentIntakeState = TRANSFER_FIRST_POSITION;
                                 requestedIntakeState = TRANSFER_FIRST_POSITION;
                                 allowDriverInputIntakeExtend = true;
+                                telemetry.addData("Line Number", "363");
                             }
                         }
                         break;
@@ -348,14 +380,15 @@ public class TeleOp extends LinearOpMode {
                                 if (currentIntakeState != SLIGHT_EXTEND) {
                                     requestedIntakeState = SLIGHT_EXTEND;
                                     allowDriverInputLiftExtend = false;
+
                                 } else {
                                     allowDriverInputLiftExtend = false;
                                     mRobot.mLift.set_Grabber_Open(false, false);
                                     mRobot.mLift.score_position();
 
-                                    if (firstPositionTimer.milliseconds() > 800)
+                                    if (firstPositionTimer.milliseconds() > 800) {
                                         firstPositionTimer.reset();
-                                    else if (firstPositionTimer.milliseconds() > 500) {
+                                    } else if (firstPositionTimer.milliseconds() > 500) {
                                         currentLiftState = LiftState.FIRST_POSITION;
                                         allowDriverInputLiftExtend = true;
                                     }
@@ -363,10 +396,11 @@ public class TeleOp extends LinearOpMode {
                                 break;
                             case SECOND_POSITION:
                                 mRobot.mLift.score_position();
-                                if (firstPositionTimer.milliseconds() > 800)
+                                if (firstPositionTimer.milliseconds() > 800) {
                                     firstPositionTimer.reset();
-                                else if (firstPositionTimer.milliseconds() > 500)
+                                } else if (firstPositionTimer.milliseconds() > 500) {
                                     currentLiftState = LiftState.FIRST_POSITION;
+                                }
                                 break;
                             case AUTO:
                             case NULL:
@@ -384,9 +418,9 @@ public class TeleOp extends LinearOpMode {
                                     mRobot.mLift.set_Grabber_Open(false, false);
                                     mRobot.mLift.score_position_second_level();
 
-                                    if (firstPositionTimer.milliseconds() > 800)
+                                    if (firstPositionTimer.milliseconds() > 800) {
                                         firstPositionTimer.reset();
-                                    else if (firstPositionTimer.milliseconds() > 500) {
+                                    } else if (firstPositionTimer.milliseconds() > 500) {
                                         currentLiftState = LiftState.SECOND_POSITION;
                                         allowDriverInputLiftExtend = true;
                                     }

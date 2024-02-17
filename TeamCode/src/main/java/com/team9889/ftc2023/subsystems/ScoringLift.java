@@ -14,7 +14,7 @@ public class ScoringLift {
 
     public static double lgc = 0.35;
     public static double lgo = 0.65;
-    public static double rgc = 0.4;
+    public static double rgc = 0.425;
     public static double rgo = 0.67;
 
     Servo armL, armR; ElapsedTime timer=new ElapsedTime();
