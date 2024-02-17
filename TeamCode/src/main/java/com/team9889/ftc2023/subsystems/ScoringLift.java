@@ -1,6 +1,7 @@
 package com.team9889.ftc2023.subsystems;
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,8 +9,14 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+@Config
 public class ScoringLift {
+
+    public static double lgc = 0.35;
+    public static double lgo = 0.65;
+    public static double rgc = 0.4;
+    public static double rgo = 0.67;
+
     Servo armL, armR; ElapsedTime timer=new ElapsedTime();
     DcMotor LiftMotor;
     DigitalChannel digitalTouch;
@@ -89,16 +96,16 @@ public void set_Grabber_Open(boolean L,boolean R){
     left_teleop_last_state = L;
     right_teleop_last_state = R;
     if (L) {
-        GrabberL.setPosition(0.65);
+        GrabberL.setPosition(lgo);
 
     }  else {
-        GrabberL.setPosition(0.35);
+        GrabberL.setPosition(lgc);
     }
     if (R) {
-        GrabberR.setPosition(0.67);
+        GrabberR.setPosition(rgo);
 
     }  else {
-        GrabberR.setPosition(0.4);
+        GrabberR.setPosition(rgc);
     }
 }
 

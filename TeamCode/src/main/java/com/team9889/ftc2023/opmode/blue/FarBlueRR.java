@@ -19,7 +19,7 @@ public class FarBlueRR extends LinearOpMode {
         Pose2d beginPose = new Pose2d(-38, 63.5, Math.toRadians(-90));
         mRobot.init(hardwareMap, beginPose);
 
-        Robot.BackDrop side = Robot.BackDrop.RIGHT;
+        Robot.BackDrop side = Robot.BackDrop.CENTER;
 
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
@@ -39,7 +39,7 @@ public class FarBlueRR extends LinearOpMode {
                             .setTangent(Math.toRadians(-90))
                             .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(-90))
                             .stopAndAdd(mRobot.mIntake.Depl0yIntake())
-                            .stopAndAdd(mRobot.mIntake.ExtendIntake(400))
+                            .stopAndAdd(mRobot.mIntake.ExtendIntake(375))
                             .stopAndAdd(mRobot.mIntake.Outtake())
                             .stopAndAdd(mRobot.mLift.IntakePosition())
                             .waitSeconds(1)

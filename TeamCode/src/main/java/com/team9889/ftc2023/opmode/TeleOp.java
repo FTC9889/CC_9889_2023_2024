@@ -151,7 +151,7 @@ public class TeleOp extends LinearOpMode {
                     mRobot.mLift.set_Grabber_Open(leftGrabberD1, true);
                 }
             }
-//ivan is cool
+//Ivan is cool
             if (gamepad1.right_bumper) {
                 if (currentLiftState == LiftState.FIRST_POSITION || currentLiftState == LiftState.SECOND_POSITION || currentLiftState == LiftState.EXTENDED_POSITION) {
                     leftGrabberD1 = true;

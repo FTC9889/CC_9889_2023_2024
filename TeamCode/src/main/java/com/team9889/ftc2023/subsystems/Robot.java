@@ -16,6 +16,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
+import java.util.Objects;
+
 public class Robot {
 
     public DriveAuto aDrive;
@@ -34,12 +36,13 @@ public class Robot {
 //    OpenCvWebcam webcam1;
 //    public TeamPropDetector teamPropDetector;
 
+    private Pose2d zero = new Pose2d(0,0,0);
     public void init (HardwareMap hardwareMap){
-        init(hardwareMap, new Pose2d(0,0,0));
+        init(hardwareMap, zero);
     }
 
     public void init (HardwareMap hardwareMap, Pose2d initialPose){
-        if (initialPose == new Pose2d(0,0,0)){
+        if (Objects.equals(initialPose, zero)){
             mDrive.init(hardwareMap);
         }
         else{
