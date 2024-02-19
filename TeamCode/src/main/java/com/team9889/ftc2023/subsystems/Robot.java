@@ -1,8 +1,13 @@
 package com.team9889.ftc2023.subsystems;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.team9889.ftc2023.camera.AprilTagBackdrop;
@@ -78,6 +83,21 @@ public class Robot {
                 default:
                     return "";
             }
+        }
+    }
+
+    public Action WhiteLine() {
+        return new TurnToWhiteLine();
+    }
+
+    public class TurnToWhiteLine implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            aDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0), -0.2));
+            if (mIntake.detected()){
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -308,7 +308,7 @@ public class TeleOp extends LinearOpMode {
                     case TRANSFER_FIRST_POSITION:
                         if (currentIntakeState != RETRACTED) {
                             requestedIntakeState = RETRACTED;
-                            telemetry.addData("Line Number", "311");`++++++
+                            telemetry.addData("Line Number", "311");
                         } else {
                             mRobot.mLift.set_Grabber_Open(true, true);
                             telemetry.addData("Line Number", "315");

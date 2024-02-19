@@ -88,7 +88,7 @@ public final class DriveAuto {
         // path controller gains
         public double axialGain = 20.0;
         public double lateralGain = 45.0;
-        public double headingGain = 17.0; // shared with turn
+        public double headingGain = 17; // shared with turn
 
         public static double GEAR_RATIO = 1.125;
 

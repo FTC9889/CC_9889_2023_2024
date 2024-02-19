@@ -50,7 +50,7 @@ public class Camera {
      * The variable to store our instance of the vision portal.
      */
     public  VisionPortal visionPortal;
-    private WebcamName webcam1, webcam2;
+    public WebcamName webcam1, webcam2;
 
     private static final String TFOD_MODEL_ASSET = "2nd_model.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,

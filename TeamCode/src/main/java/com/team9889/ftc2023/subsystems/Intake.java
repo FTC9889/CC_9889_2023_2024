@@ -3,6 +3,7 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,14 +22,24 @@ public class Intake {
         return extend.getCurrentPosition();}
     public DigitalChannel digitalTouch;
     Servo vfb, gate;
+
+    public ColorSensor color;
+
+
     public void init(HardwareMap hardwareMap) {
         intake = hardwareMap.get(DcMotorEx.class, "intake");
+
         extend = hardwareMap.get(DcMotorEx.class, "extend");
         extend.setDirection(DcMotorSimple.Direction.REVERSE);
+
         vfb = hardwareMap.servo.get("vfb");
         gate = hardwareMap.servo.get("gate");
+
         digitalTouch = hardwareMap.digitalChannel.get("intakemagnet");
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+
+        color = hardwareMap.get(ColorSensor.class, "Color");
+
         extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         extend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         extend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -74,7 +85,7 @@ public class Intake {
         intake.setPower(-1);
     }
 
-    public void slow_out() {intake.setPower(-0.55);}
+    public void slow_out() {intake.setPower(-0.3);}
 
     public void openGate(){
         gate.setPosition(.65);
@@ -89,6 +100,10 @@ public class Intake {
 
     public boolean twoPixelsInIntake() {
         return currentDraw() > 3400;
+    }
+
+    public boolean detected(){
+        return color.blue() > 600;
     }
 
 boolean vfbUp=true;
@@ -108,6 +123,16 @@ boolean vfbUp=true;
     public void vfb5thPixleDown(){
         vfb.setPosition(0.21);
     }
+
+    public void vfb4thPixleDown(){
+        vfb.setPosition(0.15);
+    }
+
+    public void vfb3rdPixleDown(){
+        vfb.setPosition(0.1);
+    }
+
+
 
     public void startIntake(){
         closeGate();
@@ -150,7 +175,7 @@ boolean vfbUp=true;
             telemetryPacket.put("Extension Motor Current", extensionCurrent);
             closeGate();
             if (Math.abs(extend.getCurrentPosition()) < postion &&
-                    (extensionCurrent < 8000 || Math.abs(extend.getCurrentPosition()) < postion * 0.75))
+                    (extensionCurrent < 7000 || Math.abs(extend.getCurrentPosition()) < postion * 0.75))
             {
                 extend.setPower(1);
                 return true;
@@ -162,8 +187,11 @@ boolean vfbUp=true;
         }
     }
 
-    public Action ExtendIntake(int position){
-        return new ExtendIntake(position);
+    public Action ExtendIntake(double distance){
+        double tpr = 145.1;
+        double spoolradius = 44 / 25.4 / 2;
+        int ticks = (int) ((distance * tpr) / (2 * Math.PI * spoolradius));
+        return new ExtendIntake(ticks);
     }
     public class RetractIntake implements Action {
         @Override

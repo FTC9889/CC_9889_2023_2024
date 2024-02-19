@@ -75,7 +75,7 @@ public class MyClass {
 //                  .strafeToLinearHeading(new Vector2d(47.5, -37), Math.toRadians(180))
 //                  .waitSeconds(1)
 //                  .build());
-
+//
 //        RoadRunnerBotEntity RPlagerismLBot = new DefaultBotBuilder(meepMeep)
 //                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
 //                .setConstraints(50, 50, Math.PI, Math.PI, 12.688)
@@ -97,7 +97,7 @@ public class MyClass {
 //                .strafeToLinearHeading(new Vector2d(47.5, -30), Math.toRadians(180))
 //                .waitSeconds(1)
 //                .build());
-
+//
         RoadRunnerBotEntity RPlagerismCBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(50, 50, Math.PI, Math.PI, 12.688)
@@ -117,7 +117,7 @@ public class MyClass {
                 .waitSeconds(1)
                 .build());
 //
-//
+
 //
 //
 //
@@ -132,15 +132,15 @@ public class MyClass {
 //                .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(-105))
 //                .waitSeconds(1)
 //                .turnTo(Math.toRadians(-90))
-//                .strafeToLinearHeading(new Vector2d(-38, 9), Math.toRadians(-90))
+//                .strafeToLinearHeading(new Vector2d(-38, 13), Math.toRadians(-90))
 //                .turnTo(Math.toRadians(-180))
 //                .waitSeconds(0.75)
-//                .strafeToLinearHeading(new Vector2d(38, 8), Math.toRadians(-180))
+//                .strafeToLinearHeading(new Vector2d(38, 13), Math.toRadians(-180))
 //                .strafeToLinearHeading(new Vector2d(38, 34), Math.toRadians(-180))
 //                .strafeToLinearHeading(new Vector2d(47.5, 39), Math.toRadians(-180))
 //                .waitSeconds(1)
 //                .build());
-//
+
 //        RoadRunnerBotEntity BPlagerismLBot = new DefaultBotBuilder(meepMeep)
 //                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
 //                .setConstraints(50, 50, Math.PI, Math.PI, 12.688)
@@ -149,7 +149,7 @@ public class MyClass {
 //
 //        BPlagerismLBot.runAction(BPlagerismLBot.getDrive().actionBuilder(
 //                        new Pose2d(-38, 63.5, Math.toRadians(-90)))
-//                .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(-115))
+//                .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(-60))
 //                .waitSeconds(1)
 //                .turnTo(Math.toRadians(-90))
 //                .splineTo(new Vector2d(-34, 20), Math.toRadians(-90))
@@ -172,8 +172,10 @@ public class MyClass {
                         new Pose2d(-38, 63.5, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(-90))
                 .strafeToLinearHeading(new Vector2d(-39, 57), Math.toRadians(-77.5))
+                .turnTo(Math.toRadians(-100))
                 .waitSeconds(1)
-                .splineTo(new Vector2d(-38, 9), Math.toRadians(-90))
+                .lineToY(15)
+                .turnTo(Math.toRadians(-180))
                 .waitSeconds(0.75)
                 .strafeToLinearHeading(new Vector2d(38, 8), Math.toRadians(-180))
                 .strafeToLinearHeading(new Vector2d(38, 34), Math.toRadians(-180))

@@ -13,9 +13,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class ScoringLift {
 
     public static double lgc = 0.35;
-    public static double lgo = 0.65;
+    public static double lgo = 0.575;
     public static double rgc = 0.425;
-    public static double rgo = 0.67;
+    public static double rgo = 0.6;
 
     Servo armL, armR; ElapsedTime timer=new ElapsedTime();
     DcMotor LiftMotor;
