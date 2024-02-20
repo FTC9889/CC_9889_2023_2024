@@ -52,13 +52,18 @@ public class Intake {
                 extend.setPower(power);
             } else {
                 extend.setPower(0);
+                if(Math.abs(extend.getCurrentPosition()) > 20) {
+                    extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    extend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                }
             }
         } else {
-           // if (extend.getCurrentPosition() > 3500){
+            int maxExtension = 570;
+            if (extend.getCurrentPosition() < maxExtension){
                 extend.setPower(power);
-//            } else {
-//                extend.setPower(0);
-//            }
+            } else {
+                extend.setPower(0);
+            }
         }
     }
 

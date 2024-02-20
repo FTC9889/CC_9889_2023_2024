@@ -18,7 +18,7 @@ public class ScoringLift {
     public static double rgo = 0.6;
 
     Servo armL, armR; ElapsedTime timer=new ElapsedTime();
-    DcMotor LiftMotor;
+    public DcMotor LiftMotor;
     DigitalChannel digitalTouch;
 Servo GrabberL, GrabberR;
     public void init(HardwareMap hardwareMap){
@@ -41,19 +41,19 @@ Servo GrabberL, GrabberR;
     }
     public void setPower(double power){
         if (power < 0){
-            if (digitalTouch.getState()== true){
+            if (digitalTouch.getState() == true){
                 LiftMotor.setPower(power);
             } else {
                 LiftMotor.setPower(0);
                 LiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 LiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
-        } else {if (LiftMotor.getCurrentPosition() < 3001){
-            LiftMotor.setPower(power);
-
-        }else
-            LiftMotor.setPower(0);
-
+        } else {
+            if (LiftMotor.getCurrentPosition() < 480){
+                LiftMotor.setPower(power);
+            } else {
+                LiftMotor.setPower(0);
+            }
         }
 
     } public void setArmPosition(double position){
@@ -67,8 +67,6 @@ boolean armTransfer=true;
     public void intake_position(){
        setArmPosition(1);
        armTransfer=true;
-
-
     }
 
     public void score_position(){
