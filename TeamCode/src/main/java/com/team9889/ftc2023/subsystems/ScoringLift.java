@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Math;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -39,8 +40,16 @@ Servo GrabberL, GrabberR;
 
 
     }
-    public void setPower(double power){
-        if (power < 0){
+
+    public void setPower(double power) {
+        this.setPower(power, false);
+    }
+
+    int targetPosition = 0;
+    public void setPower(double power, boolean followBackDrop){
+        int liftPosition = LiftMotor.getCurrentPosition();
+
+        if (power < -0.01){
             if (digitalTouch.getState() == true){
                 LiftMotor.setPower(power);
             } else {
@@ -48,21 +57,41 @@ Servo GrabberL, GrabberR;
                 LiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 LiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
-        } else {
-            if (LiftMotor.getCurrentPosition() < 480){
+            targetPosition = liftPosition;
+        } else if(power > 0.01){
+            if (liftPosition < 520){
                 LiftMotor.setPower(power);
             } else {
                 LiftMotor.setPower(0);
             }
+            targetPosition = liftPosition;
         }
 
-    } public void setArmPosition(double position){
+        if(followBackDrop) {
+            setArmPositionBasedOnLiftPosition(liftPosition);
+
+            if(java.lang.Math.abs(power) < 0.01) {
+                double kp = 0.05;
+                LiftMotor.setPower(kp * (targetPosition - liftPosition));
+            }
+        }
+    }
+
+    public void setArmPositionBasedOnLiftPosition(int liftPosition) {
+        double maxLiftPosition = 460;
+        double lowerServoPosition = 0.12;
+        double highServoPosition = 0.34;
+        double servoPosition = (highServoPosition - lowerServoPosition) * (liftPosition / maxLiftPosition) + lowerServoPosition;
+        servoPosition = Math.clamp(servoPosition, lowerServoPosition, highServoPosition);
+        setArmPosition(servoPosition);
+    }
+
+    public void setArmPosition(double position){
         armL.setPosition(position);
         armR.setPosition(position);
     }
 
-
-boolean armTransfer=true;
+    boolean armTransfer=true;
 
     public void intake_position(){
        setArmPosition(1);
@@ -82,29 +111,25 @@ boolean armTransfer=true;
     public void initPosition(){
         setArmPosition(0.70);
     }
-public boolean canTransfer(){
-//        return armTransfer && digitalTouch.getState();
-return true;
-}
 
-public boolean left_teleop_last_state = false;
+    public boolean left_teleop_last_state = false;
     public boolean right_teleop_last_state = false;
 
-public void set_Grabber_Open(boolean L,boolean R){
-    left_teleop_last_state = L;
-    right_teleop_last_state = R;
-    if (L) {
-        GrabberL.setPosition(lgo);
+    public void set_Grabber_Open(boolean L,boolean R){
+        left_teleop_last_state = L;
+        right_teleop_last_state = R;
+        if (L) {
+            GrabberL.setPosition(lgo);
 
-    }  else {
-        GrabberL.setPosition(lgc);
-    }
-    if (R) {
-        GrabberR.setPosition(rgo);
+        }  else {
+            GrabberL.setPosition(lgc);
+        }
+        if (R) {
+            GrabberR.setPosition(rgo);
 
-    }  else {
-        GrabberR.setPosition(rgc);
-    }
+        }  else {
+            GrabberR.setPosition(rgc);
+        }
 }
 
 

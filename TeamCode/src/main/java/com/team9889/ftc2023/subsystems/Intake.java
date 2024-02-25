@@ -23,7 +23,7 @@ public class Intake {
     public DigitalChannel digitalTouch;
     Servo vfb, gate;
 
-    public ColorSensor color;
+//    public ColorSensor color;
 
 
     public void init(HardwareMap hardwareMap) {
@@ -38,7 +38,7 @@ public class Intake {
         digitalTouch = hardwareMap.digitalChannel.get("intakemagnet");
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
-        color = hardwareMap.get(ColorSensor.class, "Color");
+//        color = hardwareMap.get(ColorSensor.class, "Color");
 
         extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         extend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -107,9 +107,9 @@ public class Intake {
         return currentDraw() > 3400;
     }
 
-    public boolean detected(){
-        return color.blue() > 600;
-    }
+//    public boolean detected(){
+//        return color.blue() > 600;
+//    }
 
 boolean vfbUp=true;
     public void vfbUp(){

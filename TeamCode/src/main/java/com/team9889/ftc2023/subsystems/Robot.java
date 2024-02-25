@@ -94,9 +94,9 @@ public class Robot {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             aDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0), -0.2));
-            if (mIntake.detected()){
-                return false;
-            }
+//            if (mIntake.detected()){
+//                return false;
+//            }
             return true;
         }
     }

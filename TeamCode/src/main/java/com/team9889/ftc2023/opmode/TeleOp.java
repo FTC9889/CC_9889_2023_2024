@@ -108,8 +108,6 @@ public class TeleOp extends LinearOpMode {
         LiftState requestedLiftState = LiftState.NULL;
         LiftState currentLiftState = LiftState.AUTO;
 
-        HangerState hangerState = HangerState.DEPLOYED;
-
         boolean allowDriverInputIntakeExtend = true;
         boolean allowDriverInputLiftExtend = true;
 
@@ -118,7 +116,7 @@ public class TeleOp extends LinearOpMode {
             // Drive Code
             mRobot.mDrive.setPower(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x * 0.85);
 
-            if(Math.abs(gamepad1.left_stick_y) > 0.1 && currentIntakeState == RETRACTED && mRobot.mIntake.extend.getCurrentPosition() > 20) {
+            if(gamepad1.left_stick_y > 0.5 && currentIntakeState == RETRACTED && mRobot.mIntake.extend.getCurrentPosition() > 10) {
                 currentIntakeState = SLIGHT_EXTEND;
             }
 
@@ -139,7 +137,7 @@ public class TeleOp extends LinearOpMode {
             }
 
             if (currentLiftState == LiftState.FIRST_POSITION || currentLiftState == LiftState.SECOND_POSITION || currentLiftState == LiftState.EXTENDED_POSITION) {
-                mRobot.mLift.set_Grabber_Open(gamepad1.left_bumper, gamepad1.right_bumper);
+                mRobot.mLift.set_Grabber_Open(gamepad1.right_bumper, gamepad1.left_bumper);
             }
 
             if (gamepad2.x) {
@@ -159,11 +157,7 @@ public class TeleOp extends LinearOpMode {
             }
 
             if (gamepad2.right_bumper) {
-                if(currentLiftState == LiftState.FIRST_POSITION)
-                    requestedLiftState = LiftState.SECOND_POSITION;
-                else
-                    requestedLiftState = LiftState.FIRST_POSITION;
-
+                requestedLiftState = LiftState.FIRST_POSITION;
             } else if (gamepad2.left_bumper) {
                 requestedLiftState = LiftState.INTAKE_POSITION;
             }
@@ -179,6 +173,7 @@ public class TeleOp extends LinearOpMode {
                             case TRANSFER_FIRST_POSITION:
                             case TRANSFER_SECOND_POSITION:
                             case SLIGHT_EXTEND:
+                            case NULL:
                             case RETRACTED:
                                 mRobot.mIntake.startIntake();
                                 allowDriverInputIntakeExtend = true;
@@ -226,24 +221,14 @@ public class TeleOp extends LinearOpMode {
                             if (retractIntakeUpTimer.milliseconds() < 400) {
                                 mRobot.mLift.set_Grabber_Open(false, false);
                                 mRobot.mIntake.setPower(-1);
-                                telemetry.addData("Line Number", "255");
                             } else if (retractIntakeUpTimer.milliseconds() > 1500 || !mRobot.mIntake.digitalTouch.getState()) {
                                 mRobot.mIntake.setPower(0);
-                                telemetry.addData("Line Number", "258");
-
-
-                                if (hangerState != HangerState.RETRACTED) {
-                                    currentIntakeState = IntakeState.RETRACTED;
-                                    mRobot.mLift.set_Grabber_Open(true, true);
-                                    telemetry.addData("Line Number", "264");
-
-                                }
+                                currentIntakeState = IntakeState.RETRACTED;
+                                mRobot.mLift.set_Grabber_Open(true, true);
 
 
                                 allowDriverInputIntakeExtend = true;
                                 retractIntakeUpTimer.reset();
-                                telemetry.addData("Line Number", "271");
-
                             }
                         }
                         break;
@@ -251,29 +236,26 @@ public class TeleOp extends LinearOpMode {
                         switch (currentIntakeState) {
                             case TRANSFER_FIRST_POSITION:
                             case TRANSFER_SECOND_POSITION:
+                            case NULL:
                             case RETRACTED:
                                 if (extendIntakeTimer.milliseconds() > 500) {
                                     extendIntakeTimer.reset();
-                                    telemetry.addData("Line Number", "283");
                                 }
 
 
-                                if (!mRobot.mIntake.digitalTouch.getState() || mRobot.mIntake.extend.getCurrentPosition() < 100) {
+                                if (!mRobot.mIntake.digitalTouch.getState() || mRobot.mIntake.extend.getCurrentPosition() < 30) {
                                     mRobot.mIntake.setPower(1);
                                     allowDriverInputIntakeExtend = false;
-                                    telemetry.addData("Line Number", "290");
 
                                 } else {
                                     mRobot.mIntake.vfbUp();
                                     mRobot.mIntake.off();
                                     mRobot.mIntake.closeGate();
+                                    mRobot.mIntake.setPower(0);
                                     allowDriverInputIntakeExtend = true;
                                     currentIntakeState = SLIGHT_EXTEND;
-                                    telemetry.addData("Line Number", "298");
-
                                 }
                                 break;
-                            case NULL:
                             case OUTTAKE:
                             case INTAKE:
                                 break;
@@ -282,21 +264,15 @@ public class TeleOp extends LinearOpMode {
                     case TRANSFER_FIRST_POSITION:
                         if (currentIntakeState != RETRACTED) {
                             requestedIntakeState = RETRACTED;
-                            telemetry.addData("Line Number", "311");
                         } else {
                             mRobot.mLift.set_Grabber_Open(true, true);
-                            telemetry.addData("Line Number", "315");
                             mRobot.mIntake.transfer();
                             if (transferTimer.milliseconds() > 1000) {
                                 transferTimer.reset();
-                                telemetry.addData("Line Number", "319");
-
                             } else if (transferTimer.milliseconds() > 800) {
                                 mRobot.mLift.set_Grabber_Open(false, false);
                                 mRobot.mIntake.transfer2();
                                 currentIntakeState = TRANSFER_FIRST_POSITION;
-                                telemetry.addData("Line Number", "325");
-
                             }
 
                         }
@@ -308,32 +284,21 @@ public class TeleOp extends LinearOpMode {
                             if (transferTimer.milliseconds() > 1000) {
                                 transferTimer.reset();
                                 allowDriverInputIntakeExtend = false;
-                                telemetry.addData("Line Number", "338");
-
                             } else if (transferTimer.milliseconds() < 100) {
                                 mRobot.mIntake.setPower(1);
-                                telemetry.addData("Line Number", "342");
-
                             } else if (transferTimer.milliseconds() < 200) {
                                 mRobot.mIntake.setPower(0);
-                                telemetry.addData("Line Number", "346");
-
                             } else if (transferTimer.milliseconds() < 300) {
                                 mRobot.mIntake.closeGate();
                                 mRobot.mLift.set_Grabber_Open(true, true);
-                                telemetry.addData("Line Number", "351");
-
                             } else if (transferTimer.milliseconds() < 500) {
                                 mRobot.mIntake.setPower(-1);
-                                telemetry.addData("Line Number", "355");
-
                             } else if (transferTimer.milliseconds() > 700) {
                                 mRobot.mIntake.setPower(0);
                                 mRobot.mLift.set_Grabber_Open(false, false);
                                 currentIntakeState = TRANSFER_FIRST_POSITION;
                                 requestedIntakeState = TRANSFER_FIRST_POSITION;
                                 allowDriverInputIntakeExtend = true;
-                                telemetry.addData("Line Number", "363");
                             }
                         }
                         break;
@@ -371,7 +336,8 @@ public class TeleOp extends LinearOpMode {
                                 break;
                             case SECOND_POSITION:
                                 mRobot.mLift.score_position();
-                                if (firstPositionTimer.milliseconds() > 800) {
+
+                                if (firstPositionTimer.milliseconds() > 600) {
                                     firstPositionTimer.reset();
                                 } else if (firstPositionTimer.milliseconds() > 500) {
                                     currentLiftState = LiftState.FIRST_POSITION;
@@ -381,7 +347,6 @@ public class TeleOp extends LinearOpMode {
                             case NULL:
                                 currentLiftState = LiftState.SECOND_POSITION;
                                 break;
-
                         }
                         break;
                     case SECOND_POSITION:
@@ -403,7 +368,8 @@ public class TeleOp extends LinearOpMode {
                                 break;
                             case FIRST_POSITION:
                                 mRobot.mLift.score_position_second_level();
-                                if (firstPositionTimer.milliseconds() > 1200) {
+
+                                if (firstPositionTimer.milliseconds() > 600) {
                                     firstPositionTimer.reset();
                                     allowDriverInputLiftExtend = false;
                                 } else if (firstPositionTimer.milliseconds() > 500) {
@@ -423,7 +389,7 @@ public class TeleOp extends LinearOpMode {
                                 allowDriverInputLiftExtend = false;
                                 if (armTimer.milliseconds() > 2000) armTimer.reset();
                                 else if (armTimer.milliseconds() < 300) {
-                                    mRobot.mLift.setArmPosition(0.35);
+                                    mRobot.mLift.setArmPosition(0.45);
                                 } else {
                                     mRobot.mLift.setPower(-1);
                                     if(mRobot.mLift.LiftMotor.getCurrentPosition() < 5){
@@ -457,13 +423,15 @@ public class TeleOp extends LinearOpMode {
                 }
             }
 
-            if(allowDriverInputLiftExtend) {
+            if(allowDriverInputLiftExtend && currentLiftState != LiftState.AUTO && requestedLiftState != LiftState.INTAKE_POSITION) {
                 if(gamepad2.left_trigger > 0.1) {
-                    mRobot.mLift.setPower(-gamepad2.left_trigger);
+                    mRobot.mLift.setPower(-gamepad2.left_trigger, true);
                     currentLiftState = LiftState.EXTENDED_POSITION;
                 } else if (gamepad2.right_trigger > 0.1) {
-                    mRobot.mLift.setPower(gamepad2.right_trigger);
+                    mRobot.mLift.setPower(gamepad2.right_trigger, true);
                     currentLiftState = LiftState.EXTENDED_POSITION;
+                } else {
+                    mRobot.mLift.setPower(0, true);
                 }
             }
 
@@ -488,11 +456,8 @@ public class TeleOp extends LinearOpMode {
 
             if(gamepad1.dpad_up) {
                 mRobot.mHanger.up();
-                hangerState = HangerState.DEPLOYED;
             } else if(gamepad1.dpad_down) {
                 mRobot.mHanger.down();
-                hangerState = HangerState.RETRACTED;
-                requestedIntakeState = RETRACTED;
             } else {
                 mRobot.mHanger.off();
             }
@@ -501,12 +466,12 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Intake Current", currentIntakeState.toString());
             telemetry.addData("Lift Wanted", requestedLiftState.toString());
             telemetry.addData("Lift Current", currentLiftState.toString());
-            telemetry.addData("Hanger Current", hangerState.toString());
             telemetry.addData("Intake Magnet", mRobot.mIntake.digitalTouch.getState());
             telemetry.addData("Allow Extension", allowDriverInputIntakeExtend);
             telemetry.addData("Arm Timer (ms)", armTimer.milliseconds());
             telemetry.addData("Intake Extension", mRobot.mIntake.extendPosition());
             telemetry.addData("Lift Position", mRobot.mLift.LiftMotor.getCurrentPosition());
+            telemetry.addData("Hanger Position", mRobot.mHanger.Hang.getCurrentPosition());
             telemetry.update();
         }
     }

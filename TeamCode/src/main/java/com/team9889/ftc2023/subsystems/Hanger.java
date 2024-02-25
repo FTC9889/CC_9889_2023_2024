@@ -4,18 +4,20 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Hanger {
-    DcMotor Hang;
+    public DcMotor Hang;
 
     public void init(HardwareMap hardwaremap) {
         Hang = hardwaremap.dcMotor.get("hang");
         Hang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Hang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Hang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     // lift up
     // go down
     // turn off
     public void up() {
-        Hang.setPower(0.4);
+        Hang.setPower(1);
     }
 
     public void off() {

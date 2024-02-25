@@ -1,11 +1,13 @@
 package com.team9889.ftc2023.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.team9889.ftc2023.subsystems.Robot;
 
 @Autonomous
+@Disabled
 public class ColorSensor_Test extends LinearOpMode {
 
     Robot mRobot = new Robot();
@@ -23,9 +25,9 @@ public class ColorSensor_Test extends LinearOpMode {
 
 
         while (opModeIsActive()) {
-            telemetry.addData("Red", mRobot.mIntake.color.red());
-            telemetry.addData("Green", mRobot.mIntake.color.green());
-            telemetry.addData("Blue", mRobot.mIntake.color.blue());
+//            telemetry.addData("Red", mRobot.mIntake.color.red());
+//            telemetry.addData("Green", mRobot.mIntake.color.green());
+//            telemetry.addData("Blue", mRobot.mIntake.color.blue());
             telemetry.update();
 
 
