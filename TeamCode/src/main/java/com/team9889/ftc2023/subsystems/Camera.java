@@ -73,7 +73,7 @@ public class Camera {
     public static double BC_X = 216;
     public static double BC_Y = 162;
     public static double BL_X = 584;
-    public static double BL_Y = 50;
+    public static double BL_Y = 215;
 
     public Robot.BackDrop side = Robot.BackDrop.CENTER;
 
@@ -224,10 +224,10 @@ public class Camera {
         } else {
             if (highestConfidence == null){
                 // Off Screen
-                side = Robot.BackDrop.RIGHT;
+                side = Robot.BackDrop.LEFT;
             } else if (Math.hypot(x - BC_X, y - BC_Y) > Math.hypot(x - BL_X, y - BL_Y)){
                 // Left
-                side = Robot.BackDrop.LEFT;
+                side = Robot.BackDrop.RIGHT;
             } else {
                 side = Robot.BackDrop.CENTER;
             }

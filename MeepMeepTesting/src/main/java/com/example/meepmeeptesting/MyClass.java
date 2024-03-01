@@ -62,24 +62,23 @@ public class MyClass {
                 .build();
 
         RPlagerismRBot.runAction(RPlagerismRBot.getDrive().actionBuilder(
-                  new Pose2d(11, -63.5, Math.toRadians(90)))
-                .setTangent(Math.toRadians(90))
+                  new Pose2d(11, 63.5, Math.toRadians(-90)))
+                .setTangent(Math.toRadians(-90))
 //                .afterDisp(5, mRobot.mIntake.Depl0yIntake())
-                .strafeToLinearHeading(new Vector2d(11, -43), Math.toRadians(90))
-                                .turnTo(Math.toRadians(115))
+                .strafeToLinearHeading(new Vector2d(17, 50), Math.toRadians(-120))
 //                .stopAndAdd(mRobot.mIntake.Outtake())
                 .waitSeconds(1)
 //                .stopAndAdd(mRobot.mIntake.Off())
 //                .stopAndAdd(mRobot.mIntake.RetractIntake())
 //                .stopAndAdd(mRobot.mIntake.BringBackIntake())
-//                .afterDisp(5, mRobot.mLift.Deploy())
+//                .stopAndAdd( mRobot.mLift.Deploy())
                 .turnTo(Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(51, -43), Math.toRadians(-180))
+                .strafeToLinearHeading(new Vector2d(51, 31), Math.toRadians(-180))
 //                .stopAndAdd(mRobot.mLift.Score())
                 .waitSeconds(1)
 //                .stopAndAdd(mRobot.mLift.Retract())
-                .strafeToLinearHeading(new Vector2d(51, -32), Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(51, -60), Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(51, 60), Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(58, 60), Math.toRadians(180))
                 .build());
 //
 //        RoadRunnerBotEntity RPlagerismLBot = new DefaultBotBuilder(meepMeep)
