@@ -21,7 +21,7 @@ public class Intake {
     public int extendPosition(){
         return extend.getCurrentPosition();}
     public DigitalChannel digitalTouch;
-    Servo vfb, gate;
+    public Servo vfb, gate;
 
 //    public ColorSensor color;
 
@@ -180,9 +180,9 @@ boolean vfbUp=true;
             telemetryPacket.put("Extension Motor Current", extensionCurrent);
             closeGate();
             if (Math.abs(extend.getCurrentPosition()) < postion &&
-                    (extensionCurrent < 7000 || Math.abs(extend.getCurrentPosition()) < postion * 0.75))
+                    (extensionCurrent < 9000 || Math.abs(extend.getCurrentPosition()) < postion * 0.75))
             {
-                extend.setPower(1);
+                extend.setPower(0.6);
                 return true;
             }
             else{

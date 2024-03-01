@@ -109,7 +109,7 @@ Servo GrabberL, GrabberR;
     }
 
     public void initPosition(){
-        setArmPosition(0.70);
+        setArmPosition(0.80);
     }
 
     public boolean left_teleop_last_state = false;
