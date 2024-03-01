@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.subsystems.Robot;
 
 
-@Autonomous
+@Autonomous(group = "Red", name = "🔻 Red Audience Side 🟥", preselectTeleOp = "TeleOp")
 public class FarRedRR extends LinearOpMode {
 
     Robot mRobot = new Robot();
@@ -19,12 +19,20 @@ public class FarRedRR extends LinearOpMode {
         //********************************************************************************************************************************************************************
         mRobot.init(hardwareMap, beginPose);
 
-        Robot.BackDrop side = Robot.BackDrop.LEFT;
-
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
         mRobot.mIntake.vfbUp();
         mRobot.mIntake.closeGate();
+
+        mRobot.mCamera.red = true;
+        Robot.BackDrop side = Robot.BackDrop.CENTER;
+
+
+        while (opModeInInit()) {
+            telemetry.addData("Side", side);
+            mRobot.mCamera.telemetryTfod(telemetry);
+            side = mRobot.mCamera.side();
+        }
 
         waitForStart();
 

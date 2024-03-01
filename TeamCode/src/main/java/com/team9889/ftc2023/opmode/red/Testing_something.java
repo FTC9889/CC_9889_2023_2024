@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 
 @TeleOp
-
+@Disabled
 public class Testing_something extends LinearOpMode{
     NormalizedColorSensor colorsensor1, colorsensor2;
     DcMotor test;

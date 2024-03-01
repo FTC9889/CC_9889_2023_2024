@@ -6,7 +6,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.subsystems.Robot;
-@Autonomous
+@Autonomous(group = "Red", name = "🔺 Red Backdrop Side 🟥", preselectTeleOp = "TeleOp")
 public class FrontRedRR extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -17,12 +17,21 @@ public class FrontRedRR extends LinearOpMode {
 
         mRobot.init(hardwareMap, beginPose);
 
-        Robot.BackDrop side = Robot.BackDrop.RIGHT;
 
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
         mRobot.mIntake.vfbUp();
         mRobot.mIntake.closeGate();
+
+        mRobot.mCamera.red = true;
+        Robot.BackDrop side = Robot.BackDrop.CENTER;
+
+
+        while (opModeInInit()) {
+            telemetry.addData("Side", side);
+            mRobot.mCamera.telemetryTfod(telemetry);
+            side = mRobot.mCamera.side();
+        }
 
         waitForStart();
 
@@ -40,14 +49,14 @@ public class FrontRedRR extends LinearOpMode {
                     mRobot.aDrive.actionBuilder(beginPose)
                             .setTangent(Math.toRadians(90))
                             .afterDisp(15, mRobot.mLift.Deploy())
-                            .splineToLinearHeading(new Pose2d(51, -32, Math.toRadians(180)), 0)
+                            .splineToLinearHeading(new Pose2d(49, -34, Math.toRadians(180)), 0)
                             .stopAndAdd(mRobot.mLift.Score())
                             .waitSeconds(1)
                             .stopAndAdd(mRobot.mLift.Retract())
                             .waitSeconds(0.25)
-                            .strafeToLinearHeading(new Vector2d(48, -25), Math.toRadians(180))
+                            .strafeToLinearHeading(new Vector2d(48, -24), Math.toRadians(180))
                             .stopAndAdd(mRobot.mIntake.Depl0yIntake())
-                            .stopAndAdd(mRobot.mIntake.ExtendIntake(450))
+                            .stopAndAdd(mRobot.mIntake.ExtendIntake(15))
                             .stopAndAdd(mRobot.mIntake.Outtake())
                             .waitSeconds(1)
                             .stopAndAdd(mRobot.mIntake.Off())
@@ -61,20 +70,22 @@ public class FrontRedRR extends LinearOpMode {
                     mRobot.aDrive.actionBuilder(beginPose)
                             .setTangent(Math.toRadians(90))
                             .afterDisp(5, mRobot.mIntake.Depl0yIntake())
-                            .strafeToLinearHeading(new Vector2d(25, -48), Math.toRadians(90))
+                            .strafeToLinearHeading(new Vector2d(11, -43), Math.toRadians(90))
+                            .turnTo(Math.toRadians(120))
                             .stopAndAdd(mRobot.mIntake.Outtake())
                             .waitSeconds(1)
                             .stopAndAdd(mRobot.mIntake.Off())
                             .stopAndAdd(mRobot.mIntake.RetractIntake())
                             .stopAndAdd(mRobot.mIntake.BringBackIntake())
-                            .afterDisp(5, mRobot.mLift.Deploy())
-                            .turnTo(Math.toRadians(180))
-                            .strafeToLinearHeading(new Vector2d(51, -40), Math.toRadians(-180))
+                            .turnTo(Math.toRadians(-175))
+                            .strafeToLinearHeading(new Vector2d(50.5, -28), Math.toRadians(180))
+                            .stopAndAdd(mRobot.mLift.DeploySecondStage())
+                            .waitSeconds(0.5)
                             .stopAndAdd(mRobot.mLift.Score())
                             .waitSeconds(1)
-                            .stopAndAdd(mRobot.mLift.Retract())
-                            .strafeToLinearHeading(new Vector2d(51, -60), Math.toRadians(180))
-                            .strafeToLinearHeading(new Vector2d(58, -60), Math.toRadians(180))
+                            .stopAndAdd(() -> mRobot.mLift.initPosition())
+                            .waitSeconds(0.5)
+                            .strafeToLinearHeading(new Vector2d(43, -60), Math.toRadians(180))
                             .build());
         } else if (side == Robot.BackDrop.RIGHT){
             Actions.runBlocking(
@@ -97,12 +108,5 @@ public class FrontRedRR extends LinearOpMode {
                             .build());
 
         }
-
-        mRobot.mIntake.setPower(0.5);
-        sleep(150);
-        mRobot.mLift.intake_position();
-        sleep(100);
-        mRobot.mIntake.setPower(-0.5);
-        sleep(250);
     }
 }

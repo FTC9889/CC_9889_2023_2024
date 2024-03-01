@@ -1,11 +1,13 @@
 package com.team9889.ftc2023.opmode.blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.opmode.red.FarRed;
 import com.team9889.ftc2023.subsystems.Robot;
 
 @Autonomous
+@Disabled
 public class BlueAutonomus extends LinearOpMode {
     Robot mRobot = new Robot();
 

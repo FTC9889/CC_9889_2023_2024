@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -41,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+
+@Config
 public class Camera {
 
     public AprilTagProcessor aprilTag;
@@ -63,13 +66,13 @@ public class Camera {
 
     public boolean red = false;
 
-    public static double RC_X = 50;
-    public static double RC_Y = 50;
-    public static double RL_X = 50;
-    public static double RL_Y = 50;
-    public static double BC_X = 50;
-    public static double BC_Y = 50;
-    public static double BL_X = 50;
+    public static double RC_X = 172;
+    public static double RC_Y = 172;
+    public static double RL_X = 543;
+    public static double RL_Y = 205;
+    public static double BC_X = 216;
+    public static double BC_Y = 162;
+    public static double BL_X = 584;
     public static double BL_Y = 50;
 
     public Robot.BackDrop side = Robot.BackDrop.CENTER;
@@ -124,8 +127,9 @@ public class Camera {
                 .setModelInputSize(320)
                 .setNumExecutorThreads(1)
                 .setNumDetectorThreads(1)
+                .setMaxNumRecognitions(5)
                 .build();
-        tfod.setMinResultConfidence(0.5f);
+        tfod.setMinResultConfidence(0.3f);
 
         webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
         webcam2 = hardwareMap.get(WebcamName.class, "Webcam 2");
@@ -179,12 +183,10 @@ public class Camera {
 
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
-
-
             if (red && recognition.getLabel() == "RTP"){
                 if (highestConfidence == null) {
                     highestConfidence = recognition;
-                }else if (highestConfidence.getConfidence()< recognition.getConfidence()) {
+                }else if (highestConfidence.getConfidence() < recognition.getConfidence()) {
                     highestConfidence = recognition;
                 }
             } else if(recognition.getLabel() == "BTP")  {
@@ -195,7 +197,6 @@ public class Camera {
                 }
             }
 
-            telemetry.addData("", " ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
         }   // end for() loop
 
@@ -203,14 +204,17 @@ public class Camera {
         if (highestConfidence != null){
             x = (highestConfidence.getLeft() + highestConfidence.getRight()) / 2;
             y = (highestConfidence.getTop() + highestConfidence.getBottom()) / 2;
+            telemetry.addData("-------------------", "");
+            telemetry.addData("Conf.", highestConfidence.getConfidence());
+            telemetry.addData("Position X", x);
+            telemetry.addData("Position Y", y);
         }
-
 
         if (red) {
             if (highestConfidence == null){
                 // Off Screen
                 side = Robot.BackDrop.LEFT;
-            } else if (Math.hypot(x - RC_X, y- RC_Y) > Math.hypot(x- RL_X, y- RL_Y)){
+            } else if (Math.hypot(x - RC_X, y - RC_Y) > Math.hypot(x - RL_X, y - RL_Y)){
                 // Left
                 side = Robot.BackDrop.RIGHT;
             } else {
@@ -221,7 +225,7 @@ public class Camera {
             if (highestConfidence == null){
                 // Off Screen
                 side = Robot.BackDrop.RIGHT;
-            } else if (Math.hypot(x - BC_X, y- BC_Y) > Math.hypot(x- BL_X, y- BL_Y)){
+            } else if (Math.hypot(x - BC_X, y - BC_Y) > Math.hypot(x - BL_X, y - BL_Y)){
                 // Left
                 side = Robot.BackDrop.LEFT;
             } else {
@@ -229,6 +233,7 @@ public class Camera {
             }
         }
 
+        telemetry.update();
 
     }
 

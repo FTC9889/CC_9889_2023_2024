@@ -1,12 +1,14 @@
 package com.team9889.ftc2023.opmode.red;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.subsystems.Robot;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorMRColor;
 
 @Autonomous
+@Disabled
 public class RedAutonomus extends LinearOpMode {
     Robot mRobot = new Robot();
     Robot.BackDrop side;

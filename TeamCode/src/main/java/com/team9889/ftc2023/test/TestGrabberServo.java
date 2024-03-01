@@ -1,11 +1,13 @@
 package com.team9889.ftc2023.test;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.team9889.ftc2023.subsystems.Robot;
 
 @TeleOp
+@Disabled
 public class TestGrabberServo extends LinearOpMode {
 
     Robot mRobot = new Robot();

@@ -11,7 +11,7 @@ import com.team9889.ftc2023.subsystems.ScoringLift;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.DriveAuto;
 
-@Autonomous
+@Autonomous(group = "Blue", name = "⬆️ Blue Backdrop Side 🟦", preselectTeleOp = "TeleOp")
 public final class BlueFrontRR extends LinearOpMode {
     Robot mRobot = new Robot();
     @Override
@@ -21,12 +21,21 @@ public final class BlueFrontRR extends LinearOpMode {
 //********************************************************************************************
         mRobot.init(hardwareMap, beginPose);
 
-        Robot.BackDrop side = Robot.BackDrop.RIGHT;
 
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
         mRobot.mIntake.vfbUp();
         mRobot.mIntake.closeGate();
+
+        mRobot.mCamera.red = false;
+        Robot.BackDrop side = Robot.BackDrop.LEFT;
+
+
+        while (opModeInInit()) {
+            telemetry.addData("Side", side);
+            mRobot.mCamera.telemetryTfod(telemetry);
+            side = mRobot.mCamera.side();
+        }
 
         waitForStart();
 

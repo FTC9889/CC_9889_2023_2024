@@ -1,10 +1,12 @@
 package com.team9889.ftc2023.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.subsystems.Robot;
 
 @Autonomous
+@Disabled
 public class ImuTest extends LinearOpMode {
 
     @Override

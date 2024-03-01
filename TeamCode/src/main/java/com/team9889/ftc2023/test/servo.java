@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.team9889.ftc2023.subsystems.Robot;
 
 @Autonomous(group = "Test")
+@Disabled
 public class servo extends LinearOpMode{
 
     Robot mRobot = new Robot();

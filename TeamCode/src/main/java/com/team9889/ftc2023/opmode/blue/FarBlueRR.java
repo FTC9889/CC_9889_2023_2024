@@ -19,7 +19,7 @@ import com.team9889.ftc2023.subsystems.Robot;
 import org.opencv.core.Mat;
 
 //** 60.5.x ** 30.y **//
-@Autonomous
+@Autonomous(group = "Blue", name = "⬇️ Blue Audience Side 🟦", preselectTeleOp = "TeleOp")
 public class FarBlueRR extends LinearOpMode {
     Robot mRobot = new Robot();
     @Override
@@ -28,12 +28,20 @@ public class FarBlueRR extends LinearOpMode {
         Pose2d beginPose = new Pose2d(-38, 63.5, Math.toRadians(-90));
         mRobot.init(hardwareMap, beginPose);
 
-        Robot.BackDrop side = Robot.BackDrop.RIGHT;
-
         mRobot.mLift.initPosition();
         mRobot.mLift.set_Grabber_Open(false, false);
         mRobot.mIntake.vfbUp();
         mRobot.mIntake.closeGate();
+
+        mRobot.mCamera.red = false;
+        Robot.BackDrop side = Robot.BackDrop.LEFT;
+
+
+        while (opModeInInit()) {
+            telemetry.addData("Side", side);
+            mRobot.mCamera.telemetryTfod(telemetry);
+            side = mRobot.mCamera.side();
+        }
 
         waitForStart();
 

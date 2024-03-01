@@ -1,6 +1,7 @@
 package com.team9889.ftc2023.opmode.blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2023.opmode.red.FarRed;
@@ -8,6 +9,7 @@ import com.team9889.ftc2023.subsystems.Robot;
 import com.team9889.ftc2023.subsystems.Robot.BackDrop;
 
 @Autonomous
+@Disabled
 public class FarBlue extends LinearOpMode {
 
 
