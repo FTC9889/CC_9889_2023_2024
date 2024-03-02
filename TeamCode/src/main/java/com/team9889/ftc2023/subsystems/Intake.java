@@ -1,6 +1,7 @@
 package com.team9889.ftc2023.subsystems;
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -14,6 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.checkerframework.checker.index.qual.PolyUpperBound;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
+@Config
 public class Intake {
     public DcMotorEx intake;
     public DcMotorEx extend;
@@ -21,9 +23,10 @@ public class Intake {
     public int extendPosition(){
         return extend.getCurrentPosition();}
     public DigitalChannel digitalTouch;
-    public Servo vfb, gate;
+    public Servo vfb, gate, Brake;
 
-//    public ColorSensor color;
+    public static double brake_on_position = 0.1;
+    public static double brake_off_position = 0.33;
 
 
     public void init(HardwareMap hardwareMap) {
@@ -32,13 +35,14 @@ public class Intake {
         extend = hardwareMap.get(DcMotorEx.class, "extend");
         extend.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        Brake = hardwareMap.servo.get("Brake");
+        brake_off();
+
         vfb = hardwareMap.servo.get("vfb");
         gate = hardwareMap.servo.get("gate");
 
         digitalTouch = hardwareMap.digitalChannel.get("intakemagnet");
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
-
-//        color = hardwareMap.get(ColorSensor.class, "Color");
 
         extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         extend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -47,6 +51,8 @@ public class Intake {
     //turn on intake
     //turn off intake
     public void setPower(double power){
+        if (Math.abs(power) > 0.02) brake_off();
+
         if(power < 0) {
             if (digitalTouch.getState()) {
                 extend.setPower(power);
@@ -65,6 +71,14 @@ public class Intake {
                 extend.setPower(0);
             }
         }
+    }
+
+    public void  brake_on(){
+        Brake.setPosition(brake_on_position);
+    }
+
+    public void brake_off(){
+        Brake.setPosition(brake_off_position);
     }
 
     public boolean canIntake () {

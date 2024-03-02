@@ -223,6 +223,8 @@ public class TeleOp extends LinearOpMode {
                                 mRobot.mIntake.setPower(-1);
                             } else if (retractIntakeUpTimer.milliseconds() > 1500 || !mRobot.mIntake.digitalTouch.getState()) {
                                 mRobot.mIntake.setPower(0);
+
+                                mRobot.mIntake.brake_on();
                                 currentIntakeState = IntakeState.RETRACTED;
                                 mRobot.mLift.set_Grabber_Open(true, true);
 
@@ -243,7 +245,7 @@ public class TeleOp extends LinearOpMode {
                                 }
 
 
-                                if (!mRobot.mIntake.digitalTouch.getState() || mRobot.mIntake.extend.getCurrentPosition() < 30) {
+                                if (!mRobot.mIntake.digitalTouch.getState() || mRobot.mIntake.extend.getCurrentPosition() < 70) {
                                     mRobot.mIntake.setPower(1);
                                     allowDriverInputIntakeExtend = false;
 
@@ -439,7 +441,7 @@ public class TeleOp extends LinearOpMode {
                 if(gamepad1.left_trigger > 0.1) {
                     mRobot.mIntake.setPower(-gamepad1.left_trigger);
                     mRobot.mLift.set_Grabber_Open(false, false);
-                    if(currentIntakeState == SLIGHT_EXTEND && mRobot.mIntake.extend.getCurrentPosition() < 20) {
+                    if(currentIntakeState == SLIGHT_EXTEND && mRobot.mIntake.extend.getCurrentPosition() < 70) {
                         currentIntakeState = RETRACTED;
                         requestedIntakeState = RETRACTED;
                     }
@@ -452,6 +454,12 @@ public class TeleOp extends LinearOpMode {
                 } else {
                     mRobot.mIntake.setPower(0);
                 }
+            } else {
+                if(currentIntakeState == SLIGHT_EXTEND && requestedIntakeState == SLIGHT_EXTEND)
+                    allowDriverInputIntakeExtend = true;
+
+                if(mRobot.mIntake.extend.getCurrentPosition() > 570)
+                    allowDriverInputIntakeExtend = true;
             }
 
             if(gamepad1.dpad_up) {
