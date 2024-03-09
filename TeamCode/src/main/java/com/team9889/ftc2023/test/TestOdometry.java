@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ThreeDeadWheelLocalizer;
 @TeleOp
-@Disabled
+
 public class TestOdometry extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

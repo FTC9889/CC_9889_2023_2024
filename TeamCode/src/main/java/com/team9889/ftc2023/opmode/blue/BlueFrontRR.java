@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2023.subsystems.Intake;
 import com.team9889.ftc2023.subsystems.Robot;
 import com.team9889.ftc2023.subsystems.ScoringLift;
@@ -15,6 +16,9 @@ import org.firstinspires.ftc.teamcode.DriveAuto;
 @Autonomous(group = "Blue", name = "⬆️ Blue Backdrop Side 🟦", preselectTeleOp = "TeleOp")
 public final class BlueFrontRR extends LinearOpMode {
     Robot mRobot = new Robot();
+
+    ElapsedTime Timer = new ElapsedTime();
+
     @Override
     public void runOpMode() throws InterruptedException {
 //******//DON'T CHANGE THIS YOU WILL REGRET IT//**********************************************************************************************************//////////////////////////////////********************
@@ -82,7 +86,7 @@ public final class BlueFrontRR extends LinearOpMode {
                             .stopAndAdd(mRobot.mIntake.Off())
                             .stopAndAdd(mRobot.mIntake.RetractIntake())
                             .stopAndAdd(mRobot.mIntake.BringBackIntake())
-                            .afterDisp(5, mRobot.mLift.Deploy())
+                            .afterDisp(5, mRobot.mLift.DeploySecondStage())
                             .splineToLinearHeading(new Pose2d(51, 38, Math.toRadians(-180)), 0)
                             .stopAndAdd(mRobot.mLift.Score())
                             .waitSeconds(1)
@@ -102,13 +106,13 @@ public final class BlueFrontRR extends LinearOpMode {
                             .stopAndAdd(mRobot.mIntake.Off())
                             .stopAndAdd(mRobot.mIntake.RetractIntake())
                             .stopAndAdd(mRobot.mIntake.BringBackIntake())
-                            .stopAndAdd( mRobot.mLift.Deploy())
+                            .stopAndAdd( mRobot.mLift.DeploySecondStage())
                             .turnTo(Math.toRadians(180))
-                            .strafeToLinearHeading(new Vector2d(50, 26), Math.toRadians(-180))
+                            .strafeToLinearHeading(new Vector2d(51, 26), Math.toRadians(-180))
                             .stopAndAdd(mRobot.mLift.Score())
                             .waitSeconds(1)
                             .stopAndAdd(mRobot.mLift.Retract())
-                            .strafeToLinearHeading(new Vector2d(50, 60), Math.toRadians(180))
+                            .strafeToLinearHeading(new Vector2d(51, 60), Math.toRadians(180))
                             .strafeToLinearHeading(new Vector2d(58, 60), Math.toRadians(180))
                             .build());
         }

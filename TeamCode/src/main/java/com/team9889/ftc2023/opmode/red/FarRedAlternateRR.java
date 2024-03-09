@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2023.subsystems.Robot;
 
 
@@ -12,6 +13,9 @@ import com.team9889.ftc2023.subsystems.Robot;
 public class FarRedAlternateRR extends LinearOpMode {
 
     Robot mRobot = new Robot();
+
+    ElapsedTime Timer = new ElapsedTime();
+
     @Override
     public void runOpMode() throws InterruptedException {
         //* DON'T CHANGE THIS YOU WILL REGRET IT *************************************************************** LOOK *******************************************************
@@ -74,13 +78,13 @@ public class FarRedAlternateRR extends LinearOpMode {
                             .stopAndAdd(mRobot.mIntake.Off())
                             .strafeToLinearHeading(new Vector2d(-36, -59), Math.toRadians(-180))
                             .strafeToLinearHeading(new Vector2d(33, -59), Math.toRadians(-180))
-                            .strafeToLinearHeading(new Vector2d(38, -39), Math.toRadians(-180))
+                            .strafeToLinearHeading(new Vector2d(38, -34), Math.toRadians(-180))
                             .stopAndAdd(mRobot.mCamera.resetPose(mRobot, Math.PI / 2))
                             .stopAndAdd(mRobot.mIntake.ExtendIntake(5))
                             .stopAndAdd(mRobot.mLift.DeploySecondStage())
                             .strafeToLinearHeading(new Vector2d(43, -33), Math.toRadians(-180))
                             .waitSeconds(0.5)
-                            .strafeToLinearHeading(new Vector2d(51.5, -38), Math.toRadians(-180))
+                            .strafeToLinearHeading(new Vector2d(51.5, -36), Math.toRadians(-180))
                             .stopAndAdd(mRobot.mLift.setgrabber(true, false))
                             .waitSeconds(0.1)
                             .stopAndAdd(() -> mRobot.mLift.setArmPosition(0.35))
@@ -122,7 +126,7 @@ public class FarRedAlternateRR extends LinearOpMode {
                             .stopAndAdd(mRobot.mIntake.Off())
                             .strafeToLinearHeading(new Vector2d(-36, -59), Math.toRadians(-180))
                             .strafeToLinearHeading(new Vector2d(33, -59), Math.toRadians(-180))
-                            .strafeToLinearHeading(new Vector2d(38, -39), Math.toRadians(-180))
+                            .strafeToLinearHeading(new Vector2d(38, -34), Math.toRadians(-180))
                             .stopAndAdd(mRobot.mCamera.resetPose(mRobot, Math.PI / 2))
                             .stopAndAdd(mRobot.mIntake.ExtendIntake(5))
                             .stopAndAdd(mRobot.mLift.DeploySecondStage())
@@ -130,6 +134,7 @@ public class FarRedAlternateRR extends LinearOpMode {
                             .strafeToLinearHeading(new Vector2d(50.5, -28), Math.toRadians(180))
                              .stopAndAdd(mRobot.mLift.setgrabber(true, false))
                             .waitSeconds(0.25)
+                            .strafeToLinearHeading(new Vector2d(50.5, -32), Math.toRadians(180))
                             .stopAndAdd(() -> mRobot.mLift.setArmPosition(0.35))
                             .strafeToLinearHeading(new Vector2d(50.5, -36), Math.toRadians(180))
                             .stopAndAdd(mRobot.mLift.DeploySecondStage())
@@ -169,7 +174,7 @@ public class FarRedAlternateRR extends LinearOpMode {
                             .stopAndAdd(mRobot.mIntake.Off())
                             .strafeToLinearHeading(new Vector2d(-36, -59), Math.toRadians(-180))
                             .strafeToLinearHeading(new Vector2d(33, -59), Math.toRadians(-180))
-                            .strafeToLinearHeading(new Vector2d(38, -39), Math.toRadians(-180))
+                            .strafeToLinearHeading(new Vector2d(38, -34), Math.toRadians(-180))
                             .stopAndAdd(mRobot.mCamera.resetPose(mRobot, Math.PI / 2))
                             .stopAndAdd(mRobot.mIntake.ExtendIntake(5))
                             .stopAndAdd(mRobot.mLift.DeploySecondStage())

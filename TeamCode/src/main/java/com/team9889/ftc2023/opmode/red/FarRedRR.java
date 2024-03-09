@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2023.subsystems.Robot;
 
 
@@ -12,6 +13,9 @@ import com.team9889.ftc2023.subsystems.Robot;
 public class FarRedRR extends LinearOpMode {
 
     Robot mRobot = new Robot();
+
+    ElapsedTime Timer = new ElapsedTime();
+
     @Override
     public void runOpMode() throws InterruptedException {
         //* DON'T CHANGE THIS YOU WILL REGRET IT *************************************************************** LOOK *******************************************************
@@ -161,7 +165,7 @@ public class FarRedRR extends LinearOpMode {
                             .stopAndAdd(mRobot.mIntake.vfb5thpixle())
                             .stopAndAdd(mRobot.mIntake.On())
                     .waitSeconds(0.25)
-                            .stopAndAdd(mRobot.mIntake.ExtendIntake(18))
+                            .stopAndAdd(mRobot.mIntake.ExtendIntake(17))
                             .waitSeconds(1)
                             .stopAndAdd(mRobot.mIntake.BringBackIntake())
                             .stopAndAdd(mRobot.mIntake.RetractIntake())

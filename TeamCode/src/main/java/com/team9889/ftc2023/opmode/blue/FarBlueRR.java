@@ -13,6 +13,7 @@ import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2023.subsystems.Intake;
 import com.team9889.ftc2023.subsystems.Robot;
 
@@ -22,6 +23,9 @@ import org.opencv.core.Mat;
 @Autonomous(group = "Blue", name = "⬇️ Blue Audience Side 🟦", preselectTeleOp = "TeleOp")
 public class FarBlueRR extends LinearOpMode {
     Robot mRobot = new Robot();
+
+    ElapsedTime Timer = new ElapsedTime();
+
     @Override
     public void runOpMode() throws InterruptedException {
         //* DON'T CHANGE THIS YOU WILL REGRET IT *************************************************************** LOOK ****************
@@ -59,7 +63,7 @@ public class FarBlueRR extends LinearOpMode {
             Actions.runBlocking(
                     mRobot.aDrive.actionBuilder(beginPose)
                             .afterDisp(5, mRobot.mIntake.Depl0yIntake())
-                            .strafeToLinearHeading(new Vector2d(-37, 57), Math.toRadians(-77.5))
+                            .strafeToLinearHeading(new Vector2d(-37, 57), Math.toRadians(-75))
                             .waitSeconds(0.5)
                             .stopAndAdd(mRobot.mIntake.Outtake())
                             .waitSeconds(0.6)
@@ -93,10 +97,6 @@ public class FarBlueRR extends LinearOpMode {
                             .waitSeconds(0.5)
                             .strafeToLinearHeading(new Vector2d(50.5, 33), Math.toRadians(-180))
                             .stopAndAdd(mRobot.mLift.setgrabber(true, false))
-                            .waitSeconds(0.1)
-                            .stopAndAdd(() -> mRobot.mLift.setArmPosition(0.35))
-                            .waitSeconds(0.4)
-                            .stopAndAdd(() -> mRobot.mLift.setArmPosition(0.26))
                             .waitSeconds(0.4)
                             .stopAndAdd(mRobot.mLift.setgrabber(true, true))
                             .waitSeconds(0.2)

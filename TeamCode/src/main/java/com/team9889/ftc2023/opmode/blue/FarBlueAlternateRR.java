@@ -5,12 +5,16 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2023.subsystems.Robot;
 
 //** 60.5.x ** 30.y **//
 @Autonomous(group = "Blue", name = "⬇️♻️ Blue Audience Alternate Side 🟦", preselectTeleOp = "TeleOp")
 public class FarBlueAlternateRR extends LinearOpMode {
     Robot mRobot = new Robot();
+
+    ElapsedTime Timer = new ElapsedTime();
+
     @Override
     public void runOpMode() throws InterruptedException {
         //* DON'T CHANGE THIS YOU WILL REGRET IT *************************************************************** LOOK ****************

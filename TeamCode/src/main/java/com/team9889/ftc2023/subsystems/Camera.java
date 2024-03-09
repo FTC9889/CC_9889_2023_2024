@@ -293,7 +293,10 @@ public class Camera {
                 timer.reset();
             }
             if (PoseFromCamera.position.x > 15 && Math.abs(PoseFromCamera.position.y) > 0.01){
-                driveAuto.pose = PoseFromCamera;
+                if (Math.abs(driveAuto.pose.minus(PoseFromCamera).line.x) < 7 && Math.abs(driveAuto.pose.minus(PoseFromCamera).line.y) < 7){
+                    driveAuto.pose = PoseFromCamera;
+                }
+
                 pauseallcamera();
                 return false;
             }

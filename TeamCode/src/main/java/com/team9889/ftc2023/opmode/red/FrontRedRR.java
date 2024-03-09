@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2023.subsystems.Robot;
 @Autonomous(group = "Red", name = "🔺 Red Backdrop Side 🟥", preselectTeleOp = "TeleOp")
 public class FrontRedRR extends LinearOpMode {
@@ -14,6 +15,9 @@ public class FrontRedRR extends LinearOpMode {
         Pose2d beginPose = new Pose2d(16, -63.5, Math.toRadians(90));
 
         Robot mRobot = new Robot();
+
+        ElapsedTime Timer = new ElapsedTime();
+
 
         mRobot.init(hardwareMap, beginPose);
 
@@ -108,5 +112,13 @@ public class FrontRedRR extends LinearOpMode {
                             .build());
 
         }
+
+        mRobot.mIntake.setPower(0.5);
+        sleep(500);
+        mRobot.mLift.set_Grabber_Open(false, false);
+        mRobot.mLift.intake_position();
+        sleep(100);
+        mRobot.mIntake.setPower(-0.5);
+        sleep(650);
     }
 }
