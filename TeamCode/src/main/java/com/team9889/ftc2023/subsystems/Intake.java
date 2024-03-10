@@ -121,11 +121,8 @@ public class Intake {
         return currentDraw() > 3400;
     }
 
-//    public boolean detected(){
-//        return color.blue() > 600;
-//    }
 
-boolean vfbUp=true;
+    boolean vfbUp=true;
     public void vfbUp(){
         vfb.setPosition(0.67);
         vfbUp=true;

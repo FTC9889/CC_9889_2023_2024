@@ -111,6 +111,9 @@ public class TeleOp extends LinearOpMode {
         boolean allowDriverInputIntakeExtend = true;
         boolean allowDriverInputLiftExtend = true;
 
+        boolean droneLaunched = false;
+        ElapsedTime droneTimer = new ElapsedTime();
+
         while(opModeIsActive()) {
 
             // Drive Code
@@ -154,6 +157,11 @@ public class TeleOp extends LinearOpMode {
 
             if (gamepad2.right_stick_button && gamepad2.left_stick_button) {
                 mRobot.mDrone.shoot();
+
+                if(!droneLaunched) {
+                    droneTimer.reset();
+                    droneLaunched = true;
+                }
             }
 
             if (gamepad2.right_bumper) {
@@ -462,6 +470,30 @@ public class TeleOp extends LinearOpMode {
                     allowDriverInputIntakeExtend = true;
             }
 
+            double intakeCurrentDraw = mRobot.mIntake.currentDraw();
+            if(droneLaunched) {
+                if(droneTimer.milliseconds() < 2000) {
+                    mRobot.mLED.droneLaunched();
+                }
+            } else if(currentLiftState == LiftState.INTAKE_POSITION) {
+                if (requestedIntakeState == INTAKE) {
+                    if (intakeCurrentDraw > 4000)
+                        mRobot.mLED.stuckInIntake();
+                    else if (intakeCurrentDraw > 3400)
+                        mRobot.mLED.twoInIntake();
+                    else
+                        mRobot.mLED.nothingInIntake();
+                } else if (requestedIntakeState == RETRACTED) {
+                    mRobot.mLED.restingNoFeedback();
+                } else if (requestedIntakeState == TRANSFER_FIRST_POSITION) {
+                    mRobot.mLED.transferIntake();
+                }
+            } else if(currentLiftState == LiftState.FIRST_POSITION) {
+                mRobot.mLED.scoringLiftOut();
+            } else if(currentLiftState == LiftState.EXTENDED_POSITION) {
+                mRobot.mLED.off();
+            }
+
             if(gamepad1.dpad_up) {
                 mRobot.mHanger.up();
             } else if(gamepad1.dpad_down) {
@@ -480,6 +512,7 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Intake Extension", mRobot.mIntake.extendPosition());
             telemetry.addData("Lift Position", mRobot.mLift.LiftMotor.getCurrentPosition());
             telemetry.addData("Hanger Position", mRobot.mHanger.Hang.getCurrentPosition());
+            telemetry.addData("Intake Current Draw (mA)", intakeCurrentDraw);
             telemetry.update();
         }
     }
