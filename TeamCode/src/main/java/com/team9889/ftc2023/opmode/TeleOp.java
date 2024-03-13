@@ -477,9 +477,9 @@ public class TeleOp extends LinearOpMode {
                 }
             } else if(currentLiftState == LiftState.INTAKE_POSITION) {
                 if (requestedIntakeState == INTAKE) {
-                    if (intakeCurrentDraw > 4000)
+                    if (intakeCurrentDraw > 3500)
                         mRobot.mLED.stuckInIntake();
-                    else if (intakeCurrentDraw > 3400)
+                    else if (intakeCurrentDraw > 3000)
                         mRobot.mLED.twoInIntake();
                     else
                         mRobot.mLED.nothingInIntake();
