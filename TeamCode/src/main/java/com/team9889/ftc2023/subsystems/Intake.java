@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.checkerframework.checker.index.qual.PolyUpperBound;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -104,7 +105,7 @@ public class Intake {
         intake.setPower(-1);
     }
 
-    public void slow_out() {intake.setPower(-0.3);}
+    public void slow_out() {intake.setPower(-0.5);}
 
     public void openGate(){
         gate.setPosition(.65);
@@ -137,16 +138,18 @@ public class Intake {
     }
 
     public void vfb5thPixleDown(){
-        vfb.setPosition(0.21);
+        vfb.setPosition(0.18);
     }
 
     public void vfb4thPixleDown(){
-        vfb.setPosition(0.15);
+        vfb.setPosition(0.14);
     }
 
     public void vfb3rdPixleDown(){
-        vfb.setPosition(0.1);
+        vfb.setPosition(0.11);
     }
+
+    public void vfb2ndPixleDown(){vfb.setPosition(0.08);}
 
 
 
@@ -179,24 +182,38 @@ public class Intake {
 
         int postion = 300;
 
+        boolean first = true;
+        ElapsedTime timer;
+        int initPosition = 0;
+
         public ExtendIntake(int postion){
             this.postion = postion;
         }
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            brake_off();
+
+            if (first){
+                timer = new ElapsedTime();
+                initPosition = extend.getCurrentPosition();
+                first = false;
+            }
+
             double extensionCurrent = extend.getCurrent(CurrentUnit.MILLIAMPS);
             telemetryPacket.put("Step", "Intake Extend");
             telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
             telemetryPacket.put("Extension Motor Current", extensionCurrent);
+            telemetryPacket.put("Timer", timer.milliseconds());
             closeGate();
-            if (Math.abs(extend.getCurrentPosition()) < postion &&
-                    (extensionCurrent < 9000 || Math.abs(extend.getCurrentPosition()) < postion * 0.75))
+
+            double error = postion - extend.getCurrentPosition();
+            if (Math.abs(error) > 10 && timer.milliseconds() < Math.max(4000 * ((postion - initPosition) / 450), 1500))
             {
-                extend.setPower(0.6);
+                extend.setPower(error * 0.05);
                 return true;
-            }
-            else{
+
+            } else{
                 extend.setPower(0);
                 return false;
             }
@@ -209,6 +226,8 @@ public class Intake {
         int ticks = (int) ((distance * tpr) / (2 * Math.PI * spoolradius));
         return new ExtendIntake(ticks);
     }
+
+    ElapsedTime timer = new ElapsedTime();
     public class RetractIntake implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
@@ -217,11 +236,15 @@ public class Intake {
             telemetryPacket.put("Extension Motor Current", extend.getCurrent(CurrentUnit.MILLIAMPS));
             if (Math.abs(extend.getCurrentPosition()) > 15 && digitalTouch.getState()){
                 extend.setPower(-1);
+                timer.reset();
                 return true;
-            }
-            else{
+            } else if(timer.milliseconds() > 200) {
                 extend.setPower(0);
                 return false;
+            } else {
+                extend.setPower(-0.3);
+                brake_on();
+                return true;
             }
         }
     }

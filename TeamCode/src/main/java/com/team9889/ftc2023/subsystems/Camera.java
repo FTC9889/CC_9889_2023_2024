@@ -14,6 +14,7 @@ import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.RobotLog;
 import com.team9889.ftc2023.camera.AprilTagBackdrop;
 import com.team9889.ftc2023.camera.TeamPropDetector;
 
@@ -254,6 +255,8 @@ public class Camera {
 
                 double heading = IMUAngle;
 
+                RobotLog.a("" + Math.toDegrees(heading));
+
                 double cx = -(detection.ftcPose.y + 7) * Math.cos(heading) - detection.ftcPose.x * Math.sin(Math.PI - heading);
                 double cy = (detection.ftcPose.y + 7) * Math.sin(heading) + detection.ftcPose.x * Math.cos(Math.PI + heading);
 
@@ -281,25 +284,31 @@ public class Camera {
             this.angle = angle;
         }
         ElapsedTime timer = new ElapsedTime();
+
+
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
+
             startapriltag();
-            Pose2d PoseFromCamera = RobotPose(driveAuto.imu.get().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS) - angle);
+            double imuAngle = driveAuto.imu.get().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+            Pose2d PoseFromCamera = RobotPose(imuAngle - angle);
+
             telemetryPacket.put("APRIL TAG", PoseFromCamera.toString());
             telemetryPacket.put("Difference", driveAuto.pose.minus(PoseFromCamera).toString());
-            if (timer.milliseconds() > 0){
-                telemetryPacket.put("FPS", 1.0 / timer.seconds());
-                timer.reset();
-            }
-            if (PoseFromCamera.position.x > 15 && Math.abs(PoseFromCamera.position.y) > 0.01){
+
+
+            if (PoseFromCamera.position.x > 15 && Math.abs(PoseFromCamera.position.y) > 0.01 && (Math.abs(Math.toDegrees(imuAngle)) < 110 && Math.abs(Math.toDegrees(imuAngle)) > 60)){
                 if (Math.abs(driveAuto.pose.minus(PoseFromCamera).line.x) < 7 && Math.abs(driveAuto.pose.minus(PoseFromCamera).line.y) < 7){
+                    Pose2d pose = new Pose2d(PoseFromCamera.position, driveAuto.pose.heading);
                     driveAuto.pose = PoseFromCamera;
                 }
 
                 pauseallcamera();
                 return false;
             }
+
             return true;
         }
     }
