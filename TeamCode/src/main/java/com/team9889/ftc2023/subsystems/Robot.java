@@ -50,6 +50,7 @@ public class Robot {
         }
         else{
             aDrive = new DriveAuto(hardwareMap, initialPose);
+            aDrive.imu.get().resetYaw();
             mCamera.init(hardwareMap);
         }
 

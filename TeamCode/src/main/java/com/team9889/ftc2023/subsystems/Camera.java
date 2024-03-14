@@ -10,23 +10,17 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Rotation2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
-import com.team9889.ftc2023.camera.AprilTagBackdrop;
-import com.team9889.ftc2023.camera.TeamPropDetector;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.function.Continuation;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
@@ -255,8 +249,6 @@ public class Camera {
 
                 double heading = IMUAngle;
 
-                RobotLog.a("" + Math.toDegrees(heading));
-
                 double cx = -(detection.ftcPose.y + 7) * Math.cos(heading) - detection.ftcPose.x * Math.sin(Math.PI - heading);
                 double cy = (detection.ftcPose.y + 7) * Math.sin(heading) + detection.ftcPose.x * Math.cos(Math.PI + heading);
 
@@ -277,10 +269,10 @@ public class Camera {
     }
 
     public class resetPose implements Action{
-        DriveAuto driveAuto;
+        DriveAuto aDrive;
         double angle;
-        public resetPose(DriveAuto driveAuto, double angle){
-            this.driveAuto = driveAuto;
+        public resetPose(DriveAuto aDrive, double angle){
+            this.aDrive = aDrive;
             this.angle = angle;
         }
         ElapsedTime timer = new ElapsedTime();
@@ -291,18 +283,18 @@ public class Camera {
 
 
             startapriltag();
-            double imuAngle = driveAuto.imu.get().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double imuAngle = aDrive.imu.get().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
             Pose2d PoseFromCamera = RobotPose(imuAngle - angle);
 
             telemetryPacket.put("APRIL TAG", PoseFromCamera.toString());
-            telemetryPacket.put("Difference", driveAuto.pose.minus(PoseFromCamera).toString());
+            telemetryPacket.put("Difference", aDrive.pose.minus(PoseFromCamera).toString());
 
 
             if (PoseFromCamera.position.x > 15 && Math.abs(PoseFromCamera.position.y) > 0.01 && (Math.abs(Math.toDegrees(imuAngle)) < 110 && Math.abs(Math.toDegrees(imuAngle)) > 60)){
-                if (Math.abs(driveAuto.pose.minus(PoseFromCamera).line.x) < 7 && Math.abs(driveAuto.pose.minus(PoseFromCamera).line.y) < 7){
-                    Pose2d pose = new Pose2d(PoseFromCamera.position, driveAuto.pose.heading);
-                    driveAuto.pose = PoseFromCamera;
+                if (Math.abs(aDrive.pose.minus(PoseFromCamera).line.x) < 7 && Math.abs(aDrive.pose.minus(PoseFromCamera).line.y) < 7){
+                    Pose2d pose = new Pose2d(PoseFromCamera.position, aDrive.pose.heading);
+                    aDrive.pose = PoseFromCamera;
                 }
 
                 pauseallcamera();
