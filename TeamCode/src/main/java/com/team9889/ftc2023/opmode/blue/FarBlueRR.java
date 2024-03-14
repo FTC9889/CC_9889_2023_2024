@@ -165,10 +165,6 @@ public class FarBlueRR extends LinearOpMode {
                     mRobot.aDrive.actionBuilder(beginPose)
                             .afterDisp(5, mRobot.mIntake.Depl0yIntake())
                             .strafeToLinearHeading(new Vector2d(-37, 57), Math.toRadians(-60))
-//                            .waitSeconds(0.5)
-//                            .stopAndAdd(mRobot.mIntake.Outtake())
-//                            .waitSeconds(1)
-//                            .stopAndAdd(mRobot.mIntake.Off())
                             .stopAndAdd(mRobot.mIntake.ExtendIntake(15))
                             .stopAndAdd(mRobot.mLift.IntakePosition())
                             .stopAndAdd(mRobot.mIntake.RetractIntake())
@@ -250,20 +246,6 @@ public class FarBlueRR extends LinearOpMode {
                             .stopAndAdd(() -> mRobot.mLift.setPower(-1))
                             .waitSeconds(0.5)
                             .build());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -356,8 +338,6 @@ public class FarBlueRR extends LinearOpMode {
                             .build());
         }
 
-//        mRobot.mIntake.setPower(0.5);
-//        sleep(200);
         mRobot.mLift.setPower(0);
         mRobot.mLift.intake_position();
         mRobot.mIntake.setPower(-0.5);
