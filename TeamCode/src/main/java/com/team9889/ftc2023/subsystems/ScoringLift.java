@@ -18,10 +18,11 @@ public class ScoringLift {
     public static double rgc = 0.425;
     public static double rgo = 0.6;
 
-    Servo armL, armR; ElapsedTime timer=new ElapsedTime();
+    Servo armL, armR;
     public DcMotor LiftMotor;
-    DigitalChannel digitalTouch;
-Servo GrabberL, GrabberR;
+    public DigitalChannel digitalTouch;
+    Servo GrabberL, GrabberR;
+
     public void init(HardwareMap hardwareMap){
         armR = hardwareMap.servo.get("hopperr");
         armL = hardwareMap.servo.get("hopperl");
@@ -37,8 +38,6 @@ Servo GrabberL, GrabberR;
         GrabberL = hardwareMap.servo.get("GrabberL");
 
         GrabberR.setDirection(Servo.Direction.REVERSE);
-
-
     }
 
     public void setPower(double power) {
@@ -50,7 +49,7 @@ Servo GrabberL, GrabberR;
         int liftPosition = LiftMotor.getCurrentPosition();
 
         if (power < -0.01){
-            if (digitalTouch.getState() == true){
+            if (!retracted()){
                 LiftMotor.setPower(power);
             } else {
                 LiftMotor.setPower(0);
@@ -75,6 +74,10 @@ Servo GrabberL, GrabberR;
                 LiftMotor.setPower(kp * (targetPosition - liftPosition));
             }
         }
+    }
+
+    public boolean retracted() {
+        return !digitalTouch.getState();
     }
 
     public void setArmPositionBasedOnLiftPosition(int liftPosition) {

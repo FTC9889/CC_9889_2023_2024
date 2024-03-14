@@ -21,14 +21,21 @@ public class Intake {
     public DcMotorEx intake;
     public DcMotorEx extend;
 
+    private int offset = 0;
+
+    private void resetExtendPosition() {
+        this.offset = extend.getCurrentPosition();
+    }
+
     public int extendPosition(){
-        return extend.getCurrentPosition();}
+        return extend.getCurrentPosition() - offset;
+    }
+
     public DigitalChannel digitalTouch;
     public Servo vfb, gate, Brake;
 
     public static double brake_on_position = 0.1;
     public static double brake_off_position = 0.33;
-
 
     public void init(HardwareMap hardwareMap) {
         intake = hardwareMap.get(DcMotorEx.class, "intake");
@@ -45,12 +52,11 @@ public class Intake {
         digitalTouch = hardwareMap.digitalChannel.get("intakemagnet");
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
-        extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         extend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         extend.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        resetExtendPosition();
     }
-    //turn on intake
-    //turn off intake
+
     public void setPower(double power){
         if (Math.abs(power) > 0.02) brake_off();
 
@@ -59,14 +65,11 @@ public class Intake {
                 extend.setPower(power);
             } else {
                 extend.setPower(0);
-                if(Math.abs(extend.getCurrentPosition()) > 20) {
-                    extend.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                    extend.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                }
+                resetExtendPosition();
             }
         } else {
             int maxExtension = 570;
-            if (extend.getCurrentPosition() < maxExtension){
+            if (extendPosition() < maxExtension){
                 extend.setPower(power);
             } else {
                 extend.setPower(0);
@@ -98,7 +101,7 @@ public class Intake {
     }
 
     public void slowOn(){
-        intake.setPower(0.1);
+        intake.setPower(0.4);
     }
 
     public void out() {
@@ -121,7 +124,6 @@ public class Intake {
     public boolean twoPixelsInIntake() {
         return currentDraw() > 3400;
     }
-
 
     boolean vfbUp=true;
     public void vfbUp(){
@@ -168,7 +170,7 @@ public class Intake {
     public void transfer2(){
         vfbUp();
         openGate();
-        slowOn();
+        off();
     }
 
     public void transfer(){
@@ -196,7 +198,7 @@ public class Intake {
 
             if (first){
                 timer = new ElapsedTime();
-                initPosition = extend.getCurrentPosition();
+                initPosition = extendPosition();
                 first = false;
             }
 
@@ -207,7 +209,7 @@ public class Intake {
             telemetryPacket.put("Timer", timer.milliseconds());
             closeGate();
 
-            double error = postion - extend.getCurrentPosition();
+            double error = postion - extendPosition();
             if (Math.abs(error) > 10 && timer.milliseconds() < Math.max(4000 * ((postion - initPosition) / 450), 1500))
             {
                 extend.setPower(error * 0.05);
@@ -234,7 +236,7 @@ public class Intake {
             telemetryPacket.put("Step", "Intake Extend");
             telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
             telemetryPacket.put("Extension Motor Current", extend.getCurrent(CurrentUnit.MILLIAMPS));
-            if (Math.abs(extend.getCurrentPosition()) > 15 && digitalTouch.getState()){
+            if (Math.abs(extendPosition()) > 15 && digitalTouch.getState()){
                 extend.setPower(-1);
                 timer.reset();
                 return true;

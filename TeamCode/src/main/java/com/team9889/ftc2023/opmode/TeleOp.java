@@ -6,9 +6,14 @@ import static com.team9889.ftc2023.opmode.TeleOp.IntakeState.SLIGHT_EXTEND;
 import static com.team9889.ftc2023.opmode.TeleOp.IntakeState.TRANSFER_FIRST_POSITION;
 import static com.team9889.ftc2023.opmode.TeleOp.IntakeState.TRANSFER_SECOND_POSITION;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.team9889.ftc2023.subsystems.Robot;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
 public class TeleOp extends LinearOpMode {
 
@@ -95,7 +100,7 @@ public class TeleOp extends LinearOpMode {
         IntakeState requestedIntakeState = IntakeState.NULL;
         IntakeState currentIntakeState = IntakeState.RETRACTED;
 
-        ElapsedTime extendIntakeTimer = new ElapsedTime();
+        ElapsedTime extraPull = new ElapsedTime();
 
         ElapsedTime retractIntakeUpTimer = new ElapsedTime();
 
@@ -105,8 +110,11 @@ public class TeleOp extends LinearOpMode {
 
         ElapsedTime transferTimer = new ElapsedTime();
 
-        LiftState requestedLiftState = LiftState.NULL;
-        LiftState currentLiftState = LiftState.AUTO;
+        LiftState requestedLiftState = LiftState.INTAKE_POSITION;
+        LiftState currentLiftState = LiftState.FIRST_POSITION;
+
+        if(!mRobot.mLift.retracted())
+            currentLiftState = LiftState.EXTENDED_POSITION;
 
         boolean allowDriverInputIntakeExtend = true;
         boolean allowDriverInputLiftExtend = true;
@@ -114,12 +122,17 @@ public class TeleOp extends LinearOpMode {
         boolean droneLaunched = false;
         ElapsedTime droneTimer = new ElapsedTime();
 
+        ElapsedTime matchTimer = new ElapsedTime();
+
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        MultipleTelemetry t = new MultipleTelemetry(dashboard.getTelemetry(), telemetry);
+
         while(opModeIsActive()) {
 
             // Drive Code
             mRobot.mDrive.setPower(-gamepad1.left_stick_x, gamepad1.left_stick_y, -gamepad1.right_stick_x * 0.85);
 
-            if(gamepad1.left_stick_y > 0.5 && currentIntakeState == RETRACTED && mRobot.mIntake.extend.getCurrentPosition() > 10) {
+            if(gamepad1.left_stick_y > 0.5 && currentIntakeState == RETRACTED && mRobot.mIntake.extendPosition() > 10) {
                 currentIntakeState = SLIGHT_EXTEND;
             }
 
@@ -132,6 +145,8 @@ public class TeleOp extends LinearOpMode {
             }
 
             if (gamepad1.b) {
+                requestedIntakeState = RETRACTED;
+            } else if(matchTimer.milliseconds() < 1500 && currentLiftState == LiftState.INTAKE_POSITION) {
                 requestedIntakeState = RETRACTED;
             }
 
@@ -221,24 +236,27 @@ public class TeleOp extends LinearOpMode {
                         } else {
                             mRobot.mIntake.stopIntake();
                             allowDriverInputIntakeExtend = false;
-                            if (retractIntakeUpTimer.milliseconds() > 600) {
+                            if (retractIntakeUpTimer.milliseconds() > 800) {
                                 retractIntakeUpTimer.reset();
-                                telemetry.addData("Line Number", "249");
                             }
 
                             if (retractIntakeUpTimer.milliseconds() < 400) {
                                 mRobot.mLift.set_Grabber_Open(false, false);
-                                mRobot.mIntake.setPower(-1);
+                                mRobot.mIntake.extend.setPower(-1);
+                                extraPull.reset();
                             } else if (retractIntakeUpTimer.milliseconds() > 1500 || !mRobot.mIntake.digitalTouch.getState()) {
-                                mRobot.mIntake.setPower(0);
-
                                 mRobot.mIntake.brake_on();
-                                currentIntakeState = IntakeState.RETRACTED;
-                                mRobot.mLift.set_Grabber_Open(true, true);
 
+                                if(extraPull.milliseconds() > 250) {
+                                    mRobot.mIntake.setPower(0);
+                                    mRobot.mIntake.off();
+                                    currentIntakeState = IntakeState.RETRACTED;
+                                    mRobot.mLift.set_Grabber_Open(true, true);
 
-                                allowDriverInputIntakeExtend = true;
-                                retractIntakeUpTimer.reset();
+                                    allowDriverInputIntakeExtend = true;
+                                    retractIntakeUpTimer.reset();
+                                }
+
                             }
                         }
                         break;
@@ -248,15 +266,9 @@ public class TeleOp extends LinearOpMode {
                             case TRANSFER_SECOND_POSITION:
                             case NULL:
                             case RETRACTED:
-                                if (extendIntakeTimer.milliseconds() > 500) {
-                                    extendIntakeTimer.reset();
-                                }
-
-
-                                if (!mRobot.mIntake.digitalTouch.getState() || mRobot.mIntake.extend.getCurrentPosition() < 70) {
+                                if (!mRobot.mIntake.digitalTouch.getState() || mRobot.mIntake.extendPosition() < 70) {
                                     mRobot.mIntake.setPower(1);
                                     allowDriverInputIntakeExtend = false;
-
                                 } else {
                                     mRobot.mIntake.vfbUp();
                                     mRobot.mIntake.off();
@@ -324,7 +336,7 @@ public class TeleOp extends LinearOpMode {
                     case FIRST_POSITION:
                         switch (currentLiftState) {
                             case INTAKE_POSITION:
-                                if(mRobot.mIntake.extend.getCurrentPosition() < 70) {
+                                if(mRobot.mIntake.extendPosition() < 70) {
                                     currentIntakeState = RETRACTED;
                                 }
 
@@ -402,7 +414,7 @@ public class TeleOp extends LinearOpMode {
                                     mRobot.mLift.setArmPosition(0.45);
                                 } else {
                                     mRobot.mLift.setPower(-1);
-                                    if(mRobot.mLift.LiftMotor.getCurrentPosition() < 5){
+                                    if(mRobot.mLift.retracted()){
                                         mRobot.mLift.setPower(0);
                                         currentLiftState = LiftState.FIRST_POSITION;
                                         armTimer.reset();
@@ -449,13 +461,13 @@ public class TeleOp extends LinearOpMode {
                 if(gamepad1.left_trigger > 0.1) {
                     mRobot.mIntake.setPower(-gamepad1.left_trigger);
                     mRobot.mLift.set_Grabber_Open(false, false);
-                    if(currentIntakeState == SLIGHT_EXTEND && mRobot.mIntake.extend.getCurrentPosition() < 70) {
+                    if(currentIntakeState == SLIGHT_EXTEND && mRobot.mIntake.extendPosition() < 70) {
                         currentIntakeState = RETRACTED;
                         requestedIntakeState = RETRACTED;
                     }
                 } else if (gamepad1.right_trigger > 0.1) {
                     mRobot.mIntake.setPower(gamepad1.right_trigger);
-                    if(currentIntakeState == RETRACTED && mRobot.mIntake.extend.getCurrentPosition() > 70) {
+                    if(currentIntakeState == RETRACTED && mRobot.mIntake.extendPosition() > 70) {
                         currentIntakeState = SLIGHT_EXTEND;
                         requestedIntakeState = SLIGHT_EXTEND;
                     }
@@ -466,7 +478,7 @@ public class TeleOp extends LinearOpMode {
                 if(currentIntakeState == SLIGHT_EXTEND && requestedIntakeState == SLIGHT_EXTEND)
                     allowDriverInputIntakeExtend = true;
 
-                if(mRobot.mIntake.extend.getCurrentPosition() > 570)
+                if(mRobot.mIntake.extendPosition() > 570)
                     allowDriverInputIntakeExtend = true;
             }
 
@@ -500,18 +512,18 @@ public class TeleOp extends LinearOpMode {
                 mRobot.mHanger.off();
             }
 
-            telemetry.addData("Intake Wanted", requestedIntakeState.toString());
-            telemetry.addData("Intake Current", currentIntakeState.toString());
-            telemetry.addData("Lift Wanted", requestedLiftState.toString());
-            telemetry.addData("Lift Current", currentLiftState.toString());
-            telemetry.addData("Intake Magnet", mRobot.mIntake.digitalTouch.getState());
-            telemetry.addData("Allow Extension", allowDriverInputIntakeExtend);
-            telemetry.addData("Arm Timer (ms)", armTimer.milliseconds());
-            telemetry.addData("Intake Extension", mRobot.mIntake.extendPosition());
-            telemetry.addData("Lift Position", mRobot.mLift.LiftMotor.getCurrentPosition());
-            telemetry.addData("Hanger Position", mRobot.mHanger.Hang.getCurrentPosition());
-            telemetry.addData("Intake Current Draw (mA)", intakeCurrentDraw);
-            telemetry.update();
+            t.addData("Intake Wanted", requestedIntakeState.toString());
+            t.addData("Intake Current", currentIntakeState.toString());
+            t.addData("Lift Wanted", requestedLiftState.toString());
+            t.addData("Lift Current", currentLiftState.toString());
+            t.addData("Intake Magnet", mRobot.mIntake.digitalTouch.getState());
+            t.addData("Allow Extension", allowDriverInputIntakeExtend);
+            t.addData("Arm Timer (ms)", armTimer.milliseconds());
+            t.addData("Intake Extension", mRobot.mIntake.extendPosition());
+            t.addData("Lift Position", mRobot.mLift.LiftMotor.getCurrentPosition());
+            t.addData("Hanger Position", mRobot.mHanger.Hang.getCurrentPosition());
+            t.addData("Intake Current Draw (mA)", intakeCurrentDraw);
+            t.update();
         }
     }
 }
