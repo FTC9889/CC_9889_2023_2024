@@ -471,10 +471,8 @@ public class TeleOp extends LinearOpMode {
             }
 
             double intakeCurrentDraw = mRobot.mIntake.currentDraw();
-            if(droneLaunched) {
-                if(droneTimer.milliseconds() < 2000) {
-                    mRobot.mLED.droneLaunched();
-                }
+            if(droneLaunched && droneTimer.milliseconds() < 2000) {
+                mRobot.mLED.droneLaunched();
             } else if(currentLiftState == LiftState.INTAKE_POSITION) {
                 if (requestedIntakeState == INTAKE) {
                     if (intakeCurrentDraw > 3500)
