@@ -66,10 +66,6 @@ public class FarBlueRR extends LinearOpMode {
                     mRobot.aDrive.actionBuilder(beginPose)
                             .afterDisp(5, mRobot.mIntake.Depl0yIntake())
                             .strafeToLinearHeading(new Vector2d(-37, 57), Math.toRadians(-75))
-//                            .waitSeconds(0.5)
-//                            .stopAndAdd(mRobot.mIntake.Outtake())
-//                            .waitSeconds(0.6)
-//                            .stopAndAdd(mRobot.mIntake.Off())
                             .stopAndAdd(mRobot.mIntake.ExtendIntake(20))
                             .stopAndAdd(mRobot.mIntake.RetractIntake())
                             .stopAndAdd(() -> mRobot.mIntake.brake_on())
@@ -83,19 +79,17 @@ public class FarBlueRR extends LinearOpMode {
                             .stopAndAdd(() -> mRobot.mIntake.brake_off())
                             .stopAndAdd(mRobot.mIntake.ExtendIntake(4))
                             .waitSeconds(0.25)
-//                            .stopAndAdd(mRobot.mIntake.Off())
-//                            .stopAndAdd(() -> mRobot.mIntake.vfb3rdPixleDown())
-//                            .turnTo(Math.toRadians(167))
                             .stopAndAdd(mRobot.mIntake.BringBackIntake())
                             .stopAndAdd(mRobot.mIntake.RetractIntake())
                             .stopAndAdd(mRobot.mLift.setgrabber(false, true))
-                            .stopAndAdd(mRobot.mIntake.RetractIntake())
                             .afterDisp(0.0001, mRobot.mIntake.Transfer())
                             .afterDisp( 53, mRobot.mIntake.Off())
                             .afterDisp(55, () -> mRobot.mIntake.brake_off())
                             .afterDisp(53, mRobot.mLift.setgrabber(false, false))
                             .afterDisp(56, mRobot.mIntake.ExtendIntake(3))
                             .strafeToLinearHeading(new Vector2d(38, 4), Math.toRadians(-180))
+
+                            // Move to in front of apriltags
                             .strafeToLinearHeading(new Vector2d(38, 31), Math.toRadians(-180))
                             .stopAndAdd(mRobot.mCamera.resetPose(mRobot, Math.PI / 2))
                             .stopAndAdd(mRobot.mIntake.ExtendIntake(5))
@@ -107,14 +101,19 @@ public class FarBlueRR extends LinearOpMode {
                             .waitSeconds(0.4)
                             .stopAndAdd(mRobot.mLift.setgrabber(true, true))
                             .waitSeconds(0.5)
+
+                            // Beginning of Cycle
                             .stopAndAdd(() -> mRobot.mLift.intake_position())
+
+                            // Strafe Away from backdrop
                             .strafeToLinearHeading(new Vector2d(25, 10), Math.toRadians(-180))
+
+                            // Drive to stack and extend Intake while moving
                             .setTangent(Math.toRadians(180))
                             .afterDisp(5, () -> mRobot.mIntake.vfb4thPixleDown())
                             .afterDisp(10, mRobot.mIntake.ExtendIntake(21))
                             .afterDisp(15, mRobot.mIntake.On())
                             .splineTo(new Vector2d(-37, 14), Math.toRadians(175))
-//                            .turnTo(Math.toRadians(-178))
                             .stopAndAdd(() -> mRobot.mIntake.setPower(0))
                             .stopAndAdd(mRobot.mIntake.ExtendIntake(21))
                             .waitSeconds(0.25)
