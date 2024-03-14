@@ -266,7 +266,7 @@ public class TeleOp extends LinearOpMode {
                             case TRANSFER_SECOND_POSITION:
                             case NULL:
                             case RETRACTED:
-                                if (!mRobot.mIntake.digitalTouch.getState() || mRobot.mIntake.extendPosition() < 70) {
+                                if (!mRobot.mIntake.digitalTouch.getState() || mRobot.mIntake.extendPosition() < 45) {
                                     mRobot.mIntake.setPower(1);
                                     allowDriverInputIntakeExtend = false;
                                 } else {
