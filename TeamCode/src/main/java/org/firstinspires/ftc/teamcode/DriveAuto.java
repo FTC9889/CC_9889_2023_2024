@@ -496,4 +496,15 @@ public final class DriveAuto {
                 0.25, 0.1
         );
     }
+
+    public TrajectoryActionBuilder actionBuilder(Pose2d beginPose, VelConstraint constraint) {
+        return new TrajectoryActionBuilder(
+                TurnAction::new,
+                FollowTrajectoryAction::new,
+                beginPose, 1e-6, 0.0,
+                defaultTurnConstraints,
+                constraint, defaultAccelConstraint,
+                0.25, 0.1
+        );
+    }
 }

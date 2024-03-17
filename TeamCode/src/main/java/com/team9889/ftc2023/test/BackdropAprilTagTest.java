@@ -27,7 +27,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import java.util.ArrayList;
 
 @Autonomous
-@Disabled
+//@Disabled
 public class BackdropAprilTagTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

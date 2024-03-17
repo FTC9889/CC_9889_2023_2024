@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.checkerframework.checker.index.qual.PolyUpperBound;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.DriveAuto;
 
 @Config
 public class Intake {
@@ -163,7 +164,7 @@ public class Intake {
 
     public void stopIntake(){
        vfbUp();
-       slowOn();
+       on();
        closeGate();
     }
 
@@ -187,37 +188,70 @@ public class Intake {
         boolean first = true;
         ElapsedTime timer;
         int initPosition = 0;
+        DriveAuto driveAuto;
 
-        public ExtendIntake(int postion){
+        public ExtendIntake(int postion, DriveAuto auto){
             this.postion = postion;
+            this.driveAuto = auto;
         }
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            brake_off();
 
-            if (first){
-                timer = new ElapsedTime();
-                initPosition = extendPosition();
-                first = false;
-            }
+            if(driveAuto == null) {
+                brake_off();
 
-            double extensionCurrent = extend.getCurrent(CurrentUnit.MILLIAMPS);
-            telemetryPacket.put("Step", "Intake Extend");
-            telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
-            telemetryPacket.put("Extension Motor Current", extensionCurrent);
-            telemetryPacket.put("Timer", timer.milliseconds());
-            closeGate();
+                if (first){
+                    timer = new ElapsedTime();
+                    initPosition = extendPosition();
+                    first = false;
+                }
 
-            double error = postion - extendPosition();
-            if (Math.abs(error) > 10 && timer.milliseconds() < Math.max(4000 * ((postion - initPosition) / 450), 1500))
-            {
-                extend.setPower(error * 0.05);
-                return true;
+                double extensionCurrent = extend.getCurrent(CurrentUnit.MILLIAMPS);
+                telemetryPacket.put("Step", "Intake Extend");
+                telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+                telemetryPacket.put("Extension Motor Current", extensionCurrent);
+                telemetryPacket.put("Timer", timer.milliseconds());
+                closeGate();
 
-            } else{
-                extend.setPower(0);
-                return false;
+                double error = postion - extendPosition();
+                if (Math.abs(error) > 10 && timer.milliseconds() < Math.max(4000 * ((postion - initPosition) / 450), 1500))
+                {
+                    extend.setPower(error * 0.05);
+                    return true;
+
+                } else{
+                    extend.setPower(0);
+                    return false;
+                }
+            } else {
+                brake_off();
+
+                if(driveAuto.pose.position.x < 0) {
+                    if (first) {
+                        timer = new ElapsedTime();
+                        initPosition = extendPosition();
+                        first = false;
+                    }
+
+                    double extensionCurrent = extend.getCurrent(CurrentUnit.MILLIAMPS);
+                    telemetryPacket.put("Step", "Intake Extend");
+                    telemetryPacket.put("Intake Motor Current", intake.getCurrent(CurrentUnit.MILLIAMPS));
+                    telemetryPacket.put("Extension Motor Current", extensionCurrent);
+                    telemetryPacket.put("Timer", timer.milliseconds());
+                    closeGate();
+
+                    double error = postion - extendPosition();
+                    if (Math.abs(error) > 10 && timer.milliseconds() < Math.max(4000 * ((postion - initPosition) / 450), 1500)) {
+                        extend.setPower(error * 0.05);
+                        return true;
+
+                    } else {
+                        extend.setPower(0);
+                        return false;
+                    }
+                } else
+                    return true;
             }
         }
     }
@@ -226,7 +260,14 @@ public class Intake {
         double tpr = 145.1;
         double spoolradius = 44 / 25.4 / 2;
         int ticks = (int) ((distance * tpr) / (2 * Math.PI * spoolradius));
-        return new ExtendIntake(ticks);
+        return new ExtendIntake(ticks, null);
+    }
+
+    public Action ExtendIntake(double distance, DriveAuto auto){
+        double tpr = 145.1;
+        double spoolradius = 44 / 25.4 / 2;
+        int ticks = (int) ((distance * tpr) / (2 * Math.PI * spoolradius));
+        return new ExtendIntake(ticks, auto);
     }
 
     ElapsedTime timer = new ElapsedTime();
@@ -244,7 +285,7 @@ public class Intake {
                 extend.setPower(0);
                 return false;
             } else {
-                extend.setPower(-0.3);
+                extend.setPower(-0.6);
                 brake_on();
                 return true;
             }

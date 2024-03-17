@@ -1,4 +1,4 @@
-package com.team9889.ftc2023.opmode.blue;
+package com.team9889.ftc2023.opmode.FullAutos.FullAutos.blue;
 
 
 import com.acmerobotics.roadrunner.Pose2d;

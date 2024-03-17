@@ -94,6 +94,14 @@ public class ScoringLift {
         armR.setPosition(position);
     }
 
+    public void setArmPosition(double position1, double position2, boolean first_level){
+        if (first_level)
+            setArmPosition(position1);
+        else
+            setArmPosition(position2);
+    }
+
+
     boolean armTransfer=true;
 
     public void intake_position(){

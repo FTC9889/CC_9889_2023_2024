@@ -1,4 +1,4 @@
-package com.team9889.ftc2023.opmode.blue;
+package com.team9889.ftc2023.opmode.FullAutos.FullAutos.blue;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -6,12 +6,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.team9889.ftc2023.subsystems.Intake;
 import com.team9889.ftc2023.subsystems.Robot;
-import com.team9889.ftc2023.subsystems.ScoringLift;
-
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.DriveAuto;
 
 @Autonomous(group = "Blue", name = "⬆️ Blue Backdrop Side 🟦", preselectTeleOp = "TeleOp")
 public final class BlueFrontRR extends LinearOpMode {

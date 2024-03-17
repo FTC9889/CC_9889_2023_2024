@@ -10,6 +10,8 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Rotation2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -19,6 +21,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.function.Continuation;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.CameraControl;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
@@ -35,6 +40,7 @@ import org.opencv.core.Mat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 
@@ -115,7 +121,7 @@ public class Camera {
                 .setNumThreads(3)
                 .build();
 
-        aprilTag.setDecimation(3);
+        aprilTag.setDecimation(1);
 
         tfod = new TfodProcessor.Builder().setModelAssetName(TFOD_MODEL_ASSET)
                 .setModelLabels(LABELS)
@@ -148,10 +154,11 @@ public class Camera {
 
     public void startapriltag(){
         if (visionPortal.getCameraState() == VisionPortal.CameraState.STREAMING || visionPortal.getCameraState() == VisionPortal.CameraState.STARTING_STREAM) {
+            visionPortal.setActiveCamera(webcam2);
+
+
             visionPortal.setProcessorEnabled(tfod, false);
             visionPortal.setProcessorEnabled(aprilTag, true);
-
-            visionPortal.setActiveCamera(webcam2);
         }
     }
 
@@ -242,7 +249,7 @@ public class Camera {
         double x = 0, y= 0;
 
         if (!list.isEmpty()) {
-            double PoseCount = 0;
+            double PoseCount = 1;
             for (AprilTagDetection detection : list) {
                 double tagx = detection.metadata.fieldPosition.get(0);
                 double tagy = detection.metadata.fieldPosition.get(1);
@@ -255,9 +262,8 @@ public class Camera {
                 double rx = tagx - cx;
                 double ry = tagy + cy;
 
-                x += rx;
-                y += ry;
-                PoseCount ++;
+                x = rx;
+                y = ry;
             }
 
             return new Pose2d(x / PoseCount, y / PoseCount, IMUAngle);
@@ -276,10 +282,19 @@ public class Camera {
             this.angle = angle;
         }
         ElapsedTime timer = new ElapsedTime();
+        boolean first = true;
 
+        int milliseconds = 3000;
+
+
+        ArrayList<Pose2d> pose2ds = new ArrayList<>();
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(first) {
+                timer.reset();
+                first = false;
+            }
 
 
             startapriltag();
@@ -293,15 +308,37 @@ public class Camera {
 
             if (PoseFromCamera.position.x > 15 && Math.abs(PoseFromCamera.position.y) > 0.01 && (Math.abs(Math.toDegrees(imuAngle)) < 110 && Math.abs(Math.toDegrees(imuAngle)) > 60)){
                 if (Math.abs(aDrive.pose.minus(PoseFromCamera).line.x) < 7 && Math.abs(aDrive.pose.minus(PoseFromCamera).line.y) < 7){
-                    Pose2d pose = new Pose2d(PoseFromCamera.position, aDrive.pose.heading);
-                    aDrive.pose = PoseFromCamera;
+                    pose2ds.add(PoseFromCamera);
                 }
 
-                pauseallcamera();
-                return false;
+                if(pose2ds.size() > 10) {
+
+                    double x = 0;
+                    double y = 0;
+                    double h_imag = 0;
+                    double h_real = 0;
+                    for (Pose2d pose:pose2ds) {
+                        x += pose.position.x;
+                        y += pose.position.y;
+                        h_imag += pose.heading.imag;
+                        h_real += pose.heading.real;
+                    }
+
+                    x /= pose2ds.size();
+                    y /= pose2ds.size();
+                    h_imag /= pose2ds.size();
+                    h_real /= pose2ds.size();
+
+                    aDrive.pose = new Pose2d(new Vector2d(x, y), new Rotation2d(h_real, h_imag));
+
+                    pauseallcamera();
+                    return false;
+                } else {
+                    return timer.milliseconds() < milliseconds;
+                }
             }
 
-            return true;
+            return timer.milliseconds() < milliseconds;
         }
     }
 
