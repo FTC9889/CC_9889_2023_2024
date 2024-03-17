@@ -19,16 +19,17 @@ public final class BlueFrontRR extends LinearOpMode {
 //******//DON'T CHANGE THIS YOU WILL REGRET IT//**********************************************************************************************************//////////////////////////////////********************
         Pose2d beginPose = new Pose2d(11, 63.5, Math.toRadians(-90));
 //********************************************************************************************
+
         mRobot.init(hardwareMap, beginPose);
 
 
-        mRobot.mLift.initPosition();
+        mRobot.mLift.intake_position();
         mRobot.mLift.set_Grabber_Open(false, false);
         mRobot.mIntake.vfbUp();
         mRobot.mIntake.closeGate();
 
         mRobot.mCamera.red = false;
-        Robot.BackDrop side = Robot.BackDrop.LEFT;
+        Robot.BackDrop side = Robot.BackDrop.CENTER;
 
 
         while (opModeInInit()) {
@@ -48,77 +49,85 @@ public final class BlueFrontRR extends LinearOpMode {
             }
         }).start();
 
+        if (side == Robot.BackDrop.RIGHT) {
+            Actions.runBlocking(
+                    mRobot.aDrive.actionBuilder(beginPose)
+                            .afterDisp(5, mRobot.mIntake.Depl0yIntake())
+                            .strafeToLinearHeading(new Vector2d(13, 57), Math.toRadians(-110))
+                            .stopAndAdd(mRobot.mIntake.ExtendIntake(10))
+                            .stopAndAdd(mRobot.mLift.IntakePosition())
+                            .stopAndAdd(mRobot.mIntake.RetractIntake())
+                            .stopAndAdd(() -> mRobot.mIntake.brake_on())
+                            .stopAndAdd(() -> mRobot.mIntake.vfbUp())
+                            .build());
+        } else if (side == Robot.BackDrop.CENTER) {
+            Actions.runBlocking(
+                    mRobot.aDrive.actionBuilder(beginPose)
+                            .afterDisp(5, mRobot.mIntake.Depl0yIntake())
+                            .strafeToLinearHeading(new Vector2d(-37 + 48, 57), Math.toRadians(-73))
+                            .stopAndAdd(mRobot.mIntake.ExtendIntake(15))
+                            .stopAndAdd(mRobot.mIntake.RetractIntake())
+                            .stopAndAdd(() -> mRobot.mIntake.vfbUp())
+                            .build());
+        } else if(side == Robot.BackDrop.LEFT) {
+            Actions.runBlocking(
+                    mRobot.aDrive.actionBuilder(beginPose)
+                            .afterDisp(5, mRobot.mIntake.Depl0yIntake())
+                            .strafeToLinearHeading(new Vector2d(-37 + 48, 57), Math.toRadians(-60))
+                            .stopAndAdd(mRobot.mIntake.ExtendIntake(11))
+                            .waitSeconds(0.25)
+                            .stopAndAdd(mRobot.mLift.IntakePosition())
+                            .stopAndAdd(() -> mRobot.mIntake.vfbUp())
+                            .stopAndAdd(mRobot.mIntake.RetractIntake()).build());
+        }
+
         if (side == Robot.BackDrop.CENTER) {
             Actions.runBlocking(
-                    mRobot.aDrive.actionBuilder(beginPose)
+                    mRobot.aDrive.actionBuilder(mRobot.aDrive.pose)
                             .setTangent(Math.toRadians(-90))
-                            .afterDisp(15,() -> mRobot.mLift.setArmPosition(0.17))
-                            .splineToLinearHeading(new Pose2d(45, 31, Math.toRadians(-180)), 0)
-                            .strafeToLinearHeading(new Vector2d(51, 31), Math.toRadians(-180))
-                            .stopAndAdd(mRobot.mLift.Score())
-                            .waitSeconds(1)
-                            .stopAndAdd(mRobot.mLift.Retract())
-                            .waitSeconds(0.25)
-                            .strafeToLinearHeading(new Vector2d(48, 25), Math.toRadians(-180))
-                            .stopAndAdd(mRobot.mIntake.Depl0yIntake())
-                            .stopAndAdd(mRobot.mIntake.ExtendIntake(14.5))
-                            .stopAndAdd(mRobot.mIntake.Outtake())
-                            .waitSeconds(1)
-                            .stopAndAdd(mRobot.mIntake.Off())
-                            .stopAndAdd(mRobot.mIntake.RetractIntake())
-                            .stopAndAdd(mRobot.mIntake.BringBackIntake())
-                            .strafeToLinearHeading(new Vector2d(48, 60), Math.toRadians(-180))
-                            .strafeToLinearHeading(new Vector2d(58, 60), Math.toRadians(-180))
-                            .build());
-        } else if (side == Robot.BackDrop.LEFT){
-            Actions.runBlocking(
-                    mRobot.aDrive.actionBuilder(beginPose)
-                            .setTangent(Math.toRadians(-90))
-                            .afterDisp(5, mRobot.mIntake.Depl0yIntake())
-                            .strafeToLinearHeading(new Vector2d(26, 48), Math.toRadians(-90))
-                            .stopAndAdd(mRobot.mIntake.Outtake())
-                            .waitSeconds(1)
-                            .stopAndAdd(mRobot.mIntake.Off())
-                            .stopAndAdd(mRobot.mIntake.RetractIntake())
-                            .stopAndAdd(mRobot.mIntake.BringBackIntake())
-                            .turnTo(Math.toRadians(-180))
-                            .afterDisp(5, mRobot.mLift.DeploySecondStage())
-                            .strafeToLinearHeading(new Vector2d(51, 38), Math.toRadians(-180))
-                            .stopAndAdd(mRobot.mLift.Score())
-                            .waitSeconds(1)
-                            .stopAndAdd(mRobot.mLift.Retract())
-                            .strafeToLinearHeading(new Vector2d(48, 61), Math.toRadians(-180))
-                            .strafeToLinearHeading(new Vector2d(58, 61), Math.toRadians(-180))
+                            .afterDisp(15, mRobot.mIntake.ExtendIntake(3))
+                            .afterDisp(22, mRobot.mLift.DeploySecondStage())
+                            .splineToLinearHeading(new Pose2d(52.5, 33, Math.toRadians(180)), 0)
+                            .stopAndAdd(mRobot.mIntake.ExtendIntake(3))
+                            .waitSeconds(0.5)
                             .build());
         } else if (side == Robot.BackDrop.RIGHT){
             Actions.runBlocking(
-                    mRobot.aDrive.actionBuilder(beginPose)
+                    mRobot.aDrive.actionBuilder(mRobot.aDrive.pose)
                             .setTangent(Math.toRadians(-90))
-                            .afterDisp(5, mRobot.mIntake.Depl0yIntake())
-                            .strafeToLinearHeading(new Vector2d(17, 50), Math.toRadians(-120))
-                            .stopAndAdd(mRobot.mIntake.ExtendIntake(8))
-                            .stopAndAdd(mRobot.mIntake.Outtake())
-                            .waitSeconds(1)
-                            .stopAndAdd(mRobot.mIntake.Off())
-                            .stopAndAdd(mRobot.mIntake.RetractIntake())
-                            .stopAndAdd(mRobot.mIntake.BringBackIntake())
-                            .stopAndAdd( mRobot.mLift.DeploySecondStage())
-                            .turnTo(Math.toRadians(180))
-                            .strafeToLinearHeading(new Vector2d(51, 26), Math.toRadians(-180))
-                            .stopAndAdd(mRobot.mLift.Score())
-                            .waitSeconds(1)
-                            .stopAndAdd(mRobot.mLift.Retract())
-                            .strafeToLinearHeading(new Vector2d(51, 60), Math.toRadians(180))
-                            .strafeToLinearHeading(new Vector2d(58, 60), Math.toRadians(180))
+                            .afterDisp(15, mRobot.mIntake.ExtendIntake(3))
+                            .afterDisp(22, mRobot.mLift.DeploySecondStage())
+                            .strafeToLinearHeading(new Vector2d(52.5, 28), Math.toRadians(180))
                             .build());
+        } else if (side == Robot.BackDrop.LEFT){
+            Actions.runBlocking(
+                    mRobot.aDrive.actionBuilder(mRobot.aDrive.pose)
+                            .setTangent(Math.toRadians(-90))
+                            .afterDisp(15, mRobot.mIntake.ExtendIntake(3))
+                            .afterDisp(22, mRobot.mLift.DeploySecondStage())
+                            .strafeToLinearHeading(new Vector2d(52.5, 41.5), Math.toRadians(180))
+                            .waitSeconds(0.5)
+                            .build());
+
         }
-        mRobot.mIntake.setPower(0.5);
-        sleep(500);
+
+        Actions.runBlocking(
+                mRobot.aDrive.actionBuilder(mRobot.aDrive.pose)
+                        .stopAndAdd(mRobot.mLift.Score())
+                        .waitSeconds(1)
+                        .stopAndAdd(mRobot.mLift.IntakePosition())
+                        .waitSeconds(1)
+                        .stopAndAdd(mRobot.mIntake.RetractIntake())
+                        .stopAndAdd(mRobot.mIntake.BringBackIntake())
+                        .strafeToLinearHeading(new Vector2d(48, 60), Math.toRadians(180))
+                        .strafeToLinearHeading(new Vector2d(58, 60), Math.toRadians(180))
+                        .build());
+
+
+        Actions.runBlocking(mRobot.mIntake.ExtendIntake(3));
         mRobot.mLift.set_Grabber_Open(false, false);
         mRobot.mLift.intake_position();
         sleep(100);
-        mRobot.mIntake.setPower(-0.5);
-        sleep(650);
-
+        Actions.runBlocking(mRobot.mIntake.RetractIntake());
     }
 }
