@@ -98,7 +98,7 @@ public class FrontRedRR extends LinearOpMode {
                             .setTangent(Math.toRadians(90))
                             .afterDisp(10, mRobot.mIntake.ExtendIntake(3))
                             .afterDisp(15, mRobot.mLift.DeploySecondStage())
-                            .strafeToLinearHeading(new Vector2d(51, -28), Math.toRadians(180))
+                            .strafeToLinearHeading(new Vector2d(51, -27), Math.toRadians(180))
                             .build());
         } else if (side == Robot.BackDrop.RIGHT){
             Actions.runBlocking(
@@ -106,7 +106,7 @@ public class FrontRedRR extends LinearOpMode {
                             .setTangent(Math.toRadians(90))
                             .afterDisp(10, mRobot.mIntake.ExtendIntake(3))
                             .afterDisp(15, mRobot.mLift.DeploySecondStage())
-                            .strafeToLinearHeading(new Vector2d(51, -41.5), Math.toRadians(180))
+                            .strafeToLinearHeading(new Vector2d(51, -41), Math.toRadians(180))
                             .waitSeconds(0.5)
                             .build());
 

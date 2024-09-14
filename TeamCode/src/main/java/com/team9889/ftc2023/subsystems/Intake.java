@@ -115,7 +115,7 @@ public class Intake {
         gate.setPosition(.65);
     }
     public void closeGate(){
-        gate.setPosition(0.47);
+        gate.setPosition(0.45);
     }
 
     public double currentDraw() {

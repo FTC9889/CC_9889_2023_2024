@@ -74,7 +74,7 @@ public final class BlueFrontRR extends LinearOpMode {
                     mRobot.aDrive.actionBuilder(beginPose)
                             .afterDisp(5, mRobot.mIntake.Depl0yIntake())
                             .strafeToLinearHeading(new Vector2d(-37 + 48, 57), Math.toRadians(-60))
-                            .stopAndAdd(mRobot.mIntake.ExtendIntake(11))
+                            .stopAndAdd(mRobot.mIntake.ExtendIntake(12))
                             .waitSeconds(0.25)
                             .stopAndAdd(mRobot.mLift.IntakePosition())
                             .stopAndAdd(() -> mRobot.mIntake.vfbUp())
@@ -105,7 +105,9 @@ public final class BlueFrontRR extends LinearOpMode {
                             .setTangent(Math.toRadians(-90))
                             .afterDisp(15, mRobot.mIntake.ExtendIntake(3))
                             .afterDisp(22, mRobot.mLift.DeploySecondStage())
-                            .strafeToLinearHeading(new Vector2d(52.5, 41.5), Math.toRadians(180))
+                            .strafeToLinearHeading(new Vector2d(52.5, 39
+
+                            ), Math.toRadians(180))
                             .waitSeconds(0.5)
                             .build());
 

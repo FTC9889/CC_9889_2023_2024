@@ -105,6 +105,7 @@ public class FarBlueAlternateRR extends LinearOpMode {
                             .stopAndAdd(mRobot.mIntake.ExtendIntake(3))
                             .strafeToLinearHeading(new Vector2d(-36, 59), Math.toRadians(-180))
                             .strafeToLinearHeading(new Vector2d(33, 57), Math.toRadians(-180))
+                            .waitSeconds(2)
                             .strafeToLinearHeading(new Vector2d(38, 27), Math.toRadians(-180))
                             .stopAndAdd(mRobot.mLift.DeploySecondStage())
                             .stopAndAdd(mRobot.mCamera.resetPose(mRobot, Math.PI / 2)).build());
